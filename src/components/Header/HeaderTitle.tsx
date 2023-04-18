@@ -46,14 +46,14 @@ export default function HeaderTitle({ }: Props) {
         <div >
           <Space>
             <NavLink to={'/login'}>Log in </NavLink>
-            <Dropdown menu={{ items }}>
+            {/* <Dropdown menu={{ items }}>
               <a onClick={(e) => e.preventDefault()}>
                 <Space>
                 <Avatar shape="square" size="small" icon={<UserOutlined />} />{user}
                   <DownOutlined />
                 </Space>
               </a>
-            </Dropdown>
+            </Dropdown> */}
             <Select
               defaultValue="vni"
               style={{ width: 70 }}
