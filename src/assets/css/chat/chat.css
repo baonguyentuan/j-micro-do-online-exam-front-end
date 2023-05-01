@@ -1,0 +1,81 @@
+.ant-popover .ant-popover-inner{
+    padding: 0;
+    border-radius: 20px;
+}
+.chat__box{
+    position: absolute;
+    bottom: calc(100% + 20px);
+    right: 0;
+    width: 400px;
+    height: 500px;
+    border-radius: 20px;
+    border: 2px solid #2b8aeb;
+    transition: all 0.5s;
+    transform-origin: bottom right;
+    overflow: hidden;
+}
+.chat__title{
+    @apply text-white;
+    height: 140px;
+    overflow: hidden;
+    padding: 10px;
+    background-color: #2b8aeb;
+}
+.btn__chathide{
+    @apply text-white text-xl;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+.btn__chathide:hover{
+    color: white;
+    background-color: rgba(255, 255, 255, 0.5);
+
+}
+.btn__chathide svg{
+    transform: translate(-6px,-4px);
+}
+.btn__chathide:hover svg{
+    @apply text-white;
+}
+.chat__area{
+    background-color: aliceblue;
+    border-radius: 0 0 20px 20px;
+}
+.chat__type{
+    display: none;
+}
+.chat__type .btn__chattype{
+    @apply w-full ;
+    height: 60px;
+}
+.chatbox__message{
+    @apply w-full h-full relative ;
+}
+.chat__message{
+    @apply overflow-y-scroll ;
+    height: 360px
+}
+.chat__message .user_mes{
+    @apply flex justify-start ;
+}
+.chat__message .user_mes .message__chat{
+    @apply inline-block bg-white text-left p-2 m-2 rounded-lg w-4/5;
+    
+}
+.chat__message .admin_mes{
+    @apply flex justify-end ;
+}
+.chat__message .admin_mes .message__chat{
+    @apply inline-block bg-blue-200 text-left p-2 m-2 rounded-lg w-4/5;
+    
+}
+.chat__typing{
+    @apply w-full absolute bottom-0 right-0 border-t-2;
+    height: 80px;
+}
+.chat__typing input{
+    @apply h-full rounded-none border-none text-base;
+    
+}

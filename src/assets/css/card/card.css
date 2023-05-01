@@ -3,77 +3,177 @@
     margin: auto;
     border-radius: 24px;
     position: relative;
+    border: 1px solid transparent;
+    background-clip: padding-box;
 }
 .card__border__gradient::before{
     content: "";
     position: absolute;
     inset: 0;
-    border-radius: 24px; /*1*/
-    border: 2px solid transparent; /*2*/
-    background: linear-gradient(rgb(255,255,255), rgb(60, 98, 173)) border-box; /*3*/
-    -webkit-mask: /*4*/
+    border-radius: 24px; 
+    border: 2px solid transparent;
+    background: linear-gradient(rgb(255,255,255), rgb(60, 98, 173)) border-box; 
+    -webkit-mask:
        linear-gradient(#fff 0 0) padding-box, 
        linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor; /*5'*/
-            mask-composite: exclude; /*5*/
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
 }
 .card__border__gradient .ant-card-head{
     border-bottom: 3px solid transparent;
     border-image: linear-gradient(0.25turn, rgb(255,255,255), rgb(60, 98, 173), rgb(255,255,255));
     border-image-slice: 1;
 }
-
+/* card statistics */
 .card__icon__title{
     width: 80px;
     height: 80px;
-    color: rgba(224, 53, 187, 0.5);
+    padding: 0 6px;
+    border-radius: 10px;
+    color: #03a9f4;
+    box-shadow: inset 6px 6px 10px 0 rgba(0, 0, 0, 0.2),
+    inset -6px -6px 10px 0 rgba(255, 255, 255, 0.5);
 }
+
 /* card course */
+.statsName{
+    @apply font-bold text-base;
+}
+.card__course{
+    @apply overflow-hidden;
+    height: 350px
+}
+.card__course.ant-card-small >.ant-card-head{
+    @apply block;
+    background-color: rgba(0, 0, 0, 0.2);
+    height: 280px
+}
+.card__course:hover.ant-card-small >.ant-card-head{
+    background-color: rgba(0, 0, 0, 0.6) ;
+}
+.card__course.ant-card .ant-card-head-wrapper{
+    @apply block h-full w-full
+}
+.card__course.ant-card .ant-card-head-title{
+    @apply block h-full w-full
+}
+.card__course.ant-card-small >.ant-card-body{
+    background-color: rgba(0, 0, 0, 0.4);
+    height: 70px;
+}
 .course__title{
-    position: relative;
-    cursor: pointer;
+    @apply w-full h-full relative p-4 text-white;
+
+}
+.course__premiumTag{
+    @apply inline-block absolute top-3 right-0 text-center text-black;
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+}
+.premiumTag{
+    background-color: yellow;
+}
+.premiumTag::before{
+    @apply absolute top-0 left-0;
+    content: '';
+    width: 30px;
+    height: 30px;
+    border-top: 15px solid yellow;
+    border-left: 15px solid transparent;
+    border-right: 15px solid yellow;
+    border-bottom: 15px solid transparent;
+    transform: translateX(-25px);
+}
+.premiumTag::after{
+    @apply absolute bottom-0 left-0;
+    content: '';
+    width: 30px;
+    height: 30px;
+    border-top: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-right: 15px solid yellow;
+    border-bottom: 15px solid yellow;
+    transform: translateX(-25px);
+}
+.freeTag{
+    background-color: #fff;
+}
+.freeTag::before{
+    @apply absolute top-0 left-0;
+    content: '';
+    width: 30px;
+    height: 30px;
+    border-top: 15px solid #fff;
+    border-left: 15px solid transparent;
+    border-right: 15px solid #fff;
+    border-bottom: 15px solid transparent;
+    transform: translateX(-20px);
+}
+.freeTag::after{
+    @apply absolute bottom-0 left-0;
+    content: '';
+    width: 30px;
+    height: 30px;
+    border-top: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-right: 15px solid #fff;
+    border-bottom: 15px solid #fff;
+    transform: translateX(-20px);
 }
 .course__name{
-    position: absolute;
-    font-size: 1.2rem;
-    bottom: 10px;
-    left: 10px;
+    @apply absolute bottom-3 left-1 text-lg;
+    white-space: normal;
+    transform-origin: bottom left;
     animation: fadeIn 1s;
 }
 .course__desc{
+    @apply absolute;
     white-space: normal;
-    position: absolute;
     opacity: 0;
-    top: 10px;
+    top: 50px;
     left: 10px;
     animation: fadeOut 1s;
 }
-.course__title:hover .course__desc{
+
+.card__course:hover .course__desc{
     opacity: 1;
     animation: fadeIn 1s;
 }
-.course__title:hover .course__name{
+.card__course:hover .course__name{
     opacity: 0;
     animation: fadeOut 1s;
 }
+.course__info{
+    @apply absolute bottom-3 left-1;
+    opacity: 0;
+    animation: fadeOut 1s;
+}
+.card__course:hover .course__info{
+    opacity: 1;
+    transform-origin: bottom left;
+    animation: fadeIn 1s;
+}
 @keyframes fadeIn{
     from {
-        transform: rotate3d(1, 1, 1, 90deg) scale(0);
+        transform: scale(0);
         opacity: 0;
     }
     to{
-        transform: rotate3d(0) scale(1);
+        transform: scale(1);
         opacity: 1;
     }
 }
 @keyframes fadeOut{
     from {
-        transform: rotate3d(0) scale(1);
+        transform: scale(1);
         opacity: 1; 
     }
     to{
-        transform: rotate3d(1, 1, 1, 90deg) scale(0);
-
+        transform: scale(0);
         opacity: 0; 
     }
+}
+.course__stats{
+    @apply  grid grid-cols-3 gap-2 text-sm text-white;
 }

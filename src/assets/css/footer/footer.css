@@ -1,0 +1,28 @@
+.footer__intro{
+    position: relative;
+}
+.support__area{
+    position: fixed;
+    bottom: 50px;
+    right: 25px;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+}
+.support__area .btn__sup{
+    @apply mb-2;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+.support__area .btn__sup:hover{
+    opacity: 0.8;
+}
+.support__area .btn__sup .sup__icon{
+    font-size: 30px;
+    transform: translate(-6px,0px);
+    color: black;
+}
+.support__area .btn__sup .sup__icon:hover{
+    color: #2b8aeb;
+}

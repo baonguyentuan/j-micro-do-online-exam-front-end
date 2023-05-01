@@ -4,32 +4,32 @@ import 'swiper/css';
 import CardCourse from '../Card/CardCourse'
 import { NavLink } from 'react-router-dom';
 import { Button } from 'antd';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/configStore';
+import { useTranslation } from 'react-i18next';
 type Props = {}
 
 const HotCourse = (props: Props) => {
-
+    const { arrHotCourse } = useSelector((state: RootState) => state.courseSlice)
+    const {t}=useTranslation('card')
     return (
         <div className='size__component py-12'>
             <div>
-                <h1 className='text__title'>Hot Training Courses</h1>
+                <h1 className='text__title'>{t('cardCourse.hot training course')}</h1>
             </div>
             <div className='pt-8'>
                 <Swiper
                     spaceBetween={50}
                     slidesPerView={4}
-                    onSlideChange={() => console.log('slide change')}
-                    onSwiper={(swiper) => console.log(swiper)}
+                    navigation={true}
                 >
-                    <SwiperSlide><CardCourse /> </SwiperSlide>
-                    <SwiperSlide><CardCourse /> </SwiperSlide>
-                    <SwiperSlide><CardCourse /> </SwiperSlide>
-                    <SwiperSlide><CardCourse /> </SwiperSlide>
-                    <SwiperSlide><CardCourse /> </SwiperSlide>
-                    <SwiperSlide><CardCourse /> </SwiperSlide>
+                    {arrHotCourse.map((courseItem, index) => {
+                        return <SwiperSlide key={courseItem.id}><CardCourse courseDetail={courseItem} /> </SwiperSlide>
+                    })}
                 </Swiper>
             </div>
             <div className='w-full flex justify-center'>
-                <Button size='large' className='mt-4 btn__banner'>More courses</Button>
+                <Button className='mt-4 btn__banner'>{t('cardCourse.more courses')}</Button>
             </div>
         </div>
     )
