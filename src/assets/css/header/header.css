@@ -1,5 +1,5 @@
 .btn__navbar{
-    @apply px-6 mr-6 font-semibold text-black
+    @apply px-6 py-3 mr-6 font-semibold text-black
 }
 .btn__active{
     color: #2b8aeb;
@@ -12,4 +12,41 @@
     bottom: 0;
     left: 0;
     border: 1px solid #2b8aeb;
+}
+/* notification */
+.notification:hover svg{
+    color: #2b8aeb;
+}
+.notification__list{
+    width: 400px;
+}
+.notify__item{
+    @apply pl-2 pr-4 py-2 text-sm;
+    background-color: #fff;
+}
+.notify__item:hover{
+    background-color: rgb(215, 228, 238);
+}
+.unreaded{
+    @apply relative font-semibold
+}
+.unreaded::after{
+    @apply absolute top-1/2 right-2;
+    content: '';
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgb(86, 215, 247)
+
+}
+.ant-popover .ant-popover-inner{
+    @apply rounded
+}
+.ant-popover .ant-popover-title{
+    @apply m-0;
+}
+/* premium */
+.premium__type{
+    @apply py-1 px-2 bg-red-400 rounded text-white;
 }

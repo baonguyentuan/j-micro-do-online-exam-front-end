@@ -1,0 +1,18 @@
+{
+    "cardCourse": {
+        "hot training course": "Hot training course",
+        "description": "Description",
+        "category": "Category",
+        "uploaded by": "Uploaded by",
+        "rating": "Rating",
+        "duration": "Duration",
+        "more courses": "More Courses"
+    },
+    "cardStatistic": {
+        "statistics": "Statistics",
+        "exam answers & resources": "Exam answers & resources",
+        "certified Trainers & Industry experts": "Certified Trainers & Industry experts",
+        "pass rate. Happiness Guaranteed": "Pass rate. Happiness Guaranteed",
+        "happy customers worldwide": "Happy customers worldwide"
+    }
+}

@@ -1,34 +1,63 @@
-import React from 'react'
-
+import React, { useRef } from 'react'
+import { MessageOutlined, UpSquareOutlined } from '@ant-design/icons'
+import { Badge, Button } from 'antd'
+import { NavLink } from 'react-router-dom'
+import ChatBox from '../ChatBox/ChatBox'
+import '../../assets/css/footer/footer.css'
+import '../../assets/css/chat/chat.css'
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState } from '../../redux/configStore'
+import { setChatBoxShow, setReadMessageStatus } from '../../redux/reducers/chat/chatSlice'
+import { useTranslation } from 'react-i18next'
 type Props = {}
 
 export default function FooterIntro({ }: Props) {
+    const { t } = useTranslation('footer')
+    const { chatboxShow,unReadMessage } = useSelector((state: RootState) => state.chatSlice)
+    const dispatch = useDispatch()
     return (
-        <div className='bg-slate-100 py-4'>
-            <div className=' flex justify-between  size__component'>
-                <div>@ 2023 Our Examination</div>
-                <ul>
-                    <li>Upload File</li>
-                    <li>Exam Provider</li>
+        <div className='footer__intro bg-slate-100 py-4'>
+            <div className=' flex justify-around  size__component'>
+                <ul className='flex flex-col'>
+                    <NavLink to={'/home'} className='py-1 font-semibold'>{t('uploadFile')}</NavLink>
+                    <NavLink to={'/home'} className='py-1 font-semibold'>{t('examProvider')}</NavLink>
                 </ul>
-                <ul>
-                    <li>Contact</li>
-                    <li>FAQ</li>
-                    <li>Blog</li>
+                <ul className='flex flex-col'>
+                    <NavLink to={'/home'} className='py-1 font-semibold'>{t('contact')}</NavLink>
+                    <NavLink to={'/home'} className='py-1 font-semibold'>{t('faq')}</NavLink>
+                    <NavLink to={'/home'} className='py-1 font-semibold'>{t('blog')}</NavLink>
                 </ul>
-                <ul>
-                    <li>Facebook</li>
-                    <li>Privacy Policy</li>
-                    <li>Terms & Conditions</li>
+                <ul className='flex flex-col'>
+                    <NavLink to={'/home'} className='py-1 font-semibold'>{t('facebook')}</NavLink>
+                    <NavLink to={'/home'} className='py-1 font-semibold'>{t('privacyPolicy')}</NavLink>
+                    <NavLink to={'/home'} className='py-1 font-semibold'>{t('termsConditions')}</NavLink>
                 </ul>
             </div>
-            <div className=' flex justify-center w-full max-w-screen-2xl m-auto'>
-                <p>VISA</p>
-                <p>mastercard</p>
-                <p>JCB</p>
-                <p>UnionPay</p>
+            <div className='support__area'>
+                <Button type='link' className='btn__sup' onClick={() => {
+                    dispatch(setChatBoxShow({chatboxShow:!chatboxShow} ))
+                    if(unReadMessage>0){
+                        dispatch(setReadMessageStatus())
+                    }
+                }}>
+                    <Badge count={unReadMessage} size='default'>
+                        <MessageOutlined className='sup__icon' />
+                    </Badge>
+                </Button>
+                <ChatBox chatboxShow={chatboxShow} />
+                <Button type='link' className='btn__sup' onClick={() => {
+                    document.body.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    document.documentElement.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
 
+                }}><UpSquareOutlined className='sup__icon' /></Button>
             </div>
+
         </div>
     )
 }

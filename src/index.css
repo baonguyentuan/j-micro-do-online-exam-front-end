@@ -18,11 +18,9 @@ code {
   @apply text-center font-bold text-2xl
 }
 .size__component{
-  @apply w-full max-w-screen-2xl m-auto
+  @apply w-full max-w-screen-2xl m-auto px-4
 }
 .btn__banner{
-  background-color: orange;
-  font-size: 1.5rem;
-  color: white;
-  font-weight: bold;
+  @apply h-auto text-2xl text-white font-semibold ;
+  background-color: orange
 }

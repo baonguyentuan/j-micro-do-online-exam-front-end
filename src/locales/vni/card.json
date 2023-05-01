@@ -1,0 +1,18 @@
+{
+    "cardCourse": {
+        "hot training course": "Khóa luyện thi phổ biến",
+        "description": "Mô tả",
+        "category": "Thể loại",
+        "uploaded by": "Đăng bởi",
+        "rating": "Đánh giá",
+        "duration": "Thời lượng",
+        "more courses": "Xem thêm"
+    },
+    "cardStatistic": {
+        "statistics": "Thống kê",
+        "exam answers & resources": "Nguồn bài thi và đáp án",
+        "certified Trainers & Industry experts": "Giảng viên được chứng nhận & Chuyên gia trong ngành",
+        "pass rate. Happiness Guaranteed": "Tỷ lệ thành công đảm bảo",
+        "happy customers worldwide": "Đem đến trải nghiệm tốt nhất cho khách hàng trên toàn thế giới"
+    }
+}
