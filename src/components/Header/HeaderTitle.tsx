@@ -41,9 +41,8 @@ export default function HeaderTitle({ }: Props) {
     },
   ];
   let userRender = () => {
-    let htmlRender
     if (userInfo) {
-      htmlRender = <Space>
+      return <Space>
         <span className='notification'>
           <Popover placement="bottomRight"
             title={
@@ -84,9 +83,9 @@ export default function HeaderTitle({ }: Props) {
       </Space>
 
     } else {
-      htmlRender = <NavLink to={'/login'}>{t('signin')}</NavLink>
+      return <NavLink to={'/login'}>{t('signin')}</NavLink>
     }
-    return htmlRender
+
   }
   const handleChange = (value: string) => {
     i18n.changeLanguage(value)

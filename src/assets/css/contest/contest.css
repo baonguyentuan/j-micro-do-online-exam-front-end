@@ -1,0 +1,6 @@
+.btn__contest{
+    @apply bg-green-400 text-xl p-3 h-auto m-4;
+}
+.btn__contest:hover{
+    @apply bg-green-300;
+}
