@@ -5,13 +5,17 @@ import notificationSlice from "./reducers/notification/notificationReducer";
 import courseSlice from "./reducers/course/courseSlice";
 import userSlice from "./reducers/user/userReducer";
 import loadingSlice from "./reducers/loading/loadingSlice";
+import userReducer from './reducers/userTest/userSlice';
+import authReducer from './auth/authSlice';
 export const store=configureStore({
     reducer:{
         loadingSlice,
         chatSlice,
         notificationSlice,
         courseSlice,
-        userSlice
+        userSlice,
+        user: userReducer,
+        auth: authReducer,
     }
 })
 
