@@ -1,0 +1,17 @@
+{
+    "login": {
+        "login":"Login now",
+        "signin":"Login",
+        "password":"Password",
+        "sign_in_with_google":"Sign in with Google",
+        "i_have_an_account":"I don't have an account"
+    },
+    "register": {
+        "free_registration":"Free Registration",
+        "signup":"Sign up",
+        "password":"Password",
+        "re_password":"Re-peat Password",
+        "sign_in_with_google":"Sign in with Google",
+        "i_have_an_account":"I already have an account"
+    }
+}
