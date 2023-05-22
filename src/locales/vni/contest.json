@@ -1,0 +1,28 @@
+{
+    "detail":{
+        "description":"Mô tả",
+        "upload by":"Dăng bởi",
+        "rating":"Tỷ suất",
+        "duration":"Thời lượng",
+        "downloaded":"Lượt tải",
+        "or":"Hoặc",
+        "become a premium":"Trở thành Premium",
+        "go to contest":"Vào phòng thi",
+        "download now":"Tải đề thi"
+    },
+    "contest":{
+        "relate Contest":"Bài thi liên quan"
+    },
+    "feedback":{
+        "customer feedback":"Khách hàng đánh giá",
+        "feedback":"Đánh giá",
+        "vote":"Chấm điểm",
+        "input feedback":"Nhập đánh giá",
+        "send feedback":"Gửi đánh giá",
+        "filter":"Bộ lọc",
+        "all":"Tất cả",
+        "please":"Hãy",
+        "log in":"Đăng nhập",
+        "to write feedback":"để viết đánh giá"
+    }
+}

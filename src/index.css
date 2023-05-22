@@ -24,3 +24,11 @@ code {
   @apply h-auto text-2xl text-white font-semibold ;
   background-color: orange
 }
+.color__free{
+  background-color: rgb(241,245,249);
+  border-color: rgb(241,245,249) ;
+}
+.color__premium{
+  background-color: yellow;
+  border-color: yellow ;
+}

@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../redux/configStore';
 import { useTranslation } from 'react-i18next'
-import { setNotifyBadge, setNotifyReaded } from '../../redux/reducers/notification/notificationReducer';
+import { setNotifyBadge, setNotifyReaded } from '../../redux/reducers/notification/notificationSlice';
 type Props = {}
 
 export default function HeaderTitle({ }: Props) {

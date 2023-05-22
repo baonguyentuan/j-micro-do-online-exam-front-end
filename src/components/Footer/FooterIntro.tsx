@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/configStore'
 import { setChatBoxShow, setReadMessageStatus } from '../../redux/reducers/chat/chatSlice'
 import { useTranslation } from 'react-i18next'
+import { backToPosition } from '../../utils/operate'
 type Props = {}
 
 export default function FooterIntro({ }: Props) {
@@ -46,15 +47,7 @@ export default function FooterIntro({ }: Props) {
                 </Button>
                 <ChatBox chatboxShow={chatboxShow} />
                 <Button type='link' className='btn__sup' onClick={() => {
-                    document.body.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
-                    document.documentElement.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
-
+                    backToPosition(0)
                 }}><UpSquareOutlined className='sup__icon' /></Button>
             </div>
 

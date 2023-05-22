@@ -1,0 +1,28 @@
+{
+    "detail":{
+        "description":"Description",
+        "upload by":"Upload by",
+        "rating":"Rating",
+        "duration":"Duration",
+        "downloaded":"Download",
+        "or":"OR",
+        "become a premium":"Become a Premium",
+        "go to contest":"Go to contest",
+        "download now":"Download now"
+    },
+    "contest":{
+        "relate Contest":"Relate Contest"
+    },
+    "feedback":{
+        "customer feedback":"Customer Feedback",
+        "feedback":"Feedback",
+        "vote":"Vote",
+        "input feedback":"Input feedback",
+        "send feedback":"Send feedback",
+        "filter":"Filter",
+        "all":"All",        
+        "please":"Please",
+        "log in":"log in",
+        "to write feedback":"to write feedback"
+    }
+}
