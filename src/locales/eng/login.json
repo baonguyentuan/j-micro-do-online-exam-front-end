@@ -4,7 +4,10 @@
         "signin":"Login",
         "password":"Password",
         "sign_in_with_google":"Sign in with Google",
-        "i_have_an_account":"I don't have an account"
+        "i_have_an_account":"I don't have an account",
+        "invalid_email_address":"Invalid email address",
+        "required":"Required",
+        "minimum_character":"Minimum 6 characters"
     },
     "register": {
         "free_registration":"Free Registration",
@@ -12,6 +15,10 @@
         "password":"Password",
         "re_password":"Re-peat Password",
         "sign_in_with_google":"Sign in with Google",
-        "i_have_an_account":"I already have an account"
+        "i_have_an_account":"I already have an account",
+        "invalid_email_address":"Invalid email address",
+        "required":"Required",
+        "minimum_character":"Minimum 6 characters",
+        "passwords_must_match":"Passwords must match"
     }
 }

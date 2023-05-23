@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import '../../assets/css/login/login.css';
 
 const initialValues: RegisterFormValues = {
+  userName: '',
   email: '',
   password: '',
   confirmPassword: '',
@@ -18,11 +19,12 @@ export default function Register() {
   const dispatch = useDispatch();
   const {t}=useTranslation('login')
   const validationSchema = Yup.object({
-    email: Yup.string().email('Invalid email address').required('Required'),
-    password: Yup.string().min(6, 'Minimum 6 characters').required('Required'),
+    userName: Yup.string().min(6, t('register.minimum_character')).required(t('register.required')),
+    email: Yup.string().email(t('register.invalid_email_address')).required(t('register.required')),
+    password: Yup.string().min(6, t('register.minimum_character')).required(t('register.required')),
     confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password')], 'Passwords must match')
-      .required('Required'),
+      .oneOf([Yup.ref('password')], t('register.passwords_must_match'))
+      .required(t('register.required')),
   });
 
   const formik = useFormik({

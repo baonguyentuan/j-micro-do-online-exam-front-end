@@ -14,5 +14,9 @@
         "certified Trainers & Industry experts": "Certified Trainers & Industry experts",
         "pass rate. Happiness Guaranteed": "Pass rate. Happiness Guaranteed",
         "happy customers worldwide": "Happy customers worldwide"
+    },
+    "nav": {
+        "home": "Home",
+        "training_course": "Training Course"
     }
 }

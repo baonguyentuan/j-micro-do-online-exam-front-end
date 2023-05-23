@@ -5,7 +5,10 @@
         "signup":"Đăng ký",
         "password":"Mật khẩu",
         "sign_in_with_google":"Đăng nhập bằng Google",
-        "i_have_an_account":"Tôi chưa có tài khoản"
+        "i_have_an_account":"Tôi chưa có tài khoản",
+        "invalid_email_address":"Email không hợp lệ",
+        "required":"Bạn vui lòng điền vào trường này",
+        "minimum_character":"Điền tối thiểu 6 kí tự"
     },
     "register": {
         "free_registration":"Đăng ký miễn phí",
@@ -14,6 +17,10 @@
         "password":"Mật khẩu",
         "re_password":"Nhập lại mật khẩu",
         "sign_in_with_google":"Đăng nhập bằng Google",
-        "i_have_an_account":"Tôi đã có tài khoản"
+        "i_have_an_account":"Tôi đã có tài khoản",
+        "invalid_email_address":"Email không hợp lệ",
+        "required":"Bạn vui lòng điền vào trường này",
+        "minimum_character":"Điền tối thiểu 6 kí tự",
+        "passwords_must_match":"Nhập lại mật khẩu giống mật khẩu đã nhập ở trên"
     }
 }

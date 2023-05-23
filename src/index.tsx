@@ -8,6 +8,8 @@ import './i18n'
 import Home from './pages/Home/Home';
 import Login from './pages/Registration/Login';
 import Register from './pages/Registration/Register';
+import TrainingCourses from './pages/TrainingCourses/TrainingCourses';
+import BlogList from './pages/Blog/Blog';
 import { Provider } from 'react-redux';
 import { store } from './redux/configStore';
 import HomeLayout from './layouts/HomeLayout';
@@ -22,6 +24,8 @@ root.render(
         <Route index element={<Home />}></Route>
         <Route path='login' element={<Login />}></Route>
         <Route path='register' element={<Register />}></Route>
+        <Route path='training_course' element={<TrainingCourses />}></Route>
+        <Route path='blog' element={<BlogList />}></Route>
         <Route path='*' element={<Home />}></Route>
       </Route>
     </Routes>
