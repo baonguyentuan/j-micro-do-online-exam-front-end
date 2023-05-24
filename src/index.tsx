@@ -10,6 +10,7 @@ import Login from './pages/Registration/Login';
 import Register from './pages/Registration/Register';
 import TrainingCourses from './pages/TrainingCourses/TrainingCourses';
 import BlogList from './pages/Blog/Blog';
+import Contact from './pages/Contact/Contact';
 import { Provider } from 'react-redux';
 import { store } from './redux/configStore';
 import HomeLayout from './layouts/HomeLayout';
@@ -26,6 +27,7 @@ root.render(
         <Route path='register' element={<Register />}></Route>
         <Route path='training_course' element={<TrainingCourses />}></Route>
         <Route path='blog' element={<BlogList />}></Route>
+        <Route path='contact' element={<Contact />}></Route>
         <Route path='*' element={<Home />}></Route>
       </Route>
     </Routes>
