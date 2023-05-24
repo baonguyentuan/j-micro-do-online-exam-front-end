@@ -16,13 +16,14 @@
     "feedback":{
         "customer feedback":"Khách hàng đánh giá",
         "feedback":"Đánh giá",
-        "vote":"Chấm điểm",
+        "vote":"Bình chọn",
         "input feedback":"Nhập đánh giá",
         "send feedback":"Gửi đánh giá",
         "filter":"Bộ lọc",
         "all":"Tất cả",
         "please":"Hãy",
         "log in":"Đăng nhập",
-        "to write feedback":"để viết đánh giá"
+        "to write feedback":"để viết đánh giá",
+        "you must be vote":"Bạn phải bình chọn"
     }
 }

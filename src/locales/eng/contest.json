@@ -23,6 +23,7 @@
         "all":"All",        
         "please":"Please",
         "log in":"log in",
-        "to write feedback":"to write feedback"
+        "to write feedback":"to write feedback",
+        "you must be vote":"You must be vote"
     }
 }

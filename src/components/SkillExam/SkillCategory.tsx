@@ -37,11 +37,10 @@ const SkillCategory = (props: Props) => {
     return (
         <div className='size__component py-12'>
             <h1 className='text__title'>{t('improving your skills to look for more opportunities')} </h1>
-            <div className="grid grid-cols-4 gap-8 pt-8">
+            <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-8 pt-8">
                 {arrSkill.map((skillItem,index)=>{
                     return <CardSkills key={skillItem.id} skills={skillItem}/>
                 })}
-
             </div>
         </div>
     )

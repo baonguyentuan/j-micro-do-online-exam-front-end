@@ -18,7 +18,20 @@ code {
   @apply text-center font-bold text-2xl
 }
 .size__component{
-  @apply w-full max-w-screen-2xl m-auto px-4
+  @apply w-full max-w-screen-2xl m-auto px-8
+}
+.size__component .customNavigationSlide{
+  @apply absolute -translate-y-1/2  bg-white text-black text-3xl opacity-60 hover:opacity-100;
+  width: 60px;
+  height: 60px;
+  z-index: 10;
+  border-radius: 50%
+}
+.size__component .customPrevSlide{
+  @apply left-0 top-1/2 -translate-x-1/2 ;
+}
+.size__component .customNextSlide{
+  @apply right-0 top-1/2 translate-x-1/2 ;
 }
 .btn__banner{
   @apply h-auto text-2xl text-white font-semibold ;

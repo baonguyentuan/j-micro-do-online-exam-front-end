@@ -8,8 +8,8 @@ type Props = {}
 const IntroductionBanner = (props: Props) => {
     const {t}=useTranslation('banner')
     return (
-        <div className='size__component h-full ' style={{ height: 600 }}>
-            <div className='grid grid-cols-2 h-full '>
+        <div className='size__component ' style={{ height: 600 }}>
+            <div className='grid md:grid-cols-2 h-full '>
                 <div className='h-full flex items-center'>
                     <div>
                         <h1 className='text-2xl font-bold pb-4' >{t('bannerIntroduction.90% of our customers pass their exam in the first attempt')}</h1>
