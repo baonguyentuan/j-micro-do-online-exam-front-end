@@ -15,16 +15,24 @@ const initialValues: LoginFormValues = {
 export default function Login() {
   const {t}=useTranslation('login')
   const validationSchema = Yup.object({
-    email: Yup.string().email('Invalid email address').required('Required'),
-    password: Yup.string().min(6, 'Minimum 6 characters').required('Required'),
+    email: Yup.string().email(t('login.invalid_email_address')).required(t('login.required')),
+    password: Yup.string().min(6, t('login.minimum_character')).required(t('login.required')),
   });
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values) => {
-      dispatch(login());
-      console.log('Logged in:', values);
+    onSubmit: async (values) => {
+      try {
+        // Call the login API here and await the response
+        // For example:
+        // const response = await axios.post('/api/login', values);
+        dispatch(login());
+        localStorage.setItem('isAuthenticated', 'true');
+        window.location.href = '/dashboard'; // Replace this with your desired page URL
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
 

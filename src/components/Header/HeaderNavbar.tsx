@@ -11,7 +11,7 @@ export default function HeaderNavbar({ }: Props) {
         <div>
             <div className=' flex items-center  size__component py-3 '>
                 <NavLink to={'/home'} className='btn__navbar btn__active'>{t('home')}</NavLink>
-                <NavLink to={'/trainingcourse'} className='btn__navbar' >{t('trainingCourse')}</NavLink>
+                <NavLink to={'/training_course'} className='btn__navbar' >{t('trainingCourse')}</NavLink>
                 <NavLink to={'/contact'} className='btn__navbar'>{t('contact')}</NavLink>
                 <NavLink to={'/blog'} className='btn__navbar'>{t('blog')}</NavLink>
             </div>
