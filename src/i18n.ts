@@ -10,6 +10,7 @@ import SKILLS_EN from './locales/eng/skills.json';
 import CHAT_EN from './locales/eng/chat.json';
 import LOGIN_EN from './locales/eng/login.json';
 import CONTACT_EN from './locales/eng/contact.json';
+import ADMIN_EN from './locales/eng/adminUser.json';
 import HEADER_VN from './locales/vni/header.json';
 import FOOTER_VN from './locales/vni/footer.json';
 import BANNER_VN from './locales/vni/banner.json';
@@ -20,6 +21,7 @@ import SKILLS_VN from './locales/vni/skills.json';
 import CHAT_VN from './locales/vni/chat.json';
 import LOGIN_VN from './locales/vni/login.json';
 import CONTACT_VN from './locales/vni/contact.json';
+import ADMIN_VN from './locales/vni/adminUser.json';
 export const defaultNS = 'header'
 export const resources = {
   en: {
@@ -32,7 +34,8 @@ export const resources = {
     skills: SKILLS_EN,
     feedback: FEEDBACK_EN,
     login: LOGIN_EN,
-    contact:CONTACT_EN
+    contact:CONTACT_EN,
+    adminUser:ADMIN_EN,
   },
   vn: {
     header: HEADER_VN,
@@ -44,7 +47,8 @@ export const resources = {
     skills: SKILLS_VN,
     feedback: FEEDBACK_VN,
     login: LOGIN_VN,
-    contact:CONTACT_VN
+    contact:CONTACT_VN,
+    adminUser:ADMIN_VN,
   }
 } as const;
 

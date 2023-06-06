@@ -1,0 +1,23 @@
+{
+    "id": "ID",
+    "avatar": "Avatar",
+    "username": "Username",
+    "email": "Email",
+    "account_type": "Account Type",
+    "created_at": "Created At",
+    "action": "Action",
+    "search_username": "Search username...",
+    "click_upload": "Click to upload",
+    "validate_email_required": "Email is required",
+    "validate_email_condition": "Invalid email address",
+    "validate_username_required": "Username is required",
+    "validate_username_min_length": "At least 6 characters",
+    "validate_username_max_length": "No more than 15 characters",
+    "validate_account_required": "Account type is required",
+    "save": "Save",
+    "are_delete_user": "Are you sure to delete this user?",
+    "free": "Free",
+    "premium": "Premium",
+    "cancel": "Cancel",
+    "delete": "Delete"
+}
