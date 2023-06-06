@@ -8,6 +8,7 @@ import loadingSlice from "./reducers/loading/loadingSlice";
 import userReducer from './reducers/userTest/userSlice';
 import authReducer from './auth/authSlice';
 import blogReducer from './reducers/blog/blogSlice';
+import adminUserSlice from './reducers/adminUser/adminUserSlice';
 export const store=configureStore({
     reducer:{
         loadingSlice,
@@ -18,6 +19,7 @@ export const store=configureStore({
         user: userReducer,
         auth: authReducer,
         blog: blogReducer,
+        adminUserSlice,
     }
 })
 

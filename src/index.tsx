@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './i18n'
@@ -11,6 +10,7 @@ import Register from './pages/Registration/Register';
 import TrainingCourses from './pages/TrainingCourses/TrainingCourses';
 import BlogList from './pages/Blog/Blog';
 import Contact from './pages/Contact/Contact';
+import AdminUser from './pages/AdminUser/AdminUser';
 import { Provider } from 'react-redux';
 import { store } from './redux/configStore';
 import HomeLayout from './layouts/HomeLayout';
@@ -28,6 +28,7 @@ root.render(
         <Route path='training_course' element={<TrainingCourses />}></Route>
         <Route path='blog' element={<BlogList />}></Route>
         <Route path='contact' element={<Contact />}></Route>
+        <Route path='admin_user' element={<AdminUser />}></Route>
         <Route path='*' element={<Home />}></Route>
       </Route>
     </Routes>
