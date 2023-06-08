@@ -11,6 +11,7 @@ import TrainingCourses from './pages/TrainingCourses/TrainingCourses';
 import BlogList from './pages/Blog/Blog';
 import Contact from './pages/Contact/Contact';
 import AdminUser from './pages/AdminUser/AdminUser';
+import Admin from './pages/Admin/Admin';
 import { Provider } from 'react-redux';
 import { store } from './redux/configStore';
 import HomeLayout from './layouts/HomeLayout';
@@ -25,6 +26,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/admin_user' element={<AdminUser />} />
+        <Route path='/admin' element={<Admin />} />
         <Route path='' element={<HomeLayout />}>
           <Route index element={<Home />} />
           <Route path='training_course' element={<TrainingCourses />} />

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { loginSuccess, loginFail } from "../../redux/reducers/userTest/userSlice";
 import { LoginFormValues } from '../../_core/Login';
 import { useTranslation } from 'react-i18next';
@@ -27,7 +27,7 @@ export default function Login() {
     onSubmit: async (values) => {
       if (values.email === 'admin@gmail.com' && values.password === 'adminadmin') {
         dispatch(loginSuccess({ username: values.email, password: values.password, role: 'admin', accountType: '' }));
-        navigate('/admin_user');
+        navigate('/admin');
       } else if (values.email && values.password) {
         dispatch(loginSuccess({ username: values.email, password: values.password, role: 'user', accountType: 'Free' }));
         navigate('/');
