@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { useDispatch } from 'react-redux';
-import { login } from '../../redux/auth/authSlice';
-// import { loginUser } from "../../redux/user/userSlice"
+import { useDispatch, useSelector } from 'react-redux';
+import { loginSuccess, loginFail } from "../../redux/reducers/userTest/userSlice";
 import { LoginFormValues } from '../../_core/Login';
 import { useTranslation } from 'react-i18next';
 import '../../assets/css/login/login.css';
@@ -13,25 +13,28 @@ const initialValues: LoginFormValues = {
   password: '',
 };
 export default function Login() {
-  const {t}=useTranslation('login')
+  const { t } = useTranslation('login')
   const validationSchema = Yup.object({
     email: Yup.string().email(t('login.invalid_email_address')).required(t('login.required')),
     password: Yup.string().min(6, t('login.minimum_character')).required(t('login.required')),
   });
   const dispatch = useDispatch();
+  const navigate = useNavigate();;
+
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
-      try {
-        // Call the login API here and await the response
-        // For example:
-        // const response = await axios.post('/api/login', values);
-        dispatch(login());
-        localStorage.setItem('isAuthenticated', 'true');
-        window.location.href = '/dashboard'; // Replace this with your desired page URL
-      } catch (error) {
-        console.log(error);
+      if (values.email === 'admin@gmail.com' && values.password === 'adminadmin') {
+        dispatch(loginSuccess({ username: values.email, password: values.password, role: 'admin', accountType: '' }));
+        navigate('/admin_user');
+      } else if (values.email && values.password) {
+        dispatch(loginSuccess({ username: values.email, password: values.password, role: 'user', accountType: 'Free' }));
+        navigate('/');
+      }
+      else {
+        console.log('Đăng nhập thất bại');
+        dispatch(loginFail());
       }
     },
   });
