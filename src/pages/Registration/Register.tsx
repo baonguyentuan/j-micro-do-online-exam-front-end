@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
-import { login } from '../../redux/auth/authSlice';
 import { RegisterFormValues } from '../../_core/Login';
 import { useTranslation } from 'react-i18next';
 // import { registerUser } from "../../redux/user/userSlice"
@@ -31,7 +30,6 @@ export default function Register() {
     initialValues,
     validationSchema,
     onSubmit: (values) => {
-      dispatch(login());
       console.log('Registered:', values);
     },
   });

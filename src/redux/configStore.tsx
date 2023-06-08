@@ -6,7 +6,6 @@ import courseSlice from "./reducers/course/courseSlice";
 import userSlice from "./reducers/user/userReducer";
 import loadingSlice from "./reducers/loading/loadingSlice";
 import userReducer from './reducers/userTest/userSlice';
-import authReducer from './auth/authSlice';
 import blogReducer from './reducers/blog/blogSlice';
 import adminUserSlice from './reducers/adminUser/adminUserSlice';
 export const store=configureStore({
@@ -17,7 +16,6 @@ export const store=configureStore({
         courseSlice,
         userSlice,
         user: userReducer,
-        auth: authReducer,
         blog: blogReducer,
         adminUserSlice,
     }

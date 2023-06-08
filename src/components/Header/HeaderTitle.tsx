@@ -36,7 +36,7 @@ export default function HeaderTitle({ }: Props) {
     {
       key: '4',
       label: (
-        <Button type="link">{t('logout')}</Button>
+        <NavLink to={'/login'}>{t('logout')}</NavLink>
       ),
     },
   ];

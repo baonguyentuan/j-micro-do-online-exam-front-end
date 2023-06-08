@@ -15,4 +15,6 @@ export interface UserState {
     password: string;
     rePassword: string;
     isLogin: boolean;
+    role: string;
+    accountType: string;
 }
