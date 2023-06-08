@@ -20,7 +20,7 @@ const Admin: React.FC = () => {
           <div style={{
             width: "100%",
             height: "7vh",
-            background: '#0c2237',
+            background: '#031529',
             padding: 24,
           }}>
             <Typography.Title
