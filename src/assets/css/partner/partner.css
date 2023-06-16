@@ -10,7 +10,7 @@
     font-weight: 500;
 }
 .box__partner{
-    @apply cursor-pointer flex flex-col justify-around items-center;
+    @apply cursor-pointer flex flex-col justify-around items-center m-auto;
     width: 100px;
     height: 100px;
     border-radius: 4px;

@@ -1,4 +1,6 @@
 import {ContestCommentModel} from './CommentModel'
+import dayjs, { Dayjs } from 'dayjs';
+
 export interface ContestInfoModel {
     id: number,
     name: string
@@ -20,4 +22,13 @@ export interface ContestState {
 export interface ContestCategoryModel{
     id:number,
     category:string
+}
+export interface CreateContestFormModel {
+    name: string,
+    description: string,
+    duration: number,
+    timeStart: Dayjs | null
+    contestantList: File | null,
+    exam: string | null
+    category: string[]
 }

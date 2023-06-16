@@ -13,6 +13,7 @@ import { store } from './redux/configStore';
 import HomeLayout from './layouts/HomeLayout';
 import CourseDetail from './pages/ContestDetail/ContestDetail';
 import { history } from './utils/config';
+import CreateContest from './pages/CreateContest/CreateContest';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -26,6 +27,7 @@ root.render(
           <Route path='login' element={<Login />}></Route>
           <Route path='register' element={<Register />}></Route>
           <Route path='contest/:contestId' element={<CourseDetail />}></Route>
+          <Route path='createcontest' element={<CreateContest />}></Route>
           <Route path='*' element={<Home />}></Route>
         </Route>
       </Routes>

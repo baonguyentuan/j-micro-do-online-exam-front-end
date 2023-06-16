@@ -8,10 +8,32 @@
         "or":"Hoặc",
         "become a premium":"Trở thành Premium",
         "go to contest":"Vào phòng thi",
-        "download now":"Tải đề thi"
+        "download now":"Tải đề thi",
+        "name":"Tên",
+        "category":"Thể loại",
+        "choose exam":"Chọn bài thi",
+        "start time":"Bắt đầu",
+        "contestant list":"DS thí sinh",
+        "minutes":"Phút",
+        "select category":"Chọn thể loại",
+        "select exam":"Chọn bài thi",
+        "input name":"Nhập tên",
+        "input description":"Nhập mô tả",
+        "name is required":"Tên không thể bỏ trống",
+        "description is required":"Mô tả không thể bỏ trống",
+        "duration must be number":"Thời lượng phải là số",
+        "duration is required":"Thời lượng không thể bỏ trống",
+        "minium duration is 1 min":"Thời lượng nhỏ nhất là 1",
+        "time start must be timestamp":"Thời gian bắt đầu phải là định dạng thời gian",
+        "time start is required":"Thời gian bắt đầu không thể bỏ trống",
+        "the contest must start at least 7 days from the date of creation":"Kỳ thi phải được tạo trước 7 ngày",
+        "file is required":"Tệp tin danh sách thì sinh không thể bỏ trống",
+        "exam is required":"Bài thi không thể bỏ trống",
+        "category is required":"Thể loại không thể bỏ trống"
     },
     "contest":{
-        "relate Contest":"Bài thi liên quan"
+        "relate Contest":"Bài thi liên quan",
+        "create contest":"Tạo kỳ thi"
     },
     "feedback":{
         "customer feedback":"Khách hàng đánh giá",

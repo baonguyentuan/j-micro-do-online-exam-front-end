@@ -18,7 +18,8 @@
     color: #2b8aeb;
 }
 .notification__list{
-    width: 400px;
+    width: 100vw;
+    max-width: 400px;
 }
 .notify__item{
     @apply pl-2 pr-4 py-2 text-sm;

@@ -1,15 +1,17 @@
-import React,{useEffect} from 'react'
-import { Select, Space, Button, Dropdown, Avatar, Badge, Popover } from 'antd';
-import { DownOutlined, UserOutlined, BellOutlined } from '@ant-design/icons';
+import React, { useEffect, useState } from 'react'
+import { Select, Space, Button, Dropdown, Avatar, Badge, Popover, Drawer } from 'antd';
+import { DownOutlined, UserOutlined, BellOutlined, MenuOutlined, CloseOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../redux/configStore';
 import { useTranslation } from 'react-i18next'
 import { setNotifyBadge, setNotifyReaded } from '../../redux/reducers/notification/notificationSlice';
+import HeaderNavbarMobile from './HeaderNavbarMobile';
 type Props = {}
 
 export default function HeaderTitle({ }: Props) {
+  let [openMenu, setOpenMenu] = useState(false)
   const { haveNewNotify, arrNotify } = useSelector((state: RootState) => state.notificationSlice)
   const { userInfo } = useSelector((state: RootState) => state.userSlice)
   const dispatch = useDispatch()
@@ -44,9 +46,9 @@ export default function HeaderTitle({ }: Props) {
     if (userInfo) {
       return <Space>
         <span className='notification'>
-          <Popover placement="bottomRight"
+          <Popover placement="bottom"
             title={
-              <h1 className='p-2 border-b-2 m-0'>Thông báo mới nhận</h1>
+              <h1 className='p-2 border-b-2 m-0 '>Thông báo mới nhận</h1>
             }
             content={
               <div className='notification__list'>
@@ -67,15 +69,15 @@ export default function HeaderTitle({ }: Props) {
             }
             }>
               <Badge dot={haveNewNotify} size='default'>
-                <BellOutlined className='text-xl -translate-y-1'  />
+                <BellOutlined className='text-xl -translate-y-1' />
               </Badge>
             </span>
           </Popover>
         </span>
-        <Dropdown menu={{ items }} placement="bottom">
+        <Dropdown className='lg:block hidden' menu={{ items }} placement="bottom">
           <a onClick={(e) => e.preventDefault()}>
             <Space>
-              <Avatar shape="square" size="small" icon={<UserOutlined />} />{userInfo.userName}
+              <Avatar shape="square" size="small" icon={<UserOutlined />} /><span>{userInfo.userName}</span>
               <DownOutlined className='-translate-y-1' />
             </Space>
           </a>
@@ -90,18 +92,25 @@ export default function HeaderTitle({ }: Props) {
   const handleChange = (value: string) => {
     i18n.changeLanguage(value)
   };
-  useEffect(()=>{
-    let checkNewNotify=arrNotify.findIndex(noti=>noti.readStatus===false)
-    if(checkNewNotify!==-1){
-      dispatch(setNotifyBadge({status:true}))
-    }else{
-      dispatch(setNotifyBadge({status:false}))
+  window.addEventListener("beforeunload", function (e) {
+    console.log(e);
+    
+})
+  useEffect(() => {
+    let checkNewNotify = arrNotify.findIndex(noti => noti.readStatus === false)
+    if (checkNewNotify !== -1) {
+      dispatch(setNotifyBadge({ status: true }))
+    } else {
+      dispatch(setNotifyBadge({ status: false }))
 
     }
-  },[])
+  }, [])
   return (
     <div className='bg-slate-100'>
       <div className=' flex justify-between items-center  size__component py-3'>
+        <Button className='inline-block lg:hidden' onClick={() => {
+          setOpenMenu(true)
+        }}><MenuOutlined className='-translate-y-1' /></Button>
         <NavLink to={'/'}>Logo</NavLink>
         <div >
           <Space>
@@ -118,6 +127,23 @@ export default function HeaderTitle({ }: Props) {
           </Space>
         </div>
       </div>
+      <Drawer
+        className='max-w-sm'
+        title={<div className='flex justify-between items-center'>
+          <NavLink to={'/'}>Logo</NavLink>
+          <Button className='h-auto py-1 px-2' onClick={() => {
+            setOpenMenu(false)
+          }}><CloseOutlined className='-translate-y-1 text-xl' /></Button>
+        </div>}
+        placement="left"
+        closable={false}
+        onClose={() => {
+          setOpenMenu(false)
+        }} open={openMenu}>
+        <div>
+          <HeaderNavbarMobile />
+        </div>
+      </Drawer>
     </div>
 
   )

@@ -11,7 +11,7 @@ type Props = {}
 
 export default function Home({}: Props) {
   return (
-    <div>
+    <div className='relative'>
       <HomeBanner/>
       <Partners/>
       <Statistics/>

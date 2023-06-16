@@ -8,10 +8,32 @@
         "or":"OR",
         "become a premium":"Become a Premium",
         "go to contest":"Go to contest",
-        "download now":"Download now"
+        "download now":"Download now",
+        "name":"Name",
+        "category":"Category",
+        "choose exam":"Choose exam",
+        "start time":"Start time",
+        "contestant list":"Contestant list",
+        "minutes":"Minutes",
+        "select category":"Select category",
+        "select exam":"Select exam",
+        "input name":"Input name",
+        "input description":"Input description",
+        "name is required":"Name is required",
+        "description is required":"Description is required",
+        "duration must be number":"Duration must be number",
+        "duration is required":"Duration is required",
+        "minium duration is 1 min":"Minium duration is 1 min",
+        "time start must be timestamp":"Time start must be timestamp",
+        "time start is required":"Time start is required",
+        "the contest must start at least 7 days from the date of creation":"The contest must start at least 7 days from the date of creation",
+        "file is required":"File is required",
+        "exam is required":"Exam is required",
+        "category is required":"Category is required"
     },
     "contest":{
-        "relate Contest":"Relate Contest"
+        "relate Contest":"Relate Contest",
+        "create contest":"Create contest"
     },
     "feedback":{
         "customer feedback":"Customer Feedback",

@@ -29,7 +29,7 @@ const Feedback = (props: Props) => {
     <div className='bg-slate-100'>
       <div className='size__component py-12'>
         <h1 className='text__title'>{t('what do our customers say?')} </h1>
-        <div className="grid grid-cols-3 gap-8 pt-8">
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 pt-8">
           {arrFeedback.map((feedbackItem, index) => {
             return <CardFeedback key={index} feedback={feedbackItem} />
           })}

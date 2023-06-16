@@ -30,14 +30,15 @@ const HotCourse = (props: Props) => {
                 <Swiper
                     spaceBetween={30}
                     slidesPerView={1}
+                    modules={[Navigation]}
                     navigation={{
                         prevEl: '.customPrevSlide',
                         nextEl: '.customNextSlide',
                     }}
-                    modules={[Navigation]}
                     breakpoints={{
                         1280: {
                             slidesPerView: 4,
+                            
                         },
                         1084: {
                             slidesPerView: 3,

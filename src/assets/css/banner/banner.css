@@ -1,4 +1,6 @@
-
+.banner__size{
+    height: 600px;
+}
 .img__banner{
     max-height: 550px;
     margin: auto;
@@ -9,4 +11,13 @@
     font-size: 28px;
     background-color: greenyellow;
     border-radius: 50%;
+}
+@media only screen and (max-width: 768px){
+    .banner__size{
+        height: 800px;
+    }
+    .img__banner{
+        max-height: 400px;
+        margin: auto;
+    }
 }
