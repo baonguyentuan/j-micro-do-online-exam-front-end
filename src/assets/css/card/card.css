@@ -37,7 +37,7 @@
 
 /* card course */
 .statsName{
-    @apply font-bold text-base;
+    @apply font-bold text-sm;
 }
 .card__course{
     @apply overflow-hidden;
@@ -66,22 +66,22 @@
 
 }
 .course__premiumTag{
-    @apply inline-block absolute top-3 right-0 text-center text-black;
+    @apply inline-block absolute top-3 right-0 text-center text-black font-semibold;
     width: 80px;
     height: 30px;
     line-height: 30px;
+    border-color: red;
 }
-.premiumTag{
-    background-color: yellow;
-}
+
 .premiumTag::before{
     @apply absolute top-0 left-0;
     content: '';
+    color: inherit;
     width: 30px;
     height: 30px;
-    border-top: 15px solid yellow;
+    border-top: 15px solid inherit;
     border-left: 15px solid transparent;
-    border-right: 15px solid yellow;
+    border-right: 15px solid inherit;
     border-bottom: 15px solid transparent;
     transform: translateX(-25px);
 }
@@ -92,34 +92,9 @@
     height: 30px;
     border-top: 15px solid transparent;
     border-left: 15px solid transparent;
-    border-right: 15px solid yellow;
-    border-bottom: 15px solid yellow;
+    border-right: 15px solid inherit;
+    border-bottom: 15px solid inherit;
     transform: translateX(-25px);
-}
-.freeTag{
-    background-color: #fff;
-}
-.freeTag::before{
-    @apply absolute top-0 left-0;
-    content: '';
-    width: 30px;
-    height: 30px;
-    border-top: 15px solid #fff;
-    border-left: 15px solid transparent;
-    border-right: 15px solid #fff;
-    border-bottom: 15px solid transparent;
-    transform: translateX(-20px);
-}
-.freeTag::after{
-    @apply absolute bottom-0 left-0;
-    content: '';
-    width: 30px;
-    height: 30px;
-    border-top: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-right: 15px solid #fff;
-    border-bottom: 15px solid #fff;
-    transform: translateX(-20px);
 }
 .course__name{
     @apply absolute bottom-3 left-1 text-lg;

@@ -23,7 +23,7 @@ const CardStatistics = (props: Props) => {
                 </div>
             </div>}
         >
-            <div className='w-4/5 text-center m-auto' style={{ height: 100 }}>
+            <div className='text-center m-auto' style={{ height: 100 }}>
                 <p className='pb-2 text-2xl font-bold cursor-text'><CountUp end={props.statistics.stats} />+</p>
                 <p className='pb-2 text-xl font-bold text-gray-400 cursor-text'>{props.statistics.desc}</p>
             </div>

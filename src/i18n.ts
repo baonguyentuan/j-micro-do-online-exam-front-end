@@ -8,6 +8,7 @@ import PARTNER_EN from './locales/eng/partner.json';
 import FEEDBACK_EN from './locales/eng/feedback.json';
 import SKILLS_EN from './locales/eng/skills.json';
 import CHAT_EN from './locales/eng/chat.json';
+import CONTEST_EN from './locales/eng/contest.json';
 import LOGIN_EN from './locales/eng/login.json';
 import CONTACT_EN from './locales/eng/contact.json';
 import ADMIN_EN from './locales/eng/adminUser.json';
@@ -19,6 +20,7 @@ import PARTNER_VI from './locales/vni/partner.json';
 import FEEDBACK_VN from './locales/vni/feedback.json';
 import SKILLS_VN from './locales/vni/skills.json';
 import CHAT_VN from './locales/vni/chat.json';
+import CONTEST_VN from './locales/vni/contest.json';
 import LOGIN_VN from './locales/vni/login.json';
 import CONTACT_VN from './locales/vni/contact.json';
 import ADMIN_VN from './locales/vni/adminUser.json';
@@ -33,6 +35,7 @@ export const resources = {
     chat: CHAT_EN,
     skills: SKILLS_EN,
     feedback: FEEDBACK_EN,
+    contest:CONTEST_EN,
     login: LOGIN_EN,
     contact:CONTACT_EN,
     adminUser:ADMIN_EN,
@@ -46,6 +49,7 @@ export const resources = {
     chat: CHAT_VN,
     skills: SKILLS_VN,
     feedback: FEEDBACK_VN,
+    contest:CONTEST_VN,
     login: LOGIN_VN,
     contact:CONTACT_VN,
     adminUser:ADMIN_VN,
@@ -54,7 +58,7 @@ export const resources = {
 
 i18n.use(initReactI18next).init({
   lng: 'vn',
-  ns: ['header', 'footer', 'banner', 'card', 'partner', 'chat', 'skills', 'feedback', 'login', 'contact'],
+  ns: ['header', 'footer', 'banner', 'card', 'partner', 'chat', 'skills', 'feedback', 'login', 'contact','contest'],
   defaultNS,
   resources,
 });

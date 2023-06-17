@@ -8,7 +8,7 @@ const initialState: BlogState = {
 };
 
 const blogSlice = createSlice({
-  name: 'blog',
+  name: 'blogSlice',
   initialState,
   reducers: {
     fetchBlogsStart(state) {
@@ -33,4 +33,4 @@ export const { fetchBlogsStart, fetchBlogsSuccess, fetchBlogsFailure } = blogSli
 export default blogSlice.reducer;
 
 // Selectors
-export const selectAllBlogs = (state: { blog: BlogState }) => state.blog.blogs;
+export const selectAllBlogs = (state: { blogSlice: BlogState }) => state.blogSlice.blogs;

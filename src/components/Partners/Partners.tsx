@@ -18,9 +18,9 @@ type Props = {}
 const Partners = (props: Props) => {
     const {t}=useTranslation('partner')
     return (
-        <div className='size__component py-12'>
+        <div className='size__component py-12 '>
             <h1 className='text__title'>{t('partnering with world\'s leading universities and companies')}</h1>
-        <div className='flex justify-around mt-8' >
+        <div className='grid lg:grid-cols-8 sm:grid-cols-4 md:grid-cols-6 grid-cols-3 gap-4 mt-8' >
             <NavLink to={'/home'} className='box__partner'>
                 <img className='logo__partner' src={awsLogo} alt="logo" />
                 <p className='name__partner'>AWS</p>

@@ -30,8 +30,8 @@ const initialState: NotifyState = {
     ],
 }
 
-const notificationReducer = createSlice({
-    name: 'notificationReducer',
+const notificationSlice = createSlice({
+    name: 'notificationSlice',
     initialState,
     reducers: {
         setNotifyBadge: (state: NotifyState, action: PayloadAction<{ status: boolean }>) => {
@@ -46,6 +46,6 @@ const notificationReducer = createSlice({
     }
 });
 
-export const { setNotifyBadge,setNotifyReaded } = notificationReducer.actions
+export const { setNotifyBadge,setNotifyReaded } = notificationSlice.actions
 
-export default notificationReducer.reducer
+export default notificationSlice.reducer

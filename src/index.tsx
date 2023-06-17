@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
 import './i18n'
 import Home from './pages/Home/Home';
 import Login from './pages/Registration/Login';
@@ -15,35 +15,31 @@ import Admin from './pages/Admin/Admin';
 import { Provider } from 'react-redux';
 import { store } from './redux/configStore';
 import HomeLayout from './layouts/HomeLayout';
-
+import ContestDetail from './pages/ContestDetail/ContestDetail';
+import { history } from './utils/config';
+import CreateContest from './pages/CreateContest/CreateContest';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
-
-function App() {
-
-  return (
-    <BrowserRouter>
+root.render(
+  <Provider store={store}>
+    <HistoryRouter history={history} >
       <Routes>
-        <Route path='/admin_user' element={<AdminUser />} />
-        <Route path='/admin' element={<Admin />} />
         <Route path='' element={<HomeLayout />}>
-          <Route index element={<Home />} />
+          <Route index element={<Home />}></Route>
+          <Route path='login' element={<Login />}></Route>
+          <Route path='register' element={<Register />}></Route>
+          <Route path='contest/:contestId' element={<ContestDetail />}></Route>
+          <Route path='create_contest' element={<CreateContest />}></Route>
           <Route path='training_course' element={<TrainingCourses />} />
           <Route path='blog' element={<BlogList />} />
           <Route path='contact' element={<Contact />} />
+          <Route path='*' element={<Home />}></Route>
         </Route>
-        <Route path='login' element={<Login />} />
-        <Route path='register' element={<Register />} />
+        <Route path='/admin_user' element={<AdminUser />} />
+        <Route path='/admin' element={<Admin />} />
       </Routes>
-    </BrowserRouter>
-  );
-}
-
-
-root.render(
-  <Provider store={store}>
-    <App />
+    </HistoryRouter >
   </Provider>
 );
 

@@ -1,23 +1,23 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { type } from "os";
 import chatSlice from "./reducers/chat/chatSlice";
-import notificationSlice from "./reducers/notification/notificationReducer";
-import courseSlice from "./reducers/course/courseSlice";
-import userSlice from "./reducers/user/userReducer";
+import notificationSlice from "./reducers/notification/notificationSlice";
+import contestSlice from "./reducers/contest/contestSlice";
+import userSlice from "./reducers/user/userSlice";
 import loadingSlice from "./reducers/loading/loadingSlice";
-import userReducer from './reducers/userTest/userSlice';
-import blogReducer from './reducers/blog/blogSlice';
+import contestCommentSlice from "./reducers/comment/contestCommentSlice";
+import blogSlice from './reducers/blog/blogSlice';
 import adminUserSlice from './reducers/adminUser/adminUserSlice';
 export const store=configureStore({
     reducer:{
         loadingSlice,
         chatSlice,
         notificationSlice,
-        courseSlice,
+        contestSlice,
         userSlice,
-        user: userReducer,
-        blog: blogReducer,
+        blogSlice,
         adminUserSlice,
+        contestCommentSlice
     }
 })
 

@@ -8,10 +8,10 @@ type Props = {}
 const IntroductionBanner = (props: Props) => {
     const {t}=useTranslation('banner')
     return (
-        <div className='size__component h-full ' style={{ height: 600 }}>
-            <div className='grid grid-cols-2 h-full '>
-                <div className='h-full flex items-center'>
-                    <div>
+        <div className='size__component banner__size'>
+            <div className='grid md:grid-cols-2 h-full'>
+                <div className='h-full flex items-center md:order-1 order-2'>
+                    <div className='mb-4'>
                         <h1 className='text-2xl font-bold pb-4' >{t('bannerIntroduction.90% of our customers pass their exam in the first attempt')}</h1>
                         <ul className='text-lg pl-2 pb-4'>
                             <li className='pb-4'><CheckCircleOutlined className='icon__banner' />{t('bannerIntroduction.improve skill & score')}</li>
@@ -22,7 +22,7 @@ const IntroductionBanner = (props: Props) => {
                         <Button className='btn__banner'>{t('bannerIntroduction.go to exam')} <ArrowRightOutlined style={{ transform: 'translate(0,-3px)' }} /></Button>
                     </div>
                 </div>
-                <div className='h-full flex items-center'>
+                <div className='h-full flex items-center md:order-2 order-1'>
                     <img className='img__banner' src="https://www.exam-labs.com/static/img/cert/hero_banner_white.png" alt="" />
                 </div>
             </div>

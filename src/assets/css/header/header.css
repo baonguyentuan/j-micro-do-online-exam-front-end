@@ -1,11 +1,11 @@
 .btn__navbar{
     @apply px-6 py-3 mr-6 font-semibold text-black
 }
-.btn__active{
+.btn__navbar__active{
     color: #2b8aeb;
     position: relative;
 }
-.btn__active::after{
+.btn__navbar__active::after{
     content: "";
     width: 100%;
     position: absolute;
@@ -18,7 +18,8 @@
     color: #2b8aeb;
 }
 .notification__list{
-    width: 400px;
+    width: 100vw;
+    max-width: 400px;
 }
 .notify__item{
     @apply pl-2 pr-4 py-2 text-sm;

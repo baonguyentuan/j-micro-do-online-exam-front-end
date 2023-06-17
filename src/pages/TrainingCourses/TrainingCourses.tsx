@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import CardCourse from '../../components/Card/CardCourse';
+import CardContest from '../../components/Card/CardContest';
 import { NavLink } from 'react-router-dom';
 import { Button } from 'antd';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/configStore';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { getLstHotContest } from '../../redux/reducers/contest/contestSlice';
 type Props = {}
 
 function TrainingCourses(props: Props) {
@@ -16,8 +18,13 @@ function TrainingCourses(props: Props) {
         { name: t('nav.home'), link: "/" },
         { name: t('nav.training_course') },
     ];
-    const { arrHotCourse } = useSelector((state: RootState) => state.courseSlice)
-
+    const { arrHotContest } = useSelector((state: RootState) => state.contestSlice)
+    console.log(arrHotContest);
+    
+    const dispatch = useDispatch()
+    useEffect(()=>{
+        dispatch(getLstHotContest())
+    })
     return (
         <div>
             <Breadcrumb items={items} />
@@ -31,8 +38,8 @@ function TrainingCourses(props: Props) {
                         slidesPerView={4}
                         navigation={true}
                     >
-                        {arrHotCourse.map((courseItem, index) => {
-                            return <SwiperSlide key={courseItem.id}><CardCourse courseDetail={courseItem} /> </SwiperSlide>
+                        {arrHotContest.map((contestItem, index) => {
+                            return <SwiperSlide key={contestItem.id}><CardContest contestDetail={contestItem} /> </SwiperSlide>
                         })}
                     </Swiper>
                 </div>
@@ -50,8 +57,8 @@ function TrainingCourses(props: Props) {
                         slidesPerView={4}
                         navigation={true}
                     >
-                        {arrHotCourse.map((courseItem, index) => {
-                            return <SwiperSlide key={courseItem.id}><CardCourse courseDetail={courseItem} /> </SwiperSlide>
+                        {arrHotContest.map((contestItem, index) => {
+                            return <SwiperSlide key={contestItem.id}><CardContest contestDetail={contestItem} /> </SwiperSlide>
                         })}
                     </Swiper>
                 </div>
@@ -69,8 +76,8 @@ function TrainingCourses(props: Props) {
                         slidesPerView={4}
                         navigation={true}
                     >
-                        {arrHotCourse.map((courseItem, index) => {
-                            return <SwiperSlide key={courseItem.id}><CardCourse courseDetail={courseItem} /> </SwiperSlide>
+                        {arrHotContest.map((courseItem, index) => {
+                            return <SwiperSlide key={courseItem.id}><CardContest contestDetail={courseItem} /> </SwiperSlide>
                         })}
                     </Swiper>
                 </div>

@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../redux/configStore'
 import { setChatBoxShow, setReadMessageStatus } from '../../redux/reducers/chat/chatSlice'
 import { useTranslation } from 'react-i18next'
+import { backToPosition } from '../../utils/operate'
 type Props = {}
 
 export default function FooterIntro({ }: Props) {
@@ -17,7 +18,7 @@ export default function FooterIntro({ }: Props) {
     const dispatch = useDispatch()
     return (
         <div className='footer__intro bg-slate-100 py-4'>
-            <div className=' flex justify-around  size__component'>
+            <div className=' grid sm:grid-cols-3 grid-cols-1 gap-4 size__component'>
                 <ul className='flex flex-col'>
                     <NavLink to={'/home'} className='py-1 font-semibold'>{t('uploadFile')}</NavLink>
                     <NavLink to={'/home'} className='py-1 font-semibold'>{t('examProvider')}</NavLink>
@@ -46,15 +47,7 @@ export default function FooterIntro({ }: Props) {
                 </Button>
                 <ChatBox chatboxShow={chatboxShow} />
                 <Button type='link' className='btn__sup' onClick={() => {
-                    document.body.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
-                    document.documentElement.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
-
+                    backToPosition(0)
                 }}><UpSquareOutlined className='sup__icon' /></Button>
             </div>
 
