@@ -703,7 +703,6 @@ let lstContest = [
 ]
 
 const initialState: ContestState = {
-  arrHotCourse: [],
   contestDetail: null,
   arrRelateContest: [],
   arrHotContest: []

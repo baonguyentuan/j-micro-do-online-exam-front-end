@@ -14,7 +14,6 @@ export interface ContestInfoModel {
     createBy: string
 }
 export interface ContestState {
-    arrHotCourse: ContestInfoModel[],
     contestDetail: ContestInfoModel | null,
     arrRelateContest:ContestInfoModel[],
     arrHotContest:ContestInfoModel[],
@@ -30,5 +29,4 @@ export interface CreateContestFormModel {
     timeStart: Dayjs | null
     contestantList: File | null,
     exam: string | null
-    category: string[]
 }

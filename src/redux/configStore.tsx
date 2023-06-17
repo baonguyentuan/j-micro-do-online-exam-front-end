@@ -6,6 +6,8 @@ import contestSlice from "./reducers/contest/contestSlice";
 import userSlice from "./reducers/user/userSlice";
 import loadingSlice from "./reducers/loading/loadingSlice";
 import contestCommentSlice from "./reducers/comment/contestCommentSlice";
+import blogSlice from './reducers/blog/blogSlice';
+import adminUserSlice from './reducers/adminUser/adminUserSlice';
 export const store=configureStore({
     reducer:{
         loadingSlice,
@@ -13,6 +15,8 @@ export const store=configureStore({
         notificationSlice,
         contestSlice,
         userSlice,
+        blogSlice,
+        adminUserSlice,
         contestCommentSlice
     }
 })

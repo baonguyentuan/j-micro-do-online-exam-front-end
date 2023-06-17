@@ -24,9 +24,9 @@ export default function FooterIntro({ }: Props) {
                     <NavLink to={'/home'} className='py-1 font-semibold'>{t('examProvider')}</NavLink>
                 </ul>
                 <ul className='flex flex-col'>
-                    <NavLink to={'/home'} className='py-1 font-semibold'>{t('contact')}</NavLink>
+                    <NavLink to={'/contact'} className='py-1 font-semibold'>{t('contact')}</NavLink>
                     <NavLink to={'/home'} className='py-1 font-semibold'>{t('faq')}</NavLink>
-                    <NavLink to={'/home'} className='py-1 font-semibold'>{t('blog')}</NavLink>
+                    <NavLink to={'/blog'} className='py-1 font-semibold'>{t('blog')}</NavLink>
                 </ul>
                 <ul className='flex flex-col'>
                     <NavLink to={'/home'} className='py-1 font-semibold'>{t('facebook')}</NavLink>

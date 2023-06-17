@@ -1,0 +1,23 @@
+{
+    "id": "ID",
+    "avatar": "Ảnh đại diện",
+    "username": "Tên người dùng",
+    "email": "Email",
+    "account_type": "Loại tài khoản",
+    "created_at": "Thời gian tạo",
+    "action": "Hành động",
+    "search_username": "Tìm kiếm người dùng...",
+    "click_upload": "Vui lòng ấn để tải ảnh lên",
+    "validate_email_required": "Vui lòng điền Email",
+    "validate_email_condition": "Địa chỉ Email không chính xác",
+    "validate_username_required": "Vui lòng điền tên người dùng",
+    "validate_username_min_length": "Vui lòng nhập ít nhất 6 kí tự",
+    "validate_username_max_length": "Vui lòng không điền quá 15 kí tự",
+    "validate_account_required": "Vui lòng chọn loại tài khoản",
+    "save": "Lưu",
+    "are_delete_user": "Bạn có chắc chắn muốn xoá tài khoản này?",
+    "free": "Miễn phí",
+    "premium": "Trả phí",
+    "cancel": "Đóng",
+    "delete": "Xoá"
+}

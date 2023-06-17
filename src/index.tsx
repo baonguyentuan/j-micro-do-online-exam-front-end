@@ -1,23 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes, unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
 import './i18n'
 import Home from './pages/Home/Home';
 import Login from './pages/Registration/Login';
 import Register from './pages/Registration/Register';
+import TrainingCourses from './pages/TrainingCourses/TrainingCourses';
+import BlogList from './pages/Blog/Blog';
+import Contact from './pages/Contact/Contact';
+import AdminUser from './pages/AdminUser/AdminUser';
+import Admin from './pages/Admin/Admin';
 import { Provider } from 'react-redux';
 import { store } from './redux/configStore';
 import HomeLayout from './layouts/HomeLayout';
-import CourseDetail from './pages/ContestDetail/ContestDetail';
+import ContestDetail from './pages/ContestDetail/ContestDetail';
 import { history } from './utils/config';
 import CreateContest from './pages/CreateContest/CreateContest';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
-
 root.render(
   <Provider store={store}>
     <HistoryRouter history={history} >
@@ -26,16 +29,18 @@ root.render(
           <Route index element={<Home />}></Route>
           <Route path='login' element={<Login />}></Route>
           <Route path='register' element={<Register />}></Route>
-          <Route path='contest/:contestId' element={<CourseDetail />}></Route>
-          <Route path='createcontest' element={<CreateContest />}></Route>
+          <Route path='contest/:contestId' element={<ContestDetail />}></Route>
+          <Route path='create_contest' element={<CreateContest />}></Route>
+          <Route path='training_course' element={<TrainingCourses />} />
+          <Route path='blog' element={<BlogList />} />
+          <Route path='contact' element={<Contact />} />
           <Route path='*' element={<Home />}></Route>
         </Route>
+        <Route path='/admin_user' element={<AdminUser />} />
+        <Route path='/admin' element={<Admin />} />
       </Routes>
     </HistoryRouter >
   </Provider>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

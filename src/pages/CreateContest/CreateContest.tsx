@@ -19,7 +19,6 @@ const DefaultCreateContestFormValue: CreateContestFormModel = {
     timeStart: dayjs(Date.now()),
     contestantList: null,
     exam: null,
-    category: []
 }
 const CreateContest = (props: Props) => {
     let {t}=useTranslation('contest')
@@ -32,7 +31,6 @@ const CreateContest = (props: Props) => {
             timeStart: Yup.date().typeError(t('detail.time start must be timestamp')).required(t('detail.time start is required')).min(dayjs().add(5, 'day'), t('detail.the contest must start at least 7 days from the date of creation')),
             contestantList: Yup.mixed().required(t('detail.file is required')),
             exam: Yup.string().required(t('detail.exam is required')),
-            category: Yup.array().required(t('detail.category is required')).min(1, t('detail.category is required'))
         }),
         onSubmit: (value) => {
             console.log(value);
@@ -58,49 +56,6 @@ const CreateContest = (props: Props) => {
                     <Form.Item label={t('detail.description')} >
                         <TextArea rows={5} name='description' onChange={formik.handleChange} value={formik.values.description} onBlur={formik.handleBlur} />
                         <p className='mt-1 text-red-500'>{formik.errors.description}</p>
-                    </Form.Item>
-                    <Form.Item label={t('detail.description')} >
-                        <Select
-                            style={{ width: '100%' }}
-                            mode='multiple'
-                            allowClear
-                            showSearch
-                            placeholder={t('detail.select category')}
-                            filterOption={(input, option) => (option?.label ?? '').includes(input)}
-                            filterSort={(optionA, optionB) =>
-                                (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-                            }
-                            onChange={(value) => {
-                                formik.setFieldValue('category', value)
-                            }}
-                            options={[
-                                {
-                                    value: '1',
-                                    label: 'Not Identified',
-                                },
-                                {
-                                    value: '2',
-                                    label: 'Closed',
-                                },
-                                {
-                                    value: '3',
-                                    label: 'Communicated',
-                                },
-                                {
-                                    value: '4',
-                                    label: 'Identified',
-                                },
-                                {
-                                    value: '5',
-                                    label: 'Resolved',
-                                },
-                                {
-                                    value: '6',
-                                    label: 'Cancelled',
-                                },
-                            ]}
-                        />
-                        <p className='mt-1 text-red-500'>{formik.errors.category}</p>
                     </Form.Item>
                     <FormItem label={t('detail.choose exam')}>
                         <Select
