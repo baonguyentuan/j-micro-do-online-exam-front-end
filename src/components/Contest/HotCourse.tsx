@@ -14,7 +14,7 @@ import "swiper/css";
 
 type Props = {}
 
-const HotCourse = (props: Props) => {
+const HotContest = (props: Props) => {
     const { arrHotContest } = useSelector((state: RootState) => state.contestSlice)
     const dispatch: DispatchType = useDispatch()
     const { t } = useTranslation('card')
@@ -62,4 +62,4 @@ const HotCourse = (props: Props) => {
     )
 }
 
-export default HotCourse
+export default HotContest

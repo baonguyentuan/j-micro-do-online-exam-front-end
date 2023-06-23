@@ -4,7 +4,7 @@ import Statistics from '../../components/Statistics/Statistics'
 import Feedback from '../../components/Feedbacks/Feedback'
 import HomeBanner from '../../components/Banner/HomeBanner'
 import Partners from '../../components/Partners/Partners'
-import HotCourse from '../../components/Courses/HotCourse'
+import HotContest from '../../components/Contest/HotCourse'
 
 
 type Props = {}
@@ -17,7 +17,7 @@ export default function Home({}: Props) {
       <Statistics/>
       <SkillCategory/>
       <Feedback/>
-      <HotCourse/>
+      <HotContest/>
     </div>
   )
 }

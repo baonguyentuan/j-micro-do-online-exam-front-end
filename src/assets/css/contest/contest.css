@@ -1,10 +1,48 @@
 .btn__contest{
-    @apply bg-green-400 text-xl p-3 h-auto m-4 ;
+    @apply text-xl p-3 h-auto m-4 text-white ;
+    background-color: #0fc962;
 }
 .btn__contest:hover{
-    @apply bg-green-300;
+    color: white !important;
+    background-color: #0a823f
 }
 /* create contest */
 .ant-picker-ok .ant-btn{
     @apply bg-blue-300
+}
+/* create exam */
+.ant-popover .ant-popover-inner{
+    @apply rounded-lg p-3
+}
+.btn__action{
+    @apply m-1;
+    width: 60px;
+    height: 40px;
+}
+.btn__action span{
+    @apply text-lg -translate-y-1;
+}
+.btn__action button{
+    width: 60px;
+    height: 40px;
+}
+.btn__action button span{
+    @apply text-lg -translate-y-1;
+}
+/* contesting */
+input[type='radio'].answerSelection,
+input[type='checkbox'].answerSelection {
+    @apply w-0 h-0;
+    cursor: pointer;
+    /* opacity: 0; */
+}
+
+.answerSelectionBox .answerLabel {
+    @apply p-2 inline-block w-full text-base cursor-pointer;
+    border: 1px solid blue;
+}
+
+input[type='radio'].answerSelection:checked+.answerLabel,
+input[type='checkbox'].answerSelection:checked+.answerLabel {
+    @apply bg-green-200
 }

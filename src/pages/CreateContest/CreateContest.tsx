@@ -9,6 +9,9 @@ import FormItem from 'antd/es/form/FormItem';
 import '../../assets/css/contest/contest.css'
 import { CreateContestFormModel } from '../../_core/ContestModel';
 import { useTranslation } from 'react-i18next';
+import { DispatchType } from '../../redux/configStore';
+import { useDispatch } from 'react-redux';
+import { createContestApi } from '../../redux/reducers/contest/contestSlice';
 const { TextArea } = Input;
 type Props = {}
 
@@ -16,12 +19,13 @@ const DefaultCreateContestFormValue: CreateContestFormModel = {
     name: '',
     description: '',
     duration: 30,
-    timeStart: dayjs(Date.now()),
+    timeStart: dayjs(Date.now()).format('YYYY-MM-DD hh:mm'),
     contestantList: null,
     exam: null,
 }
 const CreateContest = (props: Props) => {
-    let {t}=useTranslation('contest')
+    let { t } = useTranslation('contest')
+    let dispatch: DispatchType = useDispatch()
     let formik = useFormik({
         initialValues: DefaultCreateContestFormValue,
         validationSchema: Yup.object({
@@ -33,7 +37,15 @@ const CreateContest = (props: Props) => {
             exam: Yup.string().required(t('detail.exam is required')),
         }),
         onSubmit: (value) => {
-            console.log(value);
+            let contestDetail={
+                name:value.name,
+                description:value.description,
+                duration:value.duration,
+                timeStart: dayjs(value.timeStart).format('YYYY-MM-DD hh:mm'),
+                contestantList:value.contestantList,
+                exam:value.exam,
+            }
+            dispatch(createContestApi(contestDetail))
         }
     })
     const disabledDate: RangePickerProps['disabledDate'] = (current) => {
@@ -43,7 +55,7 @@ const CreateContest = (props: Props) => {
         formik.setFieldValue('timeStart', value)
     }
     return (
-        <div id='createContest' className='size__component mb-8' style={{ minHeight: 700 }} >
+        <div id='createContest' className='size__component mb-8' style={{ minHeight: '70vh' }} >
             <div className='m-auto' style={{ maxWidth: 700 }}>
                 <Form className='' labelAlign='left' labelCol={{ span: 4 }} wrapperCol={{ span: 20 }}>
                     <Form.Item className='text-center' wrapperCol={{ span: 24 }}>
@@ -54,7 +66,7 @@ const CreateContest = (props: Props) => {
                         <p className='mt-1 text-red-500'>{formik.errors.name}</p>
                     </Form.Item>
                     <Form.Item label={t('detail.description')} >
-                        <TextArea rows={5} name='description' onChange={formik.handleChange} value={formik.values.description} onBlur={formik.handleBlur} />
+                        <TextArea rows={3} name='description' onChange={formik.handleChange} value={formik.values.description} onBlur={formik.handleBlur} />
                         <p className='mt-1 text-red-500'>{formik.errors.description}</p>
                     </Form.Item>
                     <FormItem label={t('detail.choose exam')}>
@@ -109,12 +121,9 @@ const CreateContest = (props: Props) => {
                         <DatePicker
                             name='timeStart'
                             disabledDate={disabledDate}
-                            format={'DD/MM/YYYY hh:mm'}
+                            format={'YYYY-MM-DD hh:mm'}
                             showTime
                             defaultValue={dayjs(formik.values.timeStart)}
-                            onChange={(time) => {
-                                handleChangeDatePicker(time)
-                            }}
                             onOk={(time) => {
                                 handleChangeDatePicker(time)
                             }} />

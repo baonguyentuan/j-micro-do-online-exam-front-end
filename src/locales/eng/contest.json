@@ -47,5 +47,20 @@
         "log in":"log in",
         "to write feedback":"to write feedback",
         "you must be vote":"You must be vote"
+    },
+    "exam":{
+        "Create Exam":"Create Exam",
+        "add question":"Add question",
+        "Send exam":"Send exam",
+        "note":"Note",
+        "Question":"Question",
+        "Action":"Action",
+        "Each exam have at least {{number}} question":"Each exam have at least {{number}} question",
+        "Each question have at least 2 answers":"Each question have at least 2 answers",
+        "You must choose correct answers":"You must choose correct answers",
+        "Question is required":"Question is required",
+        "Point is number":"Point is number",
+        "Point min is 1":"Point min is 1",
+        "Answer is required":"Answer is required"
     }
 }

@@ -8,18 +8,22 @@ import loadingSlice from "./reducers/loading/loadingSlice";
 import contestCommentSlice from "./reducers/comment/contestCommentSlice";
 import blogSlice from './reducers/blog/blogSlice';
 import adminUserSlice from './reducers/adminUser/adminUserSlice';
-export const store=configureStore({
-    reducer:{
+import examSlice from "./reducers/examSlice/examSlice";
+import categorySlice from "./reducers/categorySlice/categorySlice";
+export const store = configureStore({
+    reducer: {
         loadingSlice,
         chatSlice,
         notificationSlice,
         contestSlice,
+        examSlice,
         userSlice,
         blogSlice,
         adminUserSlice,
-        contestCommentSlice
+        contestCommentSlice,
+        categorySlice
     }
 })
 
-export type RootState=ReturnType<typeof store.getState>
-export type DispatchType=typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>
+export type DispatchType = typeof store.dispatch

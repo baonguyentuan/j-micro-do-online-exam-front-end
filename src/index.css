@@ -34,8 +34,12 @@ code {
   @apply right-0 top-1/2 translate-x-1/2 ;
 }
 .btn__banner{
-  @apply h-auto text-2xl text-white font-semibold ;
-  background-color: orange
+  @apply h-auto text-2xl text-white font-semibold px-6 py-2 ;
+  background: linear-gradient(90deg,#fb0,#f80);
+}
+.btn__banner:hover{
+  color: #fff !important;
+  background: linear-gradient(274.97deg, #FFA800 3.25%, #FF7A00 118.9%)
 }
 .color__free{
   background-color: rgb(241,245,249);

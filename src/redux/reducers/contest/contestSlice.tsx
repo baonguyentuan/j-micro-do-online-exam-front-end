@@ -1,9 +1,12 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { ContestInfoModel, ContestState } from '../../../_core/ContestModel';
+import { ContestInfoModel, ContestResultModel, ContestState, CreateContestFormModel } from '../../../_core/ContestModel';
 import { DispatchType } from '../../configStore';
-import { history } from '../../../utils/config';
+import { STATUS_CODE, history } from '../../../utils/config';
 import { setLoading } from '../loading/loadingSlice';
 import { getLstContestComment } from '../comment/contestCommentSlice';
+import { BaseService } from '../../../services/BaseService';
+import { contestService } from '../../../services/ContestService';
+import { openNotificationWithIcon } from '../../../utils/operate';
 let lstContest = [
   {
     id: 1,
@@ -742,10 +745,46 @@ export const getContestDetailApi = (contestId: Number) => {
         await dispatch(getLstContestComment({ lstComment: currentContestDetail.rating }))
       } else {
         history.push('/home')
-
       }
     } catch (err) {
       console.log(err);
+    }
+    await dispatch(setLoading({ isLoading: false }))
+  }
+}
+export const createContestApi = (contestDetail: CreateContestFormModel) => {
+  return async (dispatch: DispatchType) => {
+    await dispatch(setLoading({ isLoading: true }))
+    try {
+      console.log(contestDetail);   
+    //   const result = await contestService.creatContest(contestDetail)
+    //   if (result.status === STATUS_CODE.SUCCESS) {
+    //     openNotificationWithIcon('success', 'Create Contest successful', '', 1)
+    //   } else {
+    //     console.log(result);
+    //     openNotificationWithIcon('error', 'Create Contest failed', '', 1)
+    //   }
+    } catch (err) {
+      console.log(err);
+      openNotificationWithIcon('error', 'Create Contest failed', '', 1)
+    }
+    await dispatch(setLoading({ isLoading: false }))
+  }
+}
+export const sendContestRéultApi = (contestResult: ContestResultModel[]) => {
+  return async (dispatch: DispatchType) => {
+    await dispatch(setLoading({ isLoading: true }))
+    try {  
+      const result = await contestService.sendContestResult(contestResult)
+    //   if (result.status === STATUS_CODE.SUCCESS) {
+    //     openNotificationWithIcon('success', 'Send result successful', '', 1)
+    //   } else {
+    //     console.log(result);
+    //     openNotificationWithIcon('error', 'Send Result failed', '', 1)
+    //   }
+    } catch (err) {
+      console.log(err);
+      openNotificationWithIcon('error', 'Send Result failed', '', 1)
     }
     await dispatch(setLoading({ isLoading: false }))
   }
