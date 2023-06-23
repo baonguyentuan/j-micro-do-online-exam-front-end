@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Route, Routes, unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
+import { Route, Routes, unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
 import './i18n'
 import Home from './pages/Home/Home';
 import Login from './pages/Registration/Login';
@@ -18,6 +18,8 @@ import HomeLayout from './layouts/HomeLayout';
 import ContestDetail from './pages/ContestDetail/ContestDetail';
 import { history } from './utils/config';
 import CreateContest from './pages/CreateContest/CreateContest';
+import CreateExam from './pages/CreateExam/CreateExam';
+import Contesting from './pages/Contesting/Contesting';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -30,8 +32,10 @@ root.render(
           <Route path='login' element={<Login />}></Route>
           <Route path='register' element={<Register />}></Route>
           <Route path='contest/:contestId' element={<ContestDetail />}></Route>
+          <Route path='contesting/:contestId' element={<Contesting />}></Route>
           <Route path='create_contest' element={<CreateContest />}></Route>
           <Route path='training_course' element={<TrainingCourses />} />
+          <Route path='create_exam' element={<CreateExam />} />
           <Route path='blog' element={<BlogList />} />
           <Route path='contact' element={<Contact />} />
           <Route path='*' element={<Home />}></Route>

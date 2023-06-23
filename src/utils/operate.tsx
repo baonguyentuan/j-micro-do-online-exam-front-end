@@ -1,3 +1,4 @@
+import { notification } from "antd";
 import { ContestCommentModel } from "../_core/CommentModel";
 
 export const calculateAverageRate = (lstRate: ContestCommentModel[]) => {
@@ -15,3 +16,11 @@ export const backToPosition=(position:number)=>{
         behavior: 'smooth'
     });
 }
+type NotificationType = 'success' | 'info' | 'warning' | 'error';
+export const openNotificationWithIcon = (type:NotificationType,title:string,content:string,duration:number) => {
+    notification[type]({
+      message: title,
+      description:content ,
+      duration,
+    });
+  };

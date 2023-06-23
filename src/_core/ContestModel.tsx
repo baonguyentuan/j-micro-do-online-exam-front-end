@@ -26,7 +26,11 @@ export interface CreateContestFormModel {
     name: string,
     description: string,
     duration: number,
-    timeStart: Dayjs | null
+    timeStart: string
     contestantList: File | null,
     exam: string | null
+}
+export interface ContestResultModel {
+    questionIndex: number,
+    answerSelected: number[]
 }
