@@ -1,5 +1,6 @@
 import {ContestCommentModel} from './CommentModel'
 import dayjs, { Dayjs } from 'dayjs';
+import { QuestionContestModel } from './ExamModel';
 
 export interface ContestInfoModel {
     id: number,
@@ -17,6 +18,8 @@ export interface ContestState {
     contestDetail: ContestInfoModel | null,
     arrRelateContest:ContestInfoModel[],
     arrHotContest:ContestInfoModel[],
+    contestingInfo:ContestingInfoModel|null,
+    lstAnswer:ContestResultModel[]
 }
 export interface ContestCategoryModel{
     id:number,
@@ -33,4 +36,13 @@ export interface CreateContestFormModel {
 export interface ContestResultModel {
     questionIndex: number,
     answerSelected: number[]
+}
+export interface ContestingInfoModel{
+    name: string,
+    organization:string,
+    category: string[],
+    description: string,
+    duration: number,
+    timeStart: string,
+    lstQuestion: QuestionContestModel[]
 }

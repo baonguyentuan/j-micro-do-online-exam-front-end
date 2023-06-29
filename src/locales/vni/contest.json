@@ -11,6 +11,7 @@
         "download now":"Tải đề thi",
         "name":"Tên",
         "category":"Thể loại",
+        "thumbnail":"Ảnh đại diện",
         "choose exam":"Chọn bài thi",
         "start time":"Bắt đầu",
         "contestant list":"DS thí sinh",
@@ -23,13 +24,17 @@
         "description is required":"Mô tả không thể bỏ trống",
         "duration must be number":"Thời lượng phải là số",
         "duration is required":"Thời lượng không thể bỏ trống",
-        "minium duration is 1 min":"Thời lượng nhỏ nhất là 1",
+        "minium duration is {{duration}} min":"Thời lượng nhỏ nhất là {{duration}} phút",
+        "maxium duration is {{duration}} min":"Thời lượng lớn nhất là {{duration}} phút",
         "time start must be timestamp":"Thời gian bắt đầu phải là định dạng thời gian",
         "time start is required":"Thời gian bắt đầu không thể bỏ trống",
-        "the contest must start at least 7 days from the date of creation":"Kỳ thi phải được tạo trước 7 ngày",
+        "the contest must start at least {{duration}} days from the date of creation":"Kỳ thi phải được tạo trước {{duration}} ngày",
         "file is required":"Tệp tin danh sách thì sinh không thể bỏ trống",
         "exam is required":"Bài thi không thể bỏ trống",
-        "category is required":"Thể loại không thể bỏ trống"
+        "category is required":"Thể loại không thể bỏ trống",
+        "click to Upload thumbnail":"Tải ảnh",
+        "start at":"Bắt đầu",
+        "organize by":"Tổ chức"
     },
     "contest":{
         "relate Contest":"Bài thi liên quan",
@@ -49,18 +54,24 @@
         "you must be vote":"Bạn phải bình chọn"
     },
     "exam":{
-        "Create Exam":"Tạo bài thi",
+        "Create exam":"Tạo bài thi",
         "add question":"Thêm câu hỏi",
         "Send exam":"Gửi bài thi",
         "note":"Ghi chú",
         "Question":"Câu hỏi",
-        "Action":"Hành động",
+        "Action":"Tác vụ",
         "Each exam have at least {{number}} question":"Mỗi bài thi có ít nhất {{number}} câu hỏi",
+        "Each exam have at max {{number}} question":"Mỗi bài thi có nhiều nhất {{number}} câu hỏi",
         "Each question have at least 2 answers":"Mỗi câu hỏi có ít nhất 2 đáp án",
         "You must choose correct answers":"Bạn Phải chọn đáp án đúng",
         "Question is required":"Câu hỏi không thể bỏ trống",
-        "Point is number":"Diểm phải là 1 số",
-        "Point min is 1":"ĐIểm tháp nhất là 1",
-        "Answer is required":"Đáp án không thể bỏ trống"
+        "Point is number":"Điểm phải là 1 số",
+        "minium point is 1":"Điểm tháp nhất là 1",
+        "Answer is required":"Đáp án không thể bỏ trống",
+        "No question":"Chưa có câu hỏi",
+        "numerical order":"STT",
+        "manager answer":"Quản lý câu trả lười",
+        "Question answered":"Câu hỏi đã làm",
+        "Question unanswered":"Câu hỏi chưa làm"
     }
 }

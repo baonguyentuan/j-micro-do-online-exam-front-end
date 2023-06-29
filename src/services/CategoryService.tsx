@@ -1,4 +1,3 @@
-import { CreateContestFormModel } from "../_core/ContestModel"
 import { BaseService } from "./BaseService"
 
 class CategoryService extends BaseService {
@@ -6,10 +5,10 @@ class CategoryService extends BaseService {
         super()
     }
     getAllCategory = () => {
-        return this.get('Category/getAllCategory')
+        return this.get('exams/categories/options')
     }
-    updateCategoryById=(idCategory:string)=>{
-        return this.put('Category/updateCategoryById',idCategory)
+    getCategoryDetail=(idCategory:string)=>{
+        return this.getByCondition('exams/categories/detail',idCategory)
     }
 }
 export const categoryService = new CategoryService()

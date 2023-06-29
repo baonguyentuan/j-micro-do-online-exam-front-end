@@ -9,7 +9,7 @@ import contestCommentSlice from "./reducers/comment/contestCommentSlice";
 import blogSlice from './reducers/blog/blogSlice';
 import adminUserSlice from './reducers/adminUser/adminUserSlice';
 import examSlice from "./reducers/examSlice/examSlice";
-import categorySlice from "./reducers/categorySlice/categorySlice";
+import categorySlice from "./reducers/category/categorySlice";
 export const store = configureStore({
     reducer: {
         loadingSlice,

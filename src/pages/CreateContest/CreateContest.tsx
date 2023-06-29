@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, DatePicker, Upload, message, Button, Row, Col, InputNumber, Select } from 'antd'
+import { Form, Input, DatePicker, Upload,Button, InputNumber, Select } from 'antd'
 import { UploadOutlined } from '@ant-design/icons';
 import type { RangePickerProps } from 'antd/es/date-picker';
 import { useFormik } from 'formik';
@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { DispatchType } from '../../redux/configStore';
 import { useDispatch } from 'react-redux';
 import { createContestApi } from '../../redux/reducers/contest/contestSlice';
+import { MAX_DURATION_EXAM, MIN_DURATION_EXAM, MIN_PERIOD_CONTEST } from '../../utils/config';
 const { TextArea } = Input;
 type Props = {}
 
@@ -31,8 +32,8 @@ const CreateContest = (props: Props) => {
         validationSchema: Yup.object({
             name: Yup.string().required(t('detail.name is required')),
             description: Yup.string().required(t('detail.description is required')),
-            duration: Yup.number().typeError(t('detail.duration must be number')).required(t('detail.duration is required')).min(1, t('detail.minium duration is 1 min')),
-            timeStart: Yup.date().typeError(t('detail.time start must be timestamp')).required(t('detail.time start is required')).min(dayjs().add(5, 'day'), t('detail.the contest must start at least 7 days from the date of creation')),
+            duration: Yup.number().typeError(t('detail.duration must be number')).required(t('detail.duration is required')).min(MIN_DURATION_EXAM, t('detail.minium duration is {{duration}} min',{duration:MIN_DURATION_EXAM})).max(MAX_DURATION_EXAM, t('detail.maxium duration is {{duration}} min',{duration:MAX_DURATION_EXAM})),
+            timeStart: Yup.date().typeError(t('detail.time start must be timestamp')).required(t('detail.time start is required')).min(dayjs().add(MIN_PERIOD_CONTEST - 1, 'day'), t('detail.the contest must start at least {{duration}} days from the date of creation',{duration:MIN_PERIOD_CONTEST})),
             contestantList: Yup.mixed().required(t('detail.file is required')),
             exam: Yup.string().required(t('detail.exam is required')),
         }),

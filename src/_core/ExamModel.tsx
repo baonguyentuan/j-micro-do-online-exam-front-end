@@ -10,6 +10,14 @@ export interface ExamDetailFormModel {
     name: string,
     category: string[],
     description: string,
-    duration:number,
-    question:QuestionRowModel[]
+    duration: number,
+    question: QuestionRowModel[],
+    file: File | null
+}
+export interface QuestionContestModel {
+    id: number,
+    question: string,
+    type: string,
+    answer: string[],
+    point: number,
 }
