@@ -23,7 +23,7 @@ const categorySlice = createSlice({
 export const {getAllCategory} = categorySlice.actions
 
 export default categorySlice.reducer
-export const getAllCategoryApi = () => {
+export const getCategoryOptionApi = () => {
     return async (dispatch: DispatchType) => {
       await dispatch(setLoading({ isLoading: true }))
       try {
@@ -45,7 +45,7 @@ export const getAllCategoryApi = () => {
       try {
         const result = await categoryService.updateCategoryById(idCategory)
         if (result.status === STATUS_CODE.SUCCESS) {
-          dispatch(getAllCategoryApi())
+          dispatch(getCategoryOptionApi())
         } else {
           console.log(result);
         }

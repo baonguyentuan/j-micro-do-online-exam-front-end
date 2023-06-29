@@ -5,11 +5,15 @@ class ExamService extends BaseService {
     constructor() {
         super()
     }
-    creatExam = (examDetail: ExamDetailFormModel) => {
-        return this.post('Exam/CreateExam', examDetail)
+    creatExam = (examDetail: FormData) => {
+        return this.post('exams/create', examDetail)
     }
-    updateExam = (examDetail: ExamDetailFormModel) => {
-        return this.put('Exam/UpdateExam', examDetail)
+    editExam = (examDetail: FormData) => {
+        return this.post('exams/edit', examDetail)
     }
+    deleteExam=(examID:number)=>{
+        return this.delete('exams/delete',examID)
+    }
+
 }
 export const examService = new ExamService()

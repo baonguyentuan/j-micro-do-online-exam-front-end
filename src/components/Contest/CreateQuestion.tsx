@@ -4,6 +4,7 @@ import { PlusCircleOutlined, DeleteOutlined, CheckOutlined, EditOutlined, CloseC
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
 import { QuestionRowModel } from '../../_core/ExamModel';
+import { useTranslation } from 'react-i18next';
 const { TextArea } = Input
 type Props = {
     questionList: QuestionRowModel[],
@@ -22,11 +23,11 @@ let QuestionFormDefaultValue: QuestionRowModel = {
 }
 function CreateQuestion({ questionList, setLstQuestion, questionError, isNewQuestion, setIsNewQuestion }: Props) {
     let [tempQuestion, setTempQuestion] = useState<QuestionRowModel>(QuestionFormDefaultValue)
-
+    let { t } = useTranslation("contest")
     let [editId, setEditId] = useState<number>(-1)
     let [disableAddQuestion, setDisableAddQuestion] = useState<boolean>(false)
     let locale = {
-        emptyText: 'No question'
+        emptyText: t('exam.No question')
     }
     const formik = useFormik({
         initialValues: QuestionFormDefaultValue,
@@ -35,15 +36,15 @@ function CreateQuestion({ questionList, setLstQuestion, questionError, isNewQues
             console.log(formValue);
         },
         validationSchema: Yup.object({
-            question: Yup.string().required('Question is required'),
-            point: Yup.number().typeError('Point is number').min(1, 'Point min is 1'),
-            correctAnswer: Yup.array().min(1, 'You must choose correct answer'),
-            answer: Yup.array().min(2, 'Each question have 2 minium answer').of(Yup.string().required('Answer is required'))
+            question: Yup.string().required(t('exam.Question is required')),
+            point: Yup.number().typeError(t('exam.Point is number')).min(1, t('exam.minium point is 1')),
+            correctAnswer: Yup.array().min(1, t('exam.You must choose correct answers')),
+            answer: Yup.array().min(2, t('exam.Each question have at least 2 answers')).of(Yup.string().required(t('exam.Answer is required')))
         })
     })
     const renderErrorAnswer = () => {
         if (Array.isArray(formik.errors.answer)) {
-            return 'Answer is required'
+            return t('exam.Answer is required')
         } else {
             return formik.errors.answer
         }
@@ -181,7 +182,7 @@ function CreateQuestion({ questionList, setLstQuestion, questionError, isNewQues
     }
     const columns = [
         {
-            title: 'ID',
+            title: t('exam.numerical order'),
             key: 'id',
             width: '5%',
             render: (text: string, record: QuestionRowModel, index: number) => (
@@ -189,7 +190,7 @@ function CreateQuestion({ questionList, setLstQuestion, questionError, isNewQues
             )
         },
         {
-            title: 'Question',
+            title: t('exam.Question'),
             key: 'question',
             width: '87%',
             render: (text: string, record: QuestionRowModel, index: number) => {
@@ -254,7 +255,7 @@ function CreateQuestion({ questionList, setLstQuestion, questionError, isNewQues
             }
         },
         {
-            title: 'Action',
+            title: t('exam.Action'),
             key: 'action',
             width: '8%',
             render: (text: string, record: QuestionRowModel, index: number) => {
