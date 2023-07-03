@@ -34,7 +34,7 @@ code {
   @apply right-0 top-1/2 translate-x-1/2 ;
 }
 .btn__banner{
-  @apply h-auto text-xl text-white font-semibold px-6 py-2 ;
+  @apply h-auto text-base text-white font-semibold px-6 py-2 ;
   background: linear-gradient(90deg,#fb0,#f80);
 }
 .btn__banner:hover{

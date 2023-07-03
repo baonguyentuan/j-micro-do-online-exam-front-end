@@ -21,3 +21,14 @@ export interface QuestionContestModel {
     answer: string[],
     point: number,
 }
+
+export interface ExamCardInfoModel{
+    id: number
+    categoryID: number
+    image: string,
+    examName: string,
+    duration: number,
+    categoryName: string,
+    downloadNumber: number,
+    description: string,
+}

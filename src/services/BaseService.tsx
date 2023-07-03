@@ -35,6 +35,16 @@ export class BaseService{
             headers: { "Authorization": "Bearer " + localStorage.getItem(TOKEN) }
         })
     }
+
+    getByParams(url:string,model:any){
+        return axios({
+            url: `${DOMAIN}/${url}`,
+            method: 'GET',
+            params: model,
+            headers: { "Authorization": "Bearer " + localStorage.getItem(TOKEN) }
+        })
+    }
+
     delete(url:string,id:number) {
         return axios({
             url: `${DOMAIN}/${url}`,

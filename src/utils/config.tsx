@@ -1,5 +1,5 @@
 import { createBrowserHistory } from "history"
-export const DOMAIN = 'http://localhost:8763/api/v1/'
+export const DOMAIN = 'http://localhost:8763/api/v1'
 export const history = createBrowserHistory(window)
 export const STATUS_CODE = {
     SUCCESS: 200,

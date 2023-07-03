@@ -48,9 +48,9 @@ const HotContest = (props: Props) => {
                         },
                     }}
                 >
-                    {arrHotContest.map((contestItem, index) => {
-                        return <SwiperSlide key={contestItem.id}><CardCourse contestDetail={contestItem} /> </SwiperSlide>
-                    })}
+                    {/*{arrHotContest.map((contestItem, index) => {*/}
+                    {/*    return <SwiperSlide key={contestItem.id}><CardCourse contestDetail={contestItem} /> </SwiperSlide>*/}
+                    {/*})}*/}
                 </Swiper>
                 <Button className='customNavigationSlide customPrevSlide'><LeftCircleOutlined style={{ transform: 'translateY(-6px)' }} /></Button>
                 <Button className='customNavigationSlide customNextSlide'><RightCircleOutlined style={{ transform: 'translateY(-6px)' }} /></Button>
