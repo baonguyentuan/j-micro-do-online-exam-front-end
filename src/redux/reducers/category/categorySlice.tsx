@@ -43,12 +43,12 @@ export const getCategoryOptionApi = () => {
     return async (dispatch: DispatchType) => {
       await dispatch(setLoading({ isLoading: true }))
       try {
-        const result = await categoryService.updateCategoryById(idCategory)
-        if (result.status === STATUS_CODE.SUCCESS) {
-          dispatch(getCategoryOptionApi())
-        } else {
-          console.log(result);
-        }
+        // const result = await categoryService.updateCategoryById(idCategory)
+        // if (result.status === STATUS_CODE.SUCCESS) {
+        //   dispatch(getCategoryOptionApi())
+        // } else {
+        //   console.log(result);
+        // }
       } catch (err) {
         console.log(err);
       }

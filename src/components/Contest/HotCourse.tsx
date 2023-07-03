@@ -55,8 +55,8 @@ const HotContest = (props: Props) => {
                 <Button className='customNavigationSlide customPrevSlide'><LeftCircleOutlined style={{ transform: 'translateY(-6px)' }} /></Button>
                 <Button className='customNavigationSlide customNextSlide'><RightCircleOutlined style={{ transform: 'translateY(-6px)' }} /></Button>
             </div>
-            <div className='w-full flex justify-center max-sc'>
-                <Button className='mt-4 btn__banner'>{t('cardCourse.more courses')}</Button>
+            <div className='w-full flex justify-center max-sc mt-2'>
+                <Button className='mt-4 btn__banner'><NavLink to={'/training_course'}>{t('cardCourse.more courses')}</NavLink></Button>
             </div>
         </div >
     )

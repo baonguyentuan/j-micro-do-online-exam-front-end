@@ -26,11 +26,12 @@
 }
 /* card statistics */
 .card__icon__title{
-    width: 80px;
-    height: 80px;
-    padding: 0 6px;
+    width: 50px;
+    height: 50px;
+    color: #1d6eb7;
+    padding: 1.2rem;
     border-radius: 10px;
-    color: #03a9f4;
+    background-color: rgba(0,0,0,0.1);
     box-shadow: inset 6px 6px 10px 0 rgba(0, 0, 0, 0.2),
     inset -6px -6px 10px 0 rgba(255, 255, 255, 0.5);
 }

@@ -10,6 +10,9 @@ import { RootState } from '../../redux/configStore';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { getLstHotContest } from '../../redux/reducers/contest/contestSlice';
+import {Navigation} from "swiper";
+import CardCourse from "../../components/Card/CardContest";
+import {LeftCircleOutlined, RightCircleOutlined} from "@ant-design/icons";
 type Props = {}
 
 function TrainingCourses(props: Props) {
@@ -25,65 +28,47 @@ function TrainingCourses(props: Props) {
     useEffect(()=>{
         dispatch(getLstHotContest())
     })
+
     return (
         <div>
-            <Breadcrumb items={items} />
-            <div className='size__component py-6'>
-                <div>
-                    <h3 className='text__title'>Amazon</h3>
-                </div>
-                <div className='pt-8'>
-                    <Swiper
-                        spaceBetween={50}
-                        slidesPerView={4}
-                        navigation={true}
-                    >
-                        {arrHotContest.map((contestItem, index) => {
-                            return <SwiperSlide key={contestItem.id}><CardContest contestDetail={contestItem} /> </SwiperSlide>
-                        })}
-                    </Swiper>
-                </div>
-                <div className='w-full flex justify-center'>
-                    <Button className='mt-4 btn__banner'>{t('cardCourse.more courses')}</Button>
-                </div>
+            <div className='size__component'>
+                <Breadcrumb items={items} />
             </div>
             <div className='size__component py-6'>
-                <div>
-                    <h3 className='text__title'>Microsoft</h3>
-                </div>
-                <div className='pt-8'>
+                <h3 className='text-2xl font-bold'>Amazon</h3>
+                <div className='pt-4 relative'>
                     <Swiper
-                        spaceBetween={50}
-                        slidesPerView={4}
-                        navigation={true}
+                        spaceBetween={30}
+                        slidesPerView={1}
+                        modules={[Navigation]}
+                        navigation={{
+                            prevEl: '.customPrevSlide',
+                            nextEl: '.customNextSlide',
+                        }}
+                        breakpoints={{
+                            1280: {
+                                slidesPerView: 4,
+
+                            },
+                            1084: {
+                                slidesPerView: 3,
+                            },
+                            640: {
+                                slidesPerView: 2,
+                            },
+                        }}
                     >
                         {arrHotContest.map((contestItem, index) => {
-                            return <SwiperSlide key={contestItem.id}><CardContest contestDetail={contestItem} /> </SwiperSlide>
+                            return <SwiperSlide key={contestItem.id}><CardCourse contestDetail={contestItem} /> </SwiperSlide>
                         })}
                     </Swiper>
+                    <Button className='customNavigationSlide customPrevSlide'><LeftCircleOutlined style={{ transform: 'translateY(-6px)' }} /></Button>
+                    <Button className='customNavigationSlide customNextSlide'><RightCircleOutlined style={{ transform: 'translateY(-6px)' }} /></Button>
                 </div>
                 <div className='w-full flex justify-center'>
                     <Button className='mt-4 btn__banner'>{t('cardCourse.more courses')}</Button>
                 </div>
-            </div>
-            <div className='size__component py-6'>
-                <div>
-                    <h3 className='text__title'>Oracle</h3>
-                </div>
-                <div className='pt-8'>
-                    <Swiper
-                        spaceBetween={50}
-                        slidesPerView={4}
-                        navigation={true}
-                    >
-                        {arrHotContest.map((courseItem, index) => {
-                            return <SwiperSlide key={courseItem.id}><CardContest contestDetail={courseItem} /> </SwiperSlide>
-                        })}
-                    </Swiper>
-                </div>
-                <div className='w-full flex justify-center'>
-                    <Button className='mt-4 btn__banner'>{t('cardCourse.more courses')}</Button>
-                </div>
+
             </div>
         </div>
     );

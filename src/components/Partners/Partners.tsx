@@ -9,17 +9,16 @@ import linuxLogo from '../../assets/img/logo/Linux_Logo.svg'
 import oracleLogo from '../../assets/img/logo/oracle-logo.svg'
 import teraformLogo from '../../assets/img/logo/terraform-logo.svg'
 import moreLogo from '../../assets/img/logo/more-svgrepo-com.svg'
+import {NavLink} from 'react-router-dom'
+import {useTranslation} from 'react-i18next'
 
-import { Button } from 'antd'
-import { NavLink } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
 type Props = {}
 
 const Partners = (props: Props) => {
     const {t}=useTranslation('partner')
     return (
-        <div className='size__component py-12 '>
-            <h1 className='text__title'>{t('partnering with world\'s leading universities and companies')}</h1>
+        <div className='size__component py-16 '>
+            <h1 className='text__title mb-12'>{t('partnering with world\'s leading universities and companies')}</h1>
         <div className='grid lg:grid-cols-8 sm:grid-cols-4 md:grid-cols-6 grid-cols-3 gap-4 mt-8' >
             <NavLink to={'/home'} className='box__partner'>
                 <img className='logo__partner' src={awsLogo} alt="logo" />
