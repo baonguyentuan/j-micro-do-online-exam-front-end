@@ -746,7 +746,7 @@ const contestSlice = createSlice({
     setAnswer: (state: ContestState, action: PayloadAction<{ questionIndex: number, answerIndex: number, type: string, checked: boolean }>) => {
       let newLstAnswer = [...state.lstAnswer]
       if (action.payload.type === 'multi') {
-        if (action.payload.checked === true) {
+        if (action.payload.checked) {
           newLstAnswer[action.payload.questionIndex].answerSelected.push(action.payload.answerIndex)
         } else {
           let findAnswerIndex = state.lstAnswer[action.payload.questionIndex].answerSelected.findIndex(answer => answer === action.payload.answerIndex)
@@ -755,7 +755,7 @@ const contestSlice = createSlice({
           }
         }
       } else {
-        if (state.lstAnswer[action.payload.questionIndex].answerSelected.length = 0) {
+        if (state.lstAnswer[action.payload.questionIndex].answerSelected.length == 0) {
           newLstAnswer[action.payload.questionIndex].answerSelected.push(action.payload.answerIndex)
         } else {
           newLstAnswer[action.payload.questionIndex].answerSelected[0] = action.payload.answerIndex
