@@ -31,15 +31,14 @@ export class BaseService{
         return axios({
             url: `${DOMAIN}/${url}`,
             method: 'GET',
-            data: model,
+            params: model,
             headers: { "Authorization": "Bearer " + localStorage.getItem(TOKEN) }
         })
     }
     delete(url:string,id:number) {
         return axios({
-            url: `${DOMAIN}/${url}`,
+            url: `${DOMAIN}/${url}?id=${id}`,
             method: 'DELETE',
-            data: id,
             headers: { "Authorization": "Bearer " + localStorage.getItem(TOKEN) }
         })
     }

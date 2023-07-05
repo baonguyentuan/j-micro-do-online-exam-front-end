@@ -26,7 +26,7 @@ export default function HeaderTitle({ }: Props) {
     {
       key: '2',
       label: (
-        <NavLink to={'/premium'}><span>{t('premium')}: </span><span className='premium__type'>{userInfo?.userPremium.toLocaleUpperCase()}</span></NavLink>
+        <NavLink to={'/premium'}><span>{t('premium')}: </span><span className='premium__type'>{userInfo?.roles?.find(roleItem => roleItem === 'USER_PREMIUM' || roleItem === "ADMIN") ? "PREMIUM" : "FREE"}</span></NavLink>
       ),
     },
     {
@@ -77,7 +77,7 @@ export default function HeaderTitle({ }: Props) {
         <Dropdown className='lg:block hidden' menu={{ items }} placement="bottom">
           <a onClick={(e) => e.preventDefault()}>
             <Space>
-              <Avatar shape="square" size="small" icon={<UserOutlined />} /><span>{userInfo.userName}</span>
+              <Avatar shape="square" size="small" icon={<UserOutlined />} /><span>{userInfo.username}</span>
               <DownOutlined className='-translate-y-1' />
             </Space>
           </a>
@@ -94,8 +94,8 @@ export default function HeaderTitle({ }: Props) {
   };
   window.addEventListener("beforeunload", function (e) {
     console.log(e);
-    
-})
+
+  })
   useEffect(() => {
     let checkNewNotify = arrNotify.findIndex(noti => noti.readStatus === false)
     if (checkNewNotify !== -1) {

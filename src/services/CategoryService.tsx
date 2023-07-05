@@ -7,7 +7,7 @@ class CategoryService extends BaseService {
     getAllCategory = () => {
         return this.get('exams/categories/options')
     }
-    getCategoryDetail=(idCategory:string)=>{
+    getCategoryDetail=(idCategory:number)=>{
         return this.getByCondition('exams/categories/detail',idCategory)
     }
 }

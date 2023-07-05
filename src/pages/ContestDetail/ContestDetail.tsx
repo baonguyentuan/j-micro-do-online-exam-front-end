@@ -45,7 +45,7 @@ const ContestDetail = ({ }: Props) => {
         onSubmit: async (formValue) => {
             if (userInfo) {
                 await dispatch(sendContestComment({
-                    userId: userInfo?.userId,
+                    userId: userInfo?.id,
                     comment: formValue.comment,
                     vote: formValue.vote
                 }))
@@ -87,7 +87,7 @@ const ContestDetail = ({ }: Props) => {
 
     }
     const renderButtonContest = () => {
-        if (userInfo && userInfo.userPremium === 'premium') {
+        if (userInfo && userInfo.roles.find(roleItem => roleItem === 'USER_PREMIUM' || roleItem === 'ADMIN')) {
             return <div className='flex justify-start items-center'>
                 <Button className='btn__contest' >{t('detail.go to contest')}</Button>
                 <span>{t('detail.or')}</span>
@@ -136,7 +136,7 @@ const ContestDetail = ({ }: Props) => {
             <div className='grid grid-cols-6 gap-10 mb-6' >
                 <div className='xl:col-span-2 lg:col-span-3 col-span-6 relative'>
                     <img style={{ height: 400, width: '100%' }} src={contestDetail?.imgSrc} alt={contestDetail?.name} />
-                    <div className={`course__premiumTag premiumTag ${contestDetail?.premium === 'free' ? 'color__free' : 'color__premium'}`}>{userInfo?.userPremium.toLocaleUpperCase()}</div>
+                    <div className={`course__premiumTag premiumTag ${contestDetail?.premium === 'free' ? 'color__free' : 'color__premium'}`}>{contestDetail?.premium.toLocaleUpperCase()}</div>
                 </div>
                 <div className='xl:col-span-4 lg:col-span-3 col-span-6'>
                     <h1 className='font-bold text-xl mb-2'>{contestDetail?.name}</h1>

@@ -8,7 +8,8 @@ export interface QuestionRowModel {
 }
 export interface ExamDetailFormModel {
     name: string,
-    category: string[],
+    category: number | null,
+    examType:string,
     description: string,
     duration: number,
     question: QuestionRowModel[],
@@ -20,4 +21,18 @@ export interface QuestionContestModel {
     type: string,
     answer: string[],
     point: number,
+}
+export interface QuestionExamSubmitModel {
+    questionType: string,
+    questionPoint: number,
+    question: string,
+    answers: string[],
+    correctAnswers: number[]
+}
+export interface ExamOptionModel{
+    id:number,
+    name:string
+}
+export interface ExamStateModel{
+    lstOptionExam:ExamOptionModel[]
 }

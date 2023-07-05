@@ -214,8 +214,6 @@ function CreateQuestion({ questionList, setLstQuestion, questionError, isNewQues
                                     placeholder="Please select"
                                     value={formik.values.type}
                                     onChange={(value) => {
-                                        console.log(value);
-
                                         formik.setFieldValue('type', value)
                                         let lstQuestionUpdate = JSON.parse(JSON.stringify(questionList))
                                         let indexQuestion = questionList.findIndex(question => question.id === record.id)

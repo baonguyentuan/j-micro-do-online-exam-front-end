@@ -17,11 +17,11 @@ const HeaderNavbarMobile = (props: Props) => {
             return <div>
                 <p className='flex items-center'>
                     <Avatar shape="square" size="small" icon={<UserOutlined />} />
-                    <span className='text-base ml-2'>{userInfo.userName}</span>
+                    <span className='text-base ml-2'>{userInfo.username}</span>
                 </p>
                 <div className='pl-4'>
                     <NavLink className='block text-base py-1 ' to={'/account:id'}>{t('account')}</NavLink>
-                    <NavLink className='block text-base py-1' to={'/premium'}><span>{t('premium')}: </span><span className='premium__type'>{userInfo?.userPremium.toLocaleUpperCase()}</span></NavLink>
+                    <NavLink className='block text-base py-1' to={'/premium'}><span>{t('premium')}: </span><span className='premium__type'>{userInfo?.roles?.find(roleItem => roleItem === 'USER_PREMIUM' || roleItem === "ADMIN") ? "PREMIUM" : "FREE"}</span></NavLink>
                     <NavLink className='block text-base py-1' to={'/uploadexam'}>{t('upload exam')}</NavLink>
                     <Button type='link' className='w-full text-left pl-0 text-base py-1'>{t('logout')}</Button>
                 </div>
@@ -29,8 +29,8 @@ const HeaderNavbarMobile = (props: Props) => {
 
         } else {
             return <div>
-<NavLink to={'/login'} className='block text-base py-1 font-semibold'>{t('signin')}</NavLink>
-            <NavLink to={'/register'} className='block text-base py-1 font-semibold'>{t('signup')}</NavLink>
+                <NavLink to={'/login'} className='block text-base py-1 font-semibold'>{t('signin')}</NavLink>
+                <NavLink to={'/register'} className='block text-base py-1 font-semibold'>{t('signup')}</NavLink>
             </div>
         }
 
