@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 const { Sider } = Layout;
 
 interface SideBarProps {
-  onSelectOption: (option: string) => void;
+  onSelectOption: (options: string) => void;
 }
 
 const SideBar: React.FC<SideBarProps> = ({ onSelectOption }) => {
@@ -25,6 +25,7 @@ const SideBar: React.FC<SideBarProps> = ({ onSelectOption }) => {
       <Menu theme="dark" mode="inline" onClick={handleClick}>
         <Menu.Item key="report" icon={<AreaChartOutlined />}>Analytics</Menu.Item>
         <Menu.Item key="user-management" icon={<TeamOutlined />}>User Management</Menu.Item>
+        <Menu.Item key="role" icon={<TeamOutlined />}>Role</Menu.Item>
         <Menu.Item key="logout" icon={<LogoutOutlined />}>
           <NavLink to={'/login'}>Logout</NavLink>
         </Menu.Item>

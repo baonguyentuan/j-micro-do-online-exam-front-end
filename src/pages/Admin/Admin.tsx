@@ -2,21 +2,32 @@ import React, { useState } from 'react';
 import { Layout, Space, Typography } from 'antd';
 import SideBar from '../../components/SideBar/SideBar';
 import AdminUser from '../AdminUser/AdminUser';
+import Role from '../Role';
 
 const { Content } = Layout;
 
-const Admin: React.FC = () => {
-  const [selectedOption, setSelectedOption] = useState('user-management');
+type Option = {
+  key: string;
+  component: React.ReactNode;
+};
 
-  const handleSelectOption = (option: string) => {
-    setSelectedOption(option);
+const Admin: React.FC = () => {
+  const options: Option[] = [
+    { key: 'role', component: <Role /> },
+    { key: 'user-management', component: <AdminUser /> }
+  ];
+
+  const [selectedOption, setSelectedOption] = useState<string>(options[0].key);
+
+  const handleSelectOption = (optionKey: string) => {
+    setSelectedOption(optionKey);
   };
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <SideBar onSelectOption={handleSelectOption} />
       <Layout className="site-layout">
-        <Space direction="vertical" size="large" style={{width:"100%" }}>
+        <Space direction="vertical" size="large" style={{ width: "100%" }}>
           <div style={{
             width: "100%",
             height: "7vh",
@@ -36,8 +47,13 @@ const Admin: React.FC = () => {
           </div>
         </Space>
         <Content style={{ margin: '16px' }}>
-          {selectedOption === 'user-management' && <AdminUser />}
+          {options.map((option) =>
+            selectedOption === option.key && (
+              <div key={option.key}>{option.component}</div>
+            )
+          )}
         </Content>
+
       </Layout>
     </Layout>
   );

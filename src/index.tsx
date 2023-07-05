@@ -21,6 +21,7 @@ import CreateContest from './pages/CreateContest/CreateContest';
 import CreateExam from './pages/CreateExam/CreateExam';
 import Contesting from './pages/Contesting/Contesting';
 import TrainingCoursesByCategory from "./pages/TrainingCourses/TrainingCoursesByCategory";
+import Role from './pages/Role';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -36,7 +37,7 @@ root.render(
           <Route path='contesting/:contestId' element={<Contesting />}></Route>
           <Route path='create_contest' element={<CreateContest />}></Route>
           <Route path='training_course' element={<TrainingCourses />} />
-          <Route path='training_course/:categoryId' element={<TrainingCoursesByCategory/>}/>
+          <Route path='training_course/:categoryId' element={<TrainingCoursesByCategory />} />
           <Route path='create_exam' element={<CreateExam />} />
           <Route path='blog' element={<BlogList />} />
           <Route path='contact' element={<Contact />} />
@@ -44,6 +45,7 @@ root.render(
         </Route>
         <Route path='/admin_user' element={<AdminUser />} />
         <Route path='/admin' element={<Admin />} />
+        <Route path='/role' element={<Role />} />
       </Routes>
     </HistoryRouter >
   </Provider>

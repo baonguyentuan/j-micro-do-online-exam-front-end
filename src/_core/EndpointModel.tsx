@@ -1,4 +1,4 @@
-export interface EndpointDetailModel{
-    id:number,
-    endPointPath:string
+export interface EndpointDetailModel {
+    id: number,
+    endPointPath: string
 }
