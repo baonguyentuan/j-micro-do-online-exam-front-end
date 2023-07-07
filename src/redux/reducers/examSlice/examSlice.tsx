@@ -7,7 +7,9 @@ import { examService } from '../../../services/ExamService';
 import { STATUS_CODE } from '../../../utils/config';
 
 const initialState: ExamStateModel = {
-  lstOptionExam: []
+  // examModify:
+  lstOptionExam: [],
+  examType:'PRIVATE'
 }
 
 const examSlice = createSlice({
@@ -17,10 +19,13 @@ const examSlice = createSlice({
     getOptionExam: (state: ExamStateModel, action: PayloadAction<{ lstOptionExam: ExamOptionModel[] }>) => {
       state.lstOptionExam = action.payload.lstOptionExam
     },
+    getExamType:(state: ExamStateModel, action: PayloadAction<{ examType: string}>)=>{
+        state.examType=action.payload.examType
+    }
   }
 });
 
-export const { getOptionExam } = examSlice.actions
+export const { getOptionExam,getExamType } = examSlice.actions
 
 export default examSlice.reducer
 export const createExamApi = (examDetail: FormData) => {

@@ -1,14 +1,14 @@
 export interface QuestionRowModel {
     id: number,
     question: string,
-    type: string,
-    answer: string[],
-    point: number,
-    correctAnswer: number[]
+    questionType: string,
+    answers: string[],
+    questionPoint: number,
+    correctAnswers: number[]
 }
 export interface ExamDetailFormModel {
-    name: string,
-    category: number | null,
+    title: string,
+    categoryId: number | null,
     examType:string,
     description: string,
     duration: number,
@@ -34,5 +34,7 @@ export interface ExamOptionModel{
     name:string
 }
 export interface ExamStateModel{
-    lstOptionExam:ExamOptionModel[]
+    // examModify:ExamDetailFormModel[]
+    lstOptionExam:ExamOptionModel[],
+    examType:string
 }

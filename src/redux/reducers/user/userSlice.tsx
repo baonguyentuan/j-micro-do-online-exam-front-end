@@ -1,9 +1,10 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { UserInfoModel, UserStateModel } from '../../../_core/UserModel';
 import { DispatchType } from '../../configStore';
-import { userService } from '../../../services/UserService';
+import { authService } from '../../../services/AuthService';
 import { STATUS_CODE } from '../../../utils/config';
 import { setLoading } from '../loading/loadingSlice';
+import { getExamType } from '../examSlice/examSlice';
 
 
 
@@ -28,11 +29,12 @@ export const getUserInfoApi = () => {
     return async (dispatch: DispatchType) => {
         dispatch(setLoading({ isLoading: true }))
         try {
-            const result = await userService.getUserInfo()
-            if (result.status === STATUS_CODE.SUCCESS) { 
-                console.log(result.data.data);
-                 
-                dispatch(getUserInfo({ userInfo: result.data.data }))
+            const result = await authService.getUserInfo()
+            if (result.status === STATUS_CODE.SUCCESS) {
+                let useInfoGet:UserInfoModel=result.data.data
+                await dispatch(getUserInfo({ userInfo:useInfoGet }))
+                let examType = useInfoGet.roles.find(roleItem => roleItem === "ADMIN") ? 'FREE' : 'PRIVATE'
+                await dispatch(getExamType({examType}))
             } else {
                 console.log(result);
             }
