@@ -7,15 +7,14 @@ import FooterCopyright from '../components/Footer/FooterCopyright';
 import Loading from '../components/Loading/Loading';
 import { useDispatch } from 'react-redux';
 import { setLoading } from '../redux/reducers/loading/loadingSlice';
+import { DispatchType } from '../redux/configStore';
+import { getUserInfoApi } from '../redux/reducers/user/userSlice';
 type Props = {}
 
 export default function HomeLayout({ }: Props) {
-    const dispatch = useDispatch()
+    const dispatch: DispatchType = useDispatch()
     useEffect(() => {
-        dispatch(setLoading({ isLoading: true }))
-        setTimeout(()=>{
-            dispatch(setLoading({isLoading:false}))
-        },100)
+        dispatch(getUserInfoApi())
     }, [])
     return (
         <div className='relative'>

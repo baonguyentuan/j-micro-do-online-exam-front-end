@@ -8,8 +8,9 @@ import loadingSlice from "./reducers/loading/loadingSlice";
 import contestCommentSlice from "./reducers/comment/contestCommentSlice";
 import blogSlice from './reducers/blog/blogSlice';
 import adminUserSlice from './reducers/adminUser/adminUserSlice';
-import examSlice from "./reducers/examSlice/examSlice";
+import examSlice from "./reducers/exam/examSlice";
 import categorySlice from "./reducers/category/categorySlice";
+import drawerSlice from "./reducers/drawer/drawerSlice";
 export const store = configureStore({
     reducer: {
         loadingSlice,
@@ -21,7 +22,8 @@ export const store = configureStore({
         blogSlice,
         adminUserSlice,
         contestCommentSlice,
-        categorySlice
+        categorySlice,
+        drawerSlice
     }
 })
 

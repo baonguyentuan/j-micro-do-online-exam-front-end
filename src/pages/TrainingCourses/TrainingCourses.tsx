@@ -6,7 +6,7 @@ import {Button} from 'antd';
 import {useDispatch, useSelector} from 'react-redux';
 import {DispatchType, RootState} from '../../redux/configStore';
 import {useTranslation} from 'react-i18next';
-import {getExamsApi, getExamsByCategoryApi} from '../../redux/reducers/examSlice/examSlice'
+import {getExamsApi, getExamsByCategoryApi} from '../../redux/reducers/exam/examSlice'
 import {Navigation} from "swiper";
 import CardCourse from "../../components/Card/CardContest";
 import {LeftCircleOutlined, RightCircleOutlined} from "@ant-design/icons";

@@ -20,6 +20,7 @@ import { history } from './utils/config';
 import CreateContest from './pages/CreateContest/CreateContest';
 import CreateExam from './pages/CreateExam/CreateExam';
 import Contesting from './pages/Contesting/Contesting';
+import Account from './pages/Account/Account';
 import TrainingCoursesByCategory from "./pages/TrainingCourses/TrainingCoursesByCategory";
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -40,6 +41,7 @@ root.render(
           <Route path='create_exam' element={<CreateExam />} />
           <Route path='blog' element={<BlogList />} />
           <Route path='contact' element={<Contact />} />
+          <Route path='account' element={<Account/>}/>
           <Route path='*' element={<Home />}></Route>
         </Route>
         <Route path='/admin_user' element={<AdminUser />} />

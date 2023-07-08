@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {useParams} from "react-router-dom";
 import {DispatchType, RootState} from "../../redux/configStore";
 import {useDispatch, useSelector} from "react-redux";
-import {getExamsApi} from "../../redux/reducers/examSlice/examSlice";
+import {getExamsApi} from "../../redux/reducers/exam/examSlice";
 
 type Props = {}
 

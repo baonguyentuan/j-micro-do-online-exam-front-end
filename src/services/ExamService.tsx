@@ -1,5 +1,6 @@
-import {BaseService} from "./BaseService"
 
+import { BaseService } from "./BaseService"
+import { ENDPOINT_PATH } from "../utils/config"
 
 export interface ExamSearchParams{
     name: string | null
@@ -17,13 +18,16 @@ class ExamService extends BaseService {
         super()
     }
     creatExam = (examDetail: FormData) => {
-        return this.post('exams/create', examDetail)
+        return this.post(ENDPOINT_PATH.EXAM.CREATE_EXAM, examDetail)
+    }
+    getExamOption=()=>{
+        return this.get(ENDPOINT_PATH.EXAM.GET_EXAM_OPTION)
     }
     editExam = (examDetail: FormData) => {
-        return this.post('exams/edit', examDetail)
+        return this.post(ENDPOINT_PATH.EXAM.EDIT_EXAM, examDetail)
     }
     deleteExam=(examID:number)=>{
-        return this.delete('exams/delete',examID)
+        return this.delete(ENDPOINT_PATH.EXAM.DELETE_EXAM,examID)
     }
 
     getExamByCategory = () =>{

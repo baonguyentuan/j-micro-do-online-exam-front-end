@@ -4,193 +4,212 @@ import { UploadOutlined } from '@ant-design/icons';
 import type { SelectProps } from 'antd';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
-import { ExamDetailFormModel, QuestionRowModel } from '../../_core/ExamModel';
-import CreateQuestion from '../../components/Contest/CreateQuestion';
+import { ExamDetailFormModel, QuestionExamSubmitModel, QuestionRowModel } from '../../_core/ExamModel';
+import CreateQuestion from '../../components/Exam/CreateQuestion';
 import { MAX_DURATION_EXAM, MAX_QUESTION_EXAM, MIN_DURATION_EXAM, MIN_QUESTION_EXAM } from '../../utils/config';
-import { DispatchType } from '../../redux/configStore';
+import { DispatchType, RootState } from '../../redux/configStore';
 import { useDispatch } from 'react-redux';
-import { createExamApi } from '../../redux/reducers/examSlice/examSlice';
+import { createExamApi } from '../../redux/reducers/exam/examSlice';
 import { useTranslation } from 'react-i18next';
-import { getEndpointOptionApi } from '../../redux/reducers/endpoint/endpointSlice';
 import { getCategoryOptionApi } from '../../redux/reducers/category/categorySlice';
+import { useSelector } from 'react-redux';
 const { TextArea } = Input
 type Props = {}
-let ExamDetailDefaultValue: ExamDetailFormModel = {
-    name: '',
-    category: [],
-    description: '',
-    duration: MIN_DURATION_EXAM,
-    question: [
-        {
-            "id": 1,
-            "question": "Choose the word which is stressed differently from the rest.",
-            "answer": ["access", "afford", "brochure", "casual"],
-            "type": "single",
-            "correctAnswer": [0],
-            "point": 1
-        },
-        {
-            "id": 2,
-            "question": "Choose the word which is stressed differently from the rest.",
-            "answer": [
-                "behaviour",
-                "determined",
-                "counselor",
-                "decisive"
-            ],
-            "type": "single",
-            "correctAnswer": [0],
-            "point": 1
-        },
-        {
-            "id": 3,
-            "question": "Choose the word which is stressed differently from the rest.",
-            "answer": [
-                "donate",
-                "compare",
-                "campaign",
-                "flashy"
-            ],
-            "type": "multi",
-            "correctAnswer": [0, 3],
-            "point": 1
-        },
-        {
-            "id": 4,
-            "question": "Choose the word which is stressed differently from the rest.",
-            "answer": ["access", "afford", "brochure", "casual"],
-            "type": "single",
-            "correctAnswer": [0],
-            "point": 1
-        },
-        {
-            "id": 5,
-            "question": "Choose the word which is stressed differently from the rest.",
-            "answer": [
-                "behaviour",
-                "determined",
-                "counselor",
-                "decisive"
-            ],
-            "type": "single",
-            "correctAnswer": [0],
-            "point": 1
-        },
-        {
-            "id": 6,
-            "question": "Choose the word which is stressed differently from the rest.",
-            "answer": [
-                "donate",
-                "compare",
-                "campaign",
-                "flashy"
-            ],
-            "type": "multi",
-            "correctAnswer": [0, 3],
-            "point": 1
-        },
-        {
-            "id": 7,
-            "question": "Choose the word which is stressed differently from the rest.",
-            "answer": ["access", "afford", "brochure", "casual"],
-            "type": "single",
-            "correctAnswer": [0],
-            "point": 1
-        },
-        {
-            "id": 8,
-            "question": "Choose the word which is stressed differently from the rest.",
-            "answer": [
-                "behaviour",
-                "determined",
-                "counselor",
-                "decisive"
-            ],
-            "type": "single",
-            "correctAnswer": [0],
-            "point": 1
-        },
-        {
-            "id": 9,
-            "question": "Choose the word which is stressed differently from the rest.",
-            "answer": [
-                "donate",
-                "compare",
-                "campaign",
-                "flashy"
-            ],
-            "type": "multi",
-            "correctAnswer": [0, 3],
-            "point": 1
-        },
-        {
-            "id": 10,
-            "question": "Choose the word which is stressed differently from the rest.",
-            "answer": ["access", "afford", "brochure", "casual"],
-            "type": "single",
-            "correctAnswer": [0],
-            "point": 1
-        },
-        {
-            "id": 11,
-            "question": "Choose the word which is stressed differently from the rest.",
-            "answer": [
-                "behaviour",
-                "determined",
-                "counselor",
-                "decisive"
-            ],
-            "type": "single",
-            "correctAnswer": [0],
-            "point": 1
-        },
-        {
-            "id": 12,
-            "question": "Choose the word which is stressed differently from the rest.",
-            "answer": [
-                "donate",
-                "compare",
-                "campaign",
-                "flashy"
-            ],
-            "type": "multi",
-            "correctAnswer": [0, 3],
-            "point": 1
-        },
-    ],
-    file: null
-}
-const options: SelectProps['options'] = [];
-for (let i = 10; i < 36; i++) {
-    options.push({
-        label: i.toString(36) + i,
-        value: i.toString(36) + i,
-    });
-};
+
 const CreateExam = (props: Props) => {
+    const optionsCategory: SelectProps['options'] = [];
     let [isNewQuestion, setIsNewQuestion] = useState<boolean>(false)
+    const { lstCategoryOption } = useSelector((state: RootState) => state.categorySlice)
+    const { userInfo } = useSelector((state: RootState) => state.userSlice)
     const dispatch: DispatchType = useDispatch()
     let { t } = useTranslation("contest")
+    useEffect(() => {
+        dispatch(getCategoryOptionApi())
+    }, [])
+    lstCategoryOption.map((categoryItem, index) => {
+        optionsCategory.push({
+            label: categoryItem.name,
+            value: categoryItem.id,
+        });
+    })
+    console.log(userInfo?.roles?.find(roleItem => roleItem === "ADMIN") ? 'FREE' : 'PRIVATE');
+    
+    let ExamDetailDefaultValue: ExamDetailFormModel = {
+        title: '',
+        categoryId: null,
+        examType: userInfo?.roles?.find(roleItem => roleItem === "ADMIN") ? 'FREE' : 'PRIVATE',
+        description: '',
+        duration: MIN_DURATION_EXAM,
+        question: [
+            {
+                "id": 1,
+                "question": "Choose the word which is stressed differently from the rest.",
+                "answers": ["access", "afford", "brochure", "casual"],
+                "questionType": "SINGLE",
+                "correctAnswers": [0],
+                "questionPoint": 1
+            },
+            {
+                "id": 2,
+                "question": "Choose the word which is stressed differently from the rest.",
+                "answers": [
+                    "behaviour",
+                    "determined",
+                    "counselor",
+                    "decisive"
+                ],
+                "questionType": "SINGLE",
+                "correctAnswers": [0],
+                "questionPoint": 1
+            },
+            {
+                "id": 3,
+                "question": "Choose the word which is stressed differently from the rest.",
+                "answers": [
+                    "donate",
+                    "compare",
+                    "campaign",
+                    "flashy"
+                ],
+                "questionType": "MULTI",
+                "correctAnswers": [0, 3],
+                "questionPoint": 1
+            },
+            {
+                "id": 4,
+                "question": "Choose the word which is stressed differently from the rest.",
+                "answers": ["access", "afford", "brochure", "casual"],
+                "questionType": "SINGLE",
+                "correctAnswers": [0],
+                "questionPoint": 1
+            },
+            {
+                "id": 5,
+                "question": "Choose the word which is stressed differently from the rest.",
+                "answers": [
+                    "behaviour",
+                    "determined",
+                    "counselor",
+                    "decisive"
+                ],
+                "questionType": "SINGLE",
+                "correctAnswers": [0],
+                "questionPoint": 1
+            },
+            {
+                "id": 6,
+                "question": "Choose the word which is stressed differently from the rest.",
+                "answers": [
+                    "donate",
+                    "compare",
+                    "campaign",
+                    "flashy"
+                ],
+                "questionType": "MULTI",
+                "correctAnswers": [0, 3],
+                "questionPoint": 1
+            },
+            {
+                "id": 7,
+                "question": "Choose the word which is stressed differently from the rest.",
+                "answers": ["access", "afford", "brochure", "casual"],
+                "questionType": "SINGLE",
+                "correctAnswers": [0],
+                "questionPoint": 1
+            },
+            {
+                "id": 8,
+                "question": "Choose the word which is stressed differently from the rest.",
+                "answers": [
+                    "behaviour",
+                    "determined",
+                    "counselor",
+                    "decisive"
+                ],
+                "questionType": "SINGLE",
+                "correctAnswers": [0],
+                "questionPoint": 1
+            },
+            {
+                "id": 9,
+                "question": "Choose the word which is stressed differently from the rest.",
+                "answers": [
+                    "donate",
+                    "compare",
+                    "campaign",
+                    "flashy"
+                ],
+                "questionType": "MULTI",
+                "correctAnswers": [0, 3],
+                "questionPoint": 1
+            },
+            {
+                "id": 10,
+                "question": "Choose the word which is stressed differently from the rest.",
+                "answers": ["access", "afford", "brochure", "casual"],
+                "questionType": "SINGLE",
+                "correctAnswers": [0],
+                "questionPoint": 1
+            },
+            {
+                "id": 11,
+                "question": "Choose the word which is stressed differently from the rest.",
+                "answers": [
+                    "behaviour",
+                    "determined",
+                    "counselor",
+                    "decisive"
+                ],
+                "questionType": "SINGLE",
+                "correctAnswers": [0],
+                "questionPoint": 1
+            },
+            {
+                "id": 12,
+                "question": "Choose the word which is stressed differently from the rest.",
+                "answers": [
+                    "donate",
+                    "compare",
+                    "campaign",
+                    "flashy"
+                ],
+                "questionType": "MULTI",
+                "correctAnswers": [0, 3],
+                "questionPoint": 1
+            },
+        ],
+        file: null
+    }
     const formik = useFormik({
         initialValues: ExamDetailDefaultValue,
         onSubmit: (formValue) => {
-            // let formData = new FormData();
-            // for (let key in formValue) {
-
-            //     if (key === 'file') {
-            //         if (formValue.file) {
-            //             formData.append('File', formValue.file, formValue.file?.name)
-            //         }
-            //     } else {
-            //         formData.append(key, formValue[key])
-            //     }
-            // }
-            dispatch(createExamApi(formValue))
+            let formData = new FormData();
+            if (formValue.file) {
+                formData.append('file', formValue.file, formValue.file?.name)
+            }
+            formData.append('title', formValue.title)
+            formData.append('duration ', JSON.stringify(formValue.duration))
+            formData.append('categoryId', JSON.stringify(formValue.categoryId))
+            formData.append('description', formValue.description)
+            formData.append('examType', formValue.examType)
+            let lstCreateQuestion: QuestionExamSubmitModel[] = []
+            formValue.question.map((questionItem, index) => {
+                lstCreateQuestion.push({
+                    questionType: questionItem.questionType.toUpperCase(),
+                    questionPoint: questionItem.questionPoint,
+                    question: questionItem.question,
+                    answers: questionItem.answers,
+                    correctAnswers: questionItem.correctAnswers
+                })
+            })
+            formData.append('questions', JSON.stringify(lstCreateQuestion
+            ))
+            dispatch(createExamApi(formData))
         },
         validationSchema: Yup.object().shape({
-            name: Yup.string().required(t('detail.name is required')),
+            title: Yup.string().required(t('detail.name is required')),
             description: Yup.string().required(t('detail.description is required')),
-            category: Yup.array().required(t('detail.category is required')).min(1, t('detail.category is required')),
+            categoryId: Yup.number().typeError(t('detail.category is required')).required(t('detail.category is required')),
             duration: Yup.number().typeError(t('detail.duration must be number')).required(t('detail.duration is required')).min(MIN_DURATION_EXAM, t('detail.minium duration is {{duration}} min', { duration: MIN_DURATION_EXAM })).max(MAX_DURATION_EXAM, t('detail.maxium duration is {{duration}} min', { duration: MAX_DURATION_EXAM })),
             question: Yup.array().min(MIN_QUESTION_EXAM, t('exam.Each exam have at least {{number}} question', { number: MIN_QUESTION_EXAM })).max(MAX_QUESTION_EXAM, t('exam.Each exam have at max {{number}} question', { number: MAX_QUESTION_EXAM })),
             file: Yup.mixed().required(t('detail.file is required')),
@@ -212,9 +231,7 @@ const CreateExam = (props: Props) => {
         }
         return status
     }
-    useEffect(() => {
-        // dispatch(getCategoryOptionApi())
-    }, [])
+
     return (
         <div className='size__component py-4' style={{ minHeight: '70vh' }}>
             <h1 className='text-center font-bold text-2xl m-4'>{t('exam.Create exam')}</h1>
@@ -222,8 +239,8 @@ const CreateExam = (props: Props) => {
                 <Row gutter={24}>
                     <Col xs={24} sm={24} md={24} lg={12} xl={14} xxl={16}>
                         <Form.Item label={t('detail.name')} labelCol={{ span: 4 }} wrapperCol={{ span: 20 }}>
-                            <Input name='name' onChange={formik.handleChange} value={formik.values.name} />
-                            <p className='mt-1 text-red-500'>{formik.errors.name}</p>
+                            <Input name='title' onChange={formik.handleChange} value={formik.values.title} />
+                            <p className='mt-1 text-red-500'>{formik.errors.title}</p>
                         </Form.Item>
                         <Form.Item label={t('detail.description')} labelCol={{ span: 4 }} wrapperCol={{ span: 22 }}>
                             <TextArea
@@ -238,46 +255,30 @@ const CreateExam = (props: Props) => {
                         <Form.Item label={t('detail.category')} >
                             <Select
                                 style={{ width: '100%' }}
-                                mode='multiple'
-                                allowClear
                                 showSearch
                                 placeholder="Please select"
-                                value={formik.values.category}
-                                filterOption={(input, option) => (option?.label ?? '').includes(input)}
+                                value={formik.values.categoryId}
+                                filterOption={(input, option) => (String(option?.label) ?? '').toLowerCase().includes(input)}
                                 filterSort={(optionA, optionB) =>
-                                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                                    (String(optionA?.label) ?? '').toLowerCase().localeCompare((String(optionB?.label) ?? '').toLowerCase())
                                 }
                                 onChange={(value) => {
-                                    formik.setFieldValue('category', value)
+                                    formik.setFieldValue('categoryId', value)
                                 }}
-                                options={[
-                                    {
-                                        value: '1',
-                                        label: 'Not Identified',
-                                    },
-                                    {
-                                        value: '2',
-                                        label: 'Closed',
-                                    },
-                                    {
-                                        value: '3',
-                                        label: 'Communicated',
-                                    },
-                                    {
-                                        value: '4',
-                                        label: 'Identified',
-                                    },
-                                    {
-                                        value: '5',
-                                        label: 'Resolved',
-                                    },
-                                    {
-                                        value: '6',
-                                        label: 'Cancelled',
-                                    },
-                                ]}
+                                options={optionsCategory}
                             />
-                            <p className='mt-1 text-red-500'>{formik.errors.category}</p>
+                            <p className='mt-1 text-red-500'>{formik.errors.categoryId}</p>
+                        </Form.Item>
+                        <Form.Item label={'Exam type'}>
+                            <Select
+                                style={{ width: 100 }}
+                                value={formik.values.examType}
+                                onChange={(value) => {
+                                    formik.setFieldValue('examType', value)
+                                }
+                                }
+                                options={userInfo?.roles?.find(roleItem => roleItem === "ADMIN") ? [{ label: 'FREE', value: 'FREE' }, { label: 'PREMIUM', value: 'PREMIUM' }] : [{ label: 'PRIVATE', value: 'PRIVATE' }]}
+                            />
                         </Form.Item>
                         <Form.Item label={t('detail.duration')}>
                             <InputNumber
@@ -293,17 +294,21 @@ const CreateExam = (props: Props) => {
                             <p className='mt-1 text-red-500'>{formik.errors.duration}</p>
                         </Form.Item>
                         <Form.Item label={t('detail.thumbnail')}>
-                            <Upload name='file'
-                                accept='.png,.jpg,.jpeg,.gif'
+                            <Upload
+                                name='file'
+                                accept='image/img, image/jpg, image/png, image/jpeg, image/gif'
+                                beforeUpload={() => {
+                                    return false
+                                }}
+                                listType="picture"
                                 multiple={false}
+                                onPreview={(file) => { }}
                                 maxCount={1}
                                 onChange={(file) => {
                                     formik.setFieldValue('file', file.file)
-                                }}
-                                onRemove={(file) => {
-                                    formik.setFieldValue('file', null)
-                                }} >
-                                <Button icon={<UploadOutlined className='-translate-y-1' />}>{t('detail.click to Upload thumbnail')}</Button>
+                                    console.log(formik.values.file);
+                                }}>
+                                <Button icon={<UploadOutlined />}>Choose Image</Button>
                             </Upload>
                             <p className='mt-1 text-red-500'>{formik.errors.file}</p>
                         </Form.Item>

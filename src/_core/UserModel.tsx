@@ -1,15 +1,16 @@
 import { ChatMessageModel } from "./ChatModel";
 import { NotifyModel } from "./NotificationModel";
 
-export interface UserInfoModel{
-    userId:number;
-    userName:string;
-    avatar:string;
-    mail:string;
-    userPremium:string;
-    // message:ChatMessageModel[];
-    // notification:NotifyModel[]
+export interface UserInfoModel {
+    id: number;
+    username: string;
+    phone: string | null;
+    email: string;
+    createAt:string
+    address: string | null;
+    birthday: string | null;
+    roles: string[];
 }
-export interface UserState {
+export interface UserStateModel {
     userInfo: UserInfoModel | null
 }

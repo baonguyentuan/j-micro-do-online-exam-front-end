@@ -16,10 +16,10 @@ type Props = {
 let QuestionFormDefaultValue: QuestionRowModel = {
     id: Date.now(),
     question: '',
-    type: 'single',
-    answer: [],
-    point: 1,
-    correctAnswer: []
+    questionType: 'SINGLE',
+    answers: [],
+    questionPoint: 1,
+    correctAnswers: []
 }
 function CreateQuestion({ questionList, setLstQuestion, questionError, isNewQuestion, setIsNewQuestion }: Props) {
     let [tempQuestion, setTempQuestion] = useState<QuestionRowModel>(QuestionFormDefaultValue)
@@ -37,23 +37,23 @@ function CreateQuestion({ questionList, setLstQuestion, questionError, isNewQues
         },
         validationSchema: Yup.object({
             question: Yup.string().required(t('exam.Question is required')),
-            point: Yup.number().typeError(t('exam.Point is number')).min(1, t('exam.minium point is 1')),
-            correctAnswer: Yup.array().min(1, t('exam.You must choose correct answers')),
-            answer: Yup.array().min(2, t('exam.Each question have at least 2 answers')).of(Yup.string().required(t('exam.Answer is required')))
+            questionPoint: Yup.number().typeError(t('exam.Point is number')).min(1, t('exam.minium point is 1')),
+            correctAnswers: Yup.array().min(1, t('exam.You must choose correct answers')),
+            answers: Yup.array().min(2, t('exam.Each question have at least 2 answers')).of(Yup.string().required(t('exam.Answer is required')))
         })
     })
     const renderErrorAnswer = () => {
-        if (Array.isArray(formik.errors.answer)) {
+        if (Array.isArray(formik.errors.answers)) {
             return t('exam.Answer is required')
         } else {
-            return formik.errors.answer
+            return formik.errors.answers
         }
     }
     const onChangeAnswer = async (indexQuestion: number, currentIndex: number, event: any) => {
         if (indexQuestion !== -1) {
-            let answerUpdate = [...formik.values.answer]
+            let answerUpdate = [...formik.values.answers]
             answerUpdate[currentIndex] = event.target.value
-            await formik.setFieldValue('answer', answerUpdate)
+            await formik.setFieldValue('answers', answerUpdate)
             let lstQuestionUpdate = JSON.parse(JSON.stringify(questionList))
             lstQuestionUpdate[indexQuestion].answer = answerUpdate
             await setLstQuestion(lstQuestionUpdate)
@@ -61,28 +61,28 @@ function CreateQuestion({ questionList, setLstQuestion, questionError, isNewQues
     }
     const deleteAnswer = async (indexQuestion: number, currentIndex: number) => {
         if (indexQuestion !== -1) {
-            let newAnswer = formik.values.answer.filter((answerDel, delIndex) => delIndex !== currentIndex)
-            let newCorrectAnswer = [...formik.values.correctAnswer]
-            formik.values.correctAnswer.map((correcrAnswerItem, correctAnswerIndex) => {
+            let newAnswer = formik.values.answers.filter((answerDel, delIndex) => delIndex !== currentIndex)
+            let newCorrectAnswer = [...formik.values.correctAnswers]
+            formik.values.correctAnswers.map((correcrAnswerItem, correctAnswerIndex) => {
                 if (correcrAnswerItem === currentIndex) {
                     newCorrectAnswer.splice(correctAnswerIndex, 1)
                 } else if (correcrAnswerItem > currentIndex) {
                     newCorrectAnswer[correctAnswerIndex] = correcrAnswerItem - 1
                 }
             })
-            await formik.setFieldValue('answer', newAnswer)
-            formik.setFieldValue('correctAnswer', newCorrectAnswer)
+            await formik.setFieldValue('answers', newAnswer)
+            formik.setFieldValue('correctAnswers', newCorrectAnswer)
         }
     }
     const renderAnswer = (record: QuestionRowModel, status: boolean) => {
         let indexQuestion = questionList.findIndex(question => question.id === record.id)
         if (status === true) {
-            if (record.type === 'single') {
+            if (record.questionType === 'SINGLE') {
                 return <div>
-                    <Radio.Group className='grid grid-cols-1 lg:grid-cols-2 gap-4 ' value={formik.values.correctAnswer.length > 0 ? formik.values.correctAnswer[0] : ''} onChange={(event) => {
-                        formik.setFieldValue('correctAnswer', [event.target.value])
+                    <Radio.Group className='grid grid-cols-1 lg:grid-cols-2 gap-4 ' value={formik.values.correctAnswers.length > 0 ? formik.values.correctAnswers[0] : ''} onChange={(event) => {
+                        formik.setFieldValue('correctAnswers', [event.target.value])
                     }}>
-                        {formik.values.answer.map((answerItem, index) => {
+                        {formik.values.answers.map((answerItem, index) => {
                             return <div className='flex items-center' key={index}>
                                 <Radio value={index} name='answerItemSelect' />
                                 <TextArea
@@ -104,20 +104,20 @@ function CreateQuestion({ questionList, setLstQuestion, questionError, isNewQues
                         onClick={() => {
                             let indexQuestion = questionList.findIndex(question => question.id === record.id)
                             if (indexQuestion !== -1) {
-                                let lstAnswerUpdate = formik.values.answer
+                                let lstAnswerUpdate = formik.values.answers
                                 lstAnswerUpdate.push('')
-                                formik.setFieldValue('answer', lstAnswerUpdate)
+                                formik.setFieldValue('answers', lstAnswerUpdate)
                             }
                         }}><PlusCircleOutlined className='-translate-y-2' /></Button>
                     <p className='mt-1 text-red-500'>{renderErrorAnswer()}</p>
-                    <p className='mt-1 text-red-500'>{formik.errors.correctAnswer}</p>
+                    <p className='mt-1 text-red-500'>{formik.errors.correctAnswers}</p>
                 </div>
-            } else if (record.type === 'multi') {
+            } else if (record.questionType === 'MULTI') {
                 return <div>
-                    <Checkbox.Group className='grid grid-cols-1 lg:grid-cols-2 gap-4 ' value={formik.values.correctAnswer} onChange={(value) => {
-                        formik.setFieldValue('correctAnswer', value)
+                    <Checkbox.Group className='grid grid-cols-1 lg:grid-cols-2 gap-4 ' value={formik.values.correctAnswers} onChange={(value) => {
+                        formik.setFieldValue('correctAnswers', value)
                     }}>
-                        {formik.values.answer.map((answerItem, index) => {
+                        {formik.values.answers.map((answerItem, index) => {
                             return <div className='flex items-center' key={index}>
                                 <Checkbox value={index} name='answerItemSelect' />
                                 <TextArea
@@ -141,18 +141,18 @@ function CreateQuestion({ questionList, setLstQuestion, questionError, isNewQues
                         onClick={() => {
                             let indexQuestion = questionList.findIndex(question => question.id === record.id)
                             if (indexQuestion !== -1) {
-                                let lstAnswerUpdate = formik.values.answer
+                                let lstAnswerUpdate = formik.values.answers
                                 lstAnswerUpdate.push('')
-                                formik.setFieldValue('answer', lstAnswerUpdate)
+                                formik.setFieldValue('answers', lstAnswerUpdate)
                             }
                         }} ><PlusCircleOutlined className='-translate-y-2' /></Button>
                     <p className='mt-1 text-red-500'>{renderErrorAnswer()}</p>
-                    <p className='mt-1 text-red-500'>{formik.errors.correctAnswer}</p>
+                    <p className='mt-1 text-red-500'>{formik.errors.correctAnswers}</p>
                 </div>
             }
         } else {
-            return record.answer.map((answerItem, index) => {
-                let checkCorrectAnswerIndex = record.correctAnswer.findIndex(ans => ans === index)
+            return record.answers.map((answerItem, index) => {
+                let checkCorrectAnswerIndex = record.correctAnswers.findIndex(ans => ans === index)
                 if (checkCorrectAnswerIndex !== -1) {
                     return <p key={index} className='bg-green-200 overflow-hidden border-2 border-blue-300 '><span className=' inline-block px-4 py-2 bg-slate-300'>{`${index + 1}`}</span><span className='p-2'>{answerItem}
                     </span></p>
@@ -212,31 +212,29 @@ function CreateQuestion({ questionList, setLstQuestion, questionError, isNewQues
                                 <Select
                                     style={{ width: 100 }}
                                     placeholder="Please select"
-                                    value={formik.values.type}
+                                    value={formik.values.questionType}
                                     onChange={(value) => {
-                                        console.log(value);
-
-                                        formik.setFieldValue('type', value)
+                                        formik.setFieldValue('questionType', value)
                                         let lstQuestionUpdate = JSON.parse(JSON.stringify(questionList))
                                         let indexQuestion = questionList.findIndex(question => question.id === record.id)
                                         if (indexQuestion !== -1) {
                                             lstQuestionUpdate[indexQuestion] = {
                                                 ...lstQuestionUpdate[indexQuestion],
-                                                type: value,
+                                                questionType: value,
                                             }
                                             setLstQuestion(lstQuestionUpdate)
                                         }
                                     }
                                     }
-                                    options={[{ label: 'Single', value: 'single' }, { label: 'Multiple', value: 'multi' }]}
+                                    options={[{ label: 'SINGLE', value: 'SINGLE' }, { label: 'MULTIPLE', value: 'MULTI' }]}
                                 />
                             </div>
                             <div className='flex items-center '>
                                 <span className='mr-4'>Point: </span>
-                                <InputNumber name='point' min={0} defaultValue={formik.values.point} onChange={(value) => {
-                                    formik.setFieldValue('point', value)
+                                <InputNumber name='questionPoint' min={0} defaultValue={formik.values.questionPoint} onChange={(value) => {
+                                    formik.setFieldValue('questionPoint', value)
                                 }} />
-                                <p className='mt-1 text-red-500'>{formik.errors.point}</p>
+                                <p className='mt-1 text-red-500'>{formik.errors.questionPoint}</p>
                             </div>
                         </div>
                         {renderAnswer(record, true)}
@@ -245,7 +243,7 @@ function CreateQuestion({ questionList, setLstQuestion, questionError, isNewQues
                     return <div className={disableAction(editId, record.id) ? 'opacity-50' : ''}>
                         <p className='mb-4'>
                             <span>{record.question}</span>
-                            <span className='font-semibold ml-4'>{`( Point: ${record.point} - ${record.type === 'single' ? 'Single choice' : 'Multiple choice'} )`}</span>
+                            <span className='font-semibold ml-4'>{`( Point: ${record.questionPoint} - ${record.questionType === 'SINGLE' ? 'Single choice' : 'Multiple choice'} )`}</span>
                         </p>
                         <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 '>
                             {renderAnswer(record, false)}
@@ -271,10 +269,10 @@ function CreateQuestion({ questionList, setLstQuestion, questionError, isNewQues
                                     lstQuestionUpdate[indexQuestion] = {
                                         ...lstQuestionUpdate[indexQuestion],
                                         question: formik.values.question,
-                                        type: formik.values.type,
-                                        answer: formik.values.answer,
-                                        point: formik.values.point,
-                                        correctAnswer: formik.values.correctAnswer
+                                        questionType: formik.values.questionType,
+                                        answers: formik.values.answers,
+                                        questionPoint: formik.values.questionPoint,
+                                        correctAnswers: formik.values.correctAnswers
                                     }
                                     if (isNewQuestion) {
                                         await setIsNewQuestion(false)
@@ -310,11 +308,11 @@ function CreateQuestion({ questionList, setLstQuestion, questionError, isNewQues
                             disabled={disableAction(editId, record.id)}
                             onClick={async () => {
                                 if (indexQuestion !== -1) {
-                                    await formik.setFieldValue('type', questionList[indexQuestion].type)
-                                    await formik.setFieldValue('point', questionList[indexQuestion].point)
+                                    await formik.setFieldValue('questionType', questionList[indexQuestion].questionType)
+                                    await formik.setFieldValue('questionPoint', questionList[indexQuestion].questionPoint)
                                     await formik.setFieldValue('question', questionList[indexQuestion].question)
-                                    await formik.setFieldValue('answer', questionList[indexQuestion].answer)
-                                    await formik.setFieldValue('correctAnswer', questionList[indexQuestion].correctAnswer)
+                                    await formik.setFieldValue('answers', questionList[indexQuestion].answers)
+                                    await formik.setFieldValue('correctAnswers', questionList[indexQuestion].correctAnswers)
                                     await setTempQuestion(questionList[indexQuestion])
                                     await setEditId(record.id)
                                 }
@@ -382,17 +380,17 @@ function CreateQuestion({ questionList, setLstQuestion, questionError, isNewQues
                                 let newQuestion = {
                                     id: newID,
                                     question: '',
-                                    type: 'single',
-                                    answer: ['', ''],
-                                    point: 1,
-                                    correctAnswer: []
+                                    questionType: 'SINGLE',
+                                    answers: ['', ''],
+                                    questionPoint: 1,
+                                    correctAnswers: []
                                 }
                                 lstQuestionUpdate.push(newQuestion)
-                                formik.setFieldValue('type', newQuestion.type)
-                                formik.setFieldValue('point', newQuestion.point)
+                                formik.setFieldValue('questionType', newQuestion.questionType)
+                                formik.setFieldValue('questionPoint', newQuestion.questionPoint)
                                 formik.setFieldValue('question', newQuestion.question)
-                                formik.setFieldValue('answer', newQuestion.answer)
-                                formik.setFieldValue('correctAnswer', newQuestion.correctAnswer)
+                                formik.setFieldValue('answers', newQuestion.answers)
+                                formik.setFieldValue('correctAnswers', newQuestion.correctAnswers)
                                 await setLstQuestion(lstQuestionUpdate)
                                 await setEditId(newID)
                             }}
