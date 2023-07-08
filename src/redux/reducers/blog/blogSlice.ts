@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Blog, BlogState } from '../../../_core/Blog';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {Blog, BlogState} from '../../../_core/Blog';
 
 const initialState: BlogState = {
   blogs: [],
@@ -27,7 +27,7 @@ const blogSlice = createSlice({
 });
 
 // Export actions
-export const { fetchBlogsStart, fetchBlogsSuccess, fetchBlogsFailure } = blogSlice.actions;
+export const {fetchBlogsStart, fetchBlogsSuccess, fetchBlogsFailure} = blogSlice.actions;
 
 // Export reducer
 export default blogSlice.reducer;

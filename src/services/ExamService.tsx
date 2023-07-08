@@ -1,17 +1,8 @@
 
 import { BaseService } from "./BaseService"
-import { ENDPOINT_PATH } from "../utils/config"
+import {ExamSearchParams} from "../_core/exam";
+import ApiEndpoint from "../constants/ApiEndpoint";
 
-export interface ExamSearchParams{
-    name: string | null
-    duration: number
-    category_ids: string | null
-    from_date: string | null
-    to_date:string | null
-    page_size: number
-    page_index:number
-    order_by: number
-}
 
 class ExamService extends BaseService {
     constructor() {
@@ -19,16 +10,16 @@ class ExamService extends BaseService {
     }
 
     creatExam = (examDetail: FormData) => {
-        return this.post(ENDPOINT_PATH.EXAM.CREATE_EXAM, examDetail)
+        return this.post(ApiEndpoint.exam.CREATE, examDetail)
     }
     getExamOption=()=>{
-        return this.get(ENDPOINT_PATH.EXAM.GET_EXAM_OPTION)
+        return this.get(ApiEndpoint.exam.GET_EXAM_OPTIONS)
     }
     editExam = (examDetail: FormData) => {
-        return this.post(ENDPOINT_PATH.EXAM.EDIT_EXAM, examDetail)
+        return this.post(ApiEndpoint.exam.EDIT, examDetail)
     }
     deleteExam=(examID:number)=>{
-        return this.delete(ENDPOINT_PATH.EXAM.DELETE_EXAM,examID)
+        return this.delete(ApiEndpoint.exam.DELETE,examID)
     }
     getExamByCategory = () =>{
         return this.get(ApiEndpoint.exam.GET_HOT_EXAMS_CATEGORY)

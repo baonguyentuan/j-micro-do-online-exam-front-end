@@ -23,3 +23,18 @@ export interface CategoryStateModel {
     currentFilterCategory: CategoryGetModel,
     currentCategoryDetail: CategoryDetailModel
 }
+
+export let defaultCategoryGet: CategoryGetModel = {
+  name: null,
+  from_date: null,
+  to_date: null,
+  page_size: 10,
+  page_index: 1,
+  order_by: -1
+}
+export const defaultCategoryDetail: CategoryDetailModel = {
+  createAt: '',
+  thumbnail: '',
+  id: -1,
+  name: ''
+}

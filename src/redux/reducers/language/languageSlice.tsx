@@ -1,9 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { LanguageState } from '../../../_core/LanguageModel';
+import {createSlice} from '@reduxjs/toolkit'
+import {LanguageState} from '../../../_core/LanguageModel';
 
 
-const initialState:LanguageState = {
-    language:'eng'
+const initialState: LanguageState = {
+  language: 'eng'
 }
 
 const languageReducer = createSlice({

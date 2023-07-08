@@ -1,54 +1,58 @@
 import axios from 'axios'
-import {DOMAIN, TOKEN} from '../utils/config'
+import ApiEndpoint from "../constants/ApiEndpoint";
+import Constants from "../constants/Constants";
 
-export class BaseService{
+export class BaseService {
 
-    put(url:string, model:any) {
-        return axios({
-            url: `${DOMAIN}/${url}`,
-            method: 'PUT',
-            data: model,
-            headers: { "Authorization": "Bearer " + localStorage.getItem(TOKEN) }
-        })
-    }
-    post(url:string, model:any) {
-        return axios({
-            url: `${DOMAIN}/${url}`,
-            method: 'POST',
-            data: model,
-            headers: { "Authorization": "Bearer " + localStorage.getItem(TOKEN) }
-        })
-    }
-    get(url:string) {
-        return axios({
-            url: `${DOMAIN}/${url}`,
-            method: 'GET',
-            headers: { "Authorization": "Bearer " + localStorage.getItem(TOKEN) }
-        })
-    }
-    getByCondition(url:string,model:Object) {
-        return axios({
-            url: `${DOMAIN}/${url}`,
-            method: 'GET',
-            params: model,
-            headers: { "Authorization": "Bearer " + localStorage.getItem(TOKEN) }
-        })
-    }
+  put(url: string, model: any) {
+    return axios({
+      url: `${ApiEndpoint.domain}/${url}`,
+      method: 'PUT',
+      data: model,
+      headers: {"Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken)}
+    })
+  }
 
-    getByParams(url:string,model:any){
-        return axios({
-            url: `${DOMAIN}/${url}`,
-            method: 'GET',
-            params: model,
-            headers: { "Authorization": "Bearer " + localStorage.getItem(TOKEN) }
-        })
-    }
+  post(url: string, model: any) {
+    return axios({
+      url: `${ApiEndpoint.domain}/${url}`,
+      method: 'POST',
+      data: model,
+      headers: {"Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken)}
+    })
+  }
 
-    delete(url:string,id:number) {
-        return axios({
-            url: `${DOMAIN}/${url}?id=${id}`,
-            method: 'DELETE',
-            headers: { "Authorization": "Bearer " + localStorage.getItem(TOKEN) }
-        })
-    }
+  get(url: string) {
+    return axios({
+      url: `${ApiEndpoint.domain}/${url}`,
+      method: 'GET',
+      headers: {"Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken)}
+    })
+  }
+
+  getByCondition(url: string, model: Object) {
+    return axios({
+      url: `${ApiEndpoint.domain}/${url}`,
+      method: 'GET',
+      params: model,
+      headers: {"Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken)}
+    })
+  }
+
+  getByParams(url: string, model: any) {
+    return axios({
+      url: `${ApiEndpoint.domain}/${url}`,
+      method: 'GET',
+      params: model,
+      headers: {"Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken)}
+    })
+  }
+
+  delete(url: string, id: number) {
+    return axios({
+      url: `${ApiEndpoint.domain}/${url}?id=${id}`,
+      method: 'DELETE',
+      headers: {"Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken)}
+    })
+  }
 }

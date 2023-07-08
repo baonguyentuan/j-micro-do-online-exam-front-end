@@ -2,7 +2,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import React, {useEffect, useRef, useState} from "react";
 import {DispatchType, RootState} from "../../redux/configStore";
 import {useDispatch, useSelector} from "react-redux";
-import {getExamDetail, getExamsRandom} from "../../redux/reducers/examSlice/examSlice";
+import {getExamDetail, getExamsRandom} from "../../redux/reducers/exam";
 import Constants from "../../constants/Constants";
 import styled from "styled-components";
 import {Avatar, Button, Divider, Form, Pagination, Rate} from 'antd';

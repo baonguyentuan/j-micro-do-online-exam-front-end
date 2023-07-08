@@ -3,15 +3,16 @@ import {OrderByModel, PaginationModel} from "../common/Common";
 export interface QuestionRowModel {
   id: number,
   question: string,
-  type: string,
-  answer: string[],
-  point: number,
-  correctAnswer: number[]
+  questionType: string,
+  answers: string[],
+  questionPoint: number,
+  correctAnswers: number[]
 }
 
 export interface ExamDetailFormModel {
-  name: string,
-  category: string[],
+  title: string,
+  categoryId: number | null,
+  examType:string,
   description: string,
   duration: number,
   question: QuestionRowModel[],
@@ -74,7 +75,24 @@ export type ExamsByCategory = {
   pagination: PaginationModel
 }
 
+export interface ExamOptionModel{
+  id:number,
+  name:string
+}
+
+export interface QuestionExamSubmitModel {
+  questionType: string,
+  questionPoint: number,
+  question: string,
+  answers: string[],
+  correctAnswers: number[]
+}
+
 export interface examSliceInitState {
+  examType: string
+
+  lstOptionExam:ExamOptionModel[]
+  
   hotExamsByCategory: ExamCategory
 
   examsByCategory: ExamsByCategory

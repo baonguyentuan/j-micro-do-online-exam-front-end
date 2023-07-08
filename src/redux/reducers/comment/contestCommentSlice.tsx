@@ -1,9 +1,8 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { CommentState, ContestCommentModel } from '../../../_core/CommentModel';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit'
+import {CommentState, ContestCommentModel} from '../../../_core/CommentModel';
 
 const initialState: CommentState = {
-  lstComment: [
-  ]
+  lstComment: []
 }
 
 const contestCommentSlice = createSlice({
@@ -24,6 +23,6 @@ const contestCommentSlice = createSlice({
   }
 });
 
-export const { getLstContestComment,sendContestComment } = contestCommentSlice.actions
+export const {getLstContestComment, sendContestComment} = contestCommentSlice.actions
 
 export default contestCommentSlice.reducer

@@ -1,18 +1,17 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {setLoading} from '../loading/loadingSlice';
 import {openNotificationWithIcon} from '../../../utils/operate';
-import {ExamSearchParams, examSliceInitState} from '../../../_core/exam';
+import {ExamOptionModel, ExamSearchParams, examSliceInitState} from '../../../_core/exam';
 import {DispatchType} from '../../configStore';
 import {examService} from '../../../services/ExamService';
-import {ExamOptionModel} from "../../../_core/ExamModel";
-import {STATUS_CODE} from "../../../utils/config";
+import Constants from "../../../constants/Constants";
 
 const initialState = {
   hotExamsByCategory: {},
   examType: 'PRIVATE'
 } as examSliceInitState
 
-const index = createSlice({
+const examSlice = createSlice({
   name: 'examSlice',
   initialState,
   reducers: {
@@ -56,16 +55,16 @@ export const {
   examFetchDetailReceived,
   examOrderByOptionsReceived,
   examDurationOptionsReceived,
-} = index.actions
+} = examSlice.actions
 
-export default index.reducer
+export default examSlice.reducer
 
 export const createExamApi = (examDetail: FormData) => {
   return async (dispatch: DispatchType) => {
     await dispatch(setLoading({isLoading: true}))
     try {
       const result = await examService.creatExam(examDetail)
-      if (result.status === STATUS_CODE.SUCCESS) {
+      if (result.status === Constants.httpStatusCode.SUCCESS) {
         openNotificationWithIcon('success', 'Create exam successful', '', 1)
       } else {
         console.log(result);
@@ -178,7 +177,7 @@ export const getExamOptionApi = () => {
   return async (dispatch: DispatchType) => {
     try {
       const result = await examService.getExamOption()
-      if (result.status === STATUS_CODE.SUCCESS) {
+      if (result.status === Constants.httpStatusCode.SUCCESS) {
         dispatch(getOptionExam({lstOptionExam: result.data.data}))
       } else {
         console.log(result);
@@ -193,7 +192,7 @@ export const deleteExamApi = (examID: number) => {
   return async (dispatch: DispatchType) => {
     try {
       const result = await examService.deleteExam(examID)
-      if (result.status === STATUS_CODE.SUCCESS) {
+      if (result.status === Constants.httpStatusCode.SUCCESS) {
         dispatch(getExamOptionApi())
         openNotificationWithIcon('success', 'Delete exam successful', '', 1)
       } else {
