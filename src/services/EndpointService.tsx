@@ -11,12 +11,11 @@ class EnpointService extends BaseService {
     creatEndpoint = (endpointPath: string) => {
         return this.post('auth/endpoints/create', endpointPath)
     }
-    editEndpoin = (endpointDetail: EndpointDetailModel) => {
+    editEndpoint = (endpointDetail: EndpointDetailModel) => {
         return this.post('auth/endpoints/edit', endpointDetail)
     }
-    deleteEndpoin=(endpointID:number)=>{
+    deleteEndpoint=(endpointID:number)=>{
         return this.delete('auth/endpoints/delete',endpointID)
     }
-
 }
 export const endpointService = new EnpointService()

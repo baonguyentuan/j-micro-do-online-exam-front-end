@@ -1,19 +1,27 @@
-import {createSlice} from '@reduxjs/toolkit'
+import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {setLoading} from '../loading/loadingSlice';
 import {openNotificationWithIcon} from '../../../utils/operate';
-import {ExamDetailFormModel, ExamSearchParams, examSliceInitState} from '../../../_core/exam';
+import {ExamSearchParams, examSliceInitState} from '../../../_core/exam';
 import {DispatchType} from '../../configStore';
 import {examService} from '../../../services/ExamService';
-
+import {ExamOptionModel} from "../../../_core/ExamModel";
+import {STATUS_CODE} from "../../../utils/config";
 
 const initialState = {
   hotExamsByCategory: {},
+  examType: 'PRIVATE'
 } as examSliceInitState
 
-const examSlice = createSlice({
+const index = createSlice({
   name: 'examSlice',
   initialState,
   reducers: {
+    getOptionExam: (state: examSliceInitState, action: PayloadAction<{ lstOptionExam: ExamOptionModel[] }>) => {
+      state.lstOptionExam = action.payload.lstOptionExam
+    },
+    getExamType: (state: examSliceInitState, action: PayloadAction<{ examType: string }>) => {
+      state.examType = action.payload.examType
+    },
     hotExamsReceived(state, action) {
       state.hotExamsByCategory = action.payload
     },
@@ -32,13 +40,15 @@ const examSlice = createSlice({
     examFetchDetailReceived(state, action) {
       state.examFetchDetail = action.payload
     },
-    examsRandomReceived(state,action){
+    examsRandomReceived(state, action) {
       state.randomExams = action.payload
     }
   }
 });
 
 export const {
+  getExamType,
+  getOptionExam,
   hotExamsReceived,
   examsRandomReceived,
   examsCategoryReceived,
@@ -46,22 +56,21 @@ export const {
   examFetchDetailReceived,
   examOrderByOptionsReceived,
   examDurationOptionsReceived,
-} = examSlice.actions
+} = index.actions
 
-export default examSlice.reducer
-export const createExamApi = (examDetail: ExamDetailFormModel) => {
+export default index.reducer
+
+export const createExamApi = (examDetail: FormData) => {
   return async (dispatch: DispatchType) => {
     await dispatch(setLoading({isLoading: true}))
     try {
-      console.log(examDetail);
-
-      // const result = await examService.creatExam(examDetail)
-      //   if (result.status === STATUS_CODE.SUCCESS) {
-      //     openNotificationWithIcon('success', 'Create exam successful', '', 1)
-      //   } else {
-      //     console.log(result);
-      //     openNotificationWithIcon('error', 'Create exam failed', '', 1)
-      //   }
+      const result = await examService.creatExam(examDetail)
+      if (result.status === STATUS_CODE.SUCCESS) {
+        openNotificationWithIcon('success', 'Create exam successful', '', 1)
+      } else {
+        console.log(result);
+        openNotificationWithIcon('error', 'Create exam failed', '', 1)
+      }
     } catch (err) {
       console.log(err);
       openNotificationWithIcon('error', 'Create exam failed', '', 1)
@@ -152,7 +161,7 @@ export const fetchExamDetail = (name: string) => {
   }
 }
 
-export const getExamsRandom = (name: object) =>{
+export const getExamsRandom = (name: object) => {
   return async (dispatch: DispatchType) => {
     await dispatch(setLoading({isLoading: true}))
     try {
@@ -162,5 +171,38 @@ export const getExamsRandom = (name: object) =>{
       openNotificationWithIcon('error', 'Get random exams failed', '', 1)
     }
     await dispatch(setLoading({isLoading: false}))
+  }
+}
+
+export const getExamOptionApi = () => {
+  return async (dispatch: DispatchType) => {
+    try {
+      const result = await examService.getExamOption()
+      if (result.status === STATUS_CODE.SUCCESS) {
+        dispatch(getOptionExam({lstOptionExam: result.data.data}))
+      } else {
+        console.log(result);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+}
+
+export const deleteExamApi = (examID: number) => {
+  return async (dispatch: DispatchType) => {
+    try {
+      const result = await examService.deleteExam(examID)
+      if (result.status === STATUS_CODE.SUCCESS) {
+        dispatch(getExamOptionApi())
+        openNotificationWithIcon('success', 'Delete exam successful', '', 1)
+      } else {
+        console.log(result);
+        openNotificationWithIcon('error', 'Delete exam failed', '', 1)
+      }
+    } catch (err) {
+      console.log(err);
+      openNotificationWithIcon('error', 'Delete exam failed', '', 1)
+    }
   }
 }

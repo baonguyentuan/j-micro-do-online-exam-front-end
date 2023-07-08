@@ -26,11 +26,11 @@ export class BaseService{
             headers: { "Authorization": "Bearer " + localStorage.getItem(TOKEN) }
         })
     }
-    getByCondition(url:string,model:any) {
+    getByCondition(url:string,model:Object) {
         return axios({
             url: `${DOMAIN}/${url}`,
             method: 'GET',
-            data: model,
+            params: model,
             headers: { "Authorization": "Bearer " + localStorage.getItem(TOKEN) }
         })
     }
@@ -46,9 +46,8 @@ export class BaseService{
 
     delete(url:string,id:number) {
         return axios({
-            url: `${DOMAIN}/${url}`,
+            url: `${DOMAIN}/${url}?id=${id}`,
             method: 'DELETE',
-            data: id,
             headers: { "Authorization": "Bearer " + localStorage.getItem(TOKEN) }
         })
     }

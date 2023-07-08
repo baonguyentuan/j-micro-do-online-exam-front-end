@@ -39,9 +39,7 @@ function TrainingCoursesByCategory() {
         {name: category},
     ];
 
-    useEffect(() => {
-        dispatch(getExamsApi(searchExams))
-    }, [category, searchExams])
+    const {examsByCategory} = useSelector((state: RootState) => state.examSlice)
 
     useEffect(() => {
         dispatch(getExamDurationOptions())

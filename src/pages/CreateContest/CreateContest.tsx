@@ -1,6 +1,7 @@
-import React from 'react'
-import { Form, Input, DatePicker, Upload,Button, InputNumber, Select } from 'antd'
+import React, { useEffect } from 'react'
+import { Form, Input, DatePicker, Upload, Button, InputNumber, Select } from 'antd'
 import { UploadOutlined } from '@ant-design/icons';
+import type { SelectProps } from 'antd';
 import type { RangePickerProps } from 'antd/es/date-picker';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
@@ -9,10 +10,12 @@ import FormItem from 'antd/es/form/FormItem';
 import '../../assets/css/contest/contest.css'
 import { CreateContestFormModel } from '../../_core/ContestModel';
 import { useTranslation } from 'react-i18next';
-import { DispatchType } from '../../redux/configStore';
+import { DispatchType, RootState } from '../../redux/configStore';
 import { useDispatch } from 'react-redux';
 import { createContestApi } from '../../redux/reducers/contest/contestSlice';
 import { MAX_DURATION_EXAM, MIN_DURATION_EXAM, MIN_PERIOD_CONTEST } from '../../utils/config';
+import { getExamOptionApi } from '../../redux/reducers/exam/examSlice';
+import { useSelector } from 'react-redux';
 const { TextArea } = Input;
 type Props = {}
 
@@ -20,31 +23,39 @@ const DefaultCreateContestFormValue: CreateContestFormModel = {
     name: '',
     description: '',
     duration: 30,
-    timeStart: dayjs(Date.now()).format('YYYY-MM-DD hh:mm'),
+    timeStart: dayjs(Date.now()).format('YYYY-MM-DD hh:mm:ss'),
     contestantList: null,
     exam: null,
 }
 const CreateContest = (props: Props) => {
+    const optionsExam: SelectProps['options'] = [];
     let { t } = useTranslation('contest')
+    let { lstOptionExam } = useSelector((state: RootState) => state.examSlice)
     let dispatch: DispatchType = useDispatch()
+    lstOptionExam.map((examItem, index) => {
+        optionsExam.push({
+            label: examItem.name,
+            value: examItem.id,
+        })
+    })
     let formik = useFormik({
         initialValues: DefaultCreateContestFormValue,
         validationSchema: Yup.object({
             name: Yup.string().required(t('detail.name is required')),
             description: Yup.string().required(t('detail.description is required')),
-            duration: Yup.number().typeError(t('detail.duration must be number')).required(t('detail.duration is required')).min(MIN_DURATION_EXAM, t('detail.minium duration is {{duration}} min',{duration:MIN_DURATION_EXAM})).max(MAX_DURATION_EXAM, t('detail.maxium duration is {{duration}} min',{duration:MAX_DURATION_EXAM})),
-            timeStart: Yup.date().typeError(t('detail.time start must be timestamp')).required(t('detail.time start is required')).min(dayjs().add(MIN_PERIOD_CONTEST - 1, 'day'), t('detail.the contest must start at least {{duration}} days from the date of creation',{duration:MIN_PERIOD_CONTEST})),
+            duration: Yup.number().typeError(t('detail.duration must be number')).required(t('detail.duration is required')).min(MIN_DURATION_EXAM, t('detail.minium duration is {{duration}} min', { duration: MIN_DURATION_EXAM })).max(MAX_DURATION_EXAM, t('detail.maxium duration is {{duration}} min', { duration: MAX_DURATION_EXAM })),
+            timeStart: Yup.date().typeError(t('detail.time start must be timestamp')).required(t('detail.time start is required')).min(dayjs().add(MIN_PERIOD_CONTEST - 1, 'day'), t('detail.the contest must start at least {{duration}} days from the date of creation', { duration: MIN_PERIOD_CONTEST })),
             contestantList: Yup.mixed().required(t('detail.file is required')),
             exam: Yup.string().required(t('detail.exam is required')),
         }),
         onSubmit: (value) => {
-            let contestDetail={
-                name:value.name,
-                description:value.description,
-                duration:value.duration,
+            let contestDetail = {
+                name: value.name,
+                description: value.description,
+                duration: value.duration,
                 timeStart: dayjs(value.timeStart).format('YYYY-MM-DD hh:mm'),
-                contestantList:value.contestantList,
-                exam:value.exam,
+                contestantList: value.contestantList,
+                exam: value.exam,
             }
             dispatch(createContestApi(contestDetail))
         }
@@ -55,6 +66,9 @@ const CreateContest = (props: Props) => {
     let handleChangeDatePicker = (value: Dayjs | null) => {
         formik.setFieldValue('timeStart', value)
     }
+    useEffect(() => {
+        dispatch(getExamOptionApi())
+    }, [])
     return (
         <div id='createContest' className='size__component mb-8' style={{ minHeight: '70vh' }} >
             <div className='m-auto' style={{ maxWidth: 700 }}>
@@ -76,36 +90,11 @@ const CreateContest = (props: Props) => {
                             showSearch
                             placeholder={t('detail.select exam')}
                             optionFilterProp="children"
-                            filterOption={(input, option) => (option?.label ?? '').includes(input)}
+                            filterOption={(input, option) => (String(option?.label) ?? '').toLowerCase().includes(input)}
                             filterSort={(optionA, optionB) =>
-                                (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                                (String(optionA?.label) ?? '').toLowerCase().localeCompare((String(optionB?.label) ?? '').toLowerCase())
                             }
-                            options={[
-                                {
-                                    value: '1',
-                                    label: 'Not Identified',
-                                },
-                                {
-                                    value: '2',
-                                    label: 'Closed',
-                                },
-                                {
-                                    value: '3',
-                                    label: 'Communicated',
-                                },
-                                {
-                                    value: '4',
-                                    label: 'Identified',
-                                },
-                                {
-                                    value: '5',
-                                    label: 'Resolved',
-                                },
-                                {
-                                    value: '6',
-                                    label: 'Cancelled',
-                                },
-                            ]}
+                            options={optionsExam}
                             onChange={(value) => {
                                 formik.setFieldValue('exam', value)
                             }}
@@ -122,7 +111,7 @@ const CreateContest = (props: Props) => {
                         <DatePicker
                             name='timeStart'
                             disabledDate={disabledDate}
-                            format={'YYYY-MM-DD hh:mm'}
+                            format={'YYYY-MM-DD hh:mm:ss'}
                             showTime
                             defaultValue={dayjs(formik.values.timeStart)}
                             onOk={(time) => {
