@@ -8,7 +8,7 @@ import { DispatchType, RootState } from '../../redux/configStore';
 import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import { getContestingInfoApi, setAnswer } from '../../redux/reducers/contest/contestSlice';
-import { QuestionContestModel } from '../../_core/ExamModel';
+import { QuestionContestModel } from '../../_core/exam';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 const { Countdown } = Statistic;

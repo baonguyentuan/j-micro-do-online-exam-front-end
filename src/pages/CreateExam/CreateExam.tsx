@@ -4,7 +4,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import type { SelectProps } from 'antd';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
-import { ExamDetailFormModel, QuestionRowModel } from '../../_core/ExamModel';
+import { ExamDetailFormModel, QuestionRowModel } from '../../_core/exam';
 import CreateQuestion from '../../components/Contest/CreateQuestion';
 import { MAX_DURATION_EXAM, MAX_QUESTION_EXAM, MIN_DURATION_EXAM, MIN_QUESTION_EXAM } from '../../utils/config';
 import { DispatchType } from '../../redux/configStore';

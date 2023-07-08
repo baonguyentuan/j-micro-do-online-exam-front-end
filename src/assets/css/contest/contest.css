@@ -1,6 +1,6 @@
 .btn__contest{
-    @apply text-xl p-3 h-auto m-4 text-white ;
-    background-color: #0fc962;
+    @apply text-lg font-semibold py-2 px-5 h-auto text-white ;
+    background-color: #1bb460;
 }
 .btn__contest:hover{
     color: white !important;

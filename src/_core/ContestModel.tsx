@@ -1,6 +1,6 @@
 import {ContestCommentModel} from './CommentModel'
 import dayjs, { Dayjs } from 'dayjs';
-import { QuestionContestModel } from './ExamModel';
+import { QuestionContestModel } from './exam';
 
 export interface ContestInfoModel {
     id: number,

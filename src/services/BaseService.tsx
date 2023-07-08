@@ -1,9 +1,8 @@
 import axios from 'axios'
-import { DOMAIN, TOKEN } from '../utils/config'
-export class BaseService{
-    constructor(){
+import {DOMAIN, TOKEN} from '../utils/config'
 
-    }
+export class BaseService{
+
     put(url:string, model:any) {
         return axios({
             url: `${DOMAIN}/${url}`,

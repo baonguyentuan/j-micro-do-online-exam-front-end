@@ -21,6 +21,8 @@ import CreateContest from './pages/CreateContest/CreateContest';
 import CreateExam from './pages/CreateExam/CreateExam';
 import Contesting from './pages/Contesting/Contesting';
 import TrainingCoursesByCategory from "./pages/TrainingCourses/TrainingCoursesByCategory";
+import AppRoutes from "./constants/AppRoutes";
+import Course from "./pages/TrainingCourses/Course";
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -30,16 +32,17 @@ root.render(
       <Routes>
         <Route path='' element={<HomeLayout />}>
           <Route index element={<Home />}></Route>
-          <Route path='login' element={<Login />}></Route>
-          <Route path='register' element={<Register />}></Route>
+          <Route path={AppRoutes.public.login} element={<Login />}></Route>
+          <Route path={AppRoutes.public.register} element={<Register />}></Route>
           <Route path='contest/:contestId' element={<ContestDetail />}></Route>
           <Route path='contesting/:contestId' element={<Contesting />}></Route>
           <Route path='create_contest' element={<CreateContest />}></Route>
-          <Route path='training_course' element={<TrainingCourses />} />
-          <Route path='training_course/:categoryId' element={<TrainingCoursesByCategory/>}/>
+          <Route path={AppRoutes.public.courses} element={<TrainingCourses />} />
+          <Route path={AppRoutes.public.courses_sort_category} element={<TrainingCoursesByCategory/>}/>
+          <Route path={AppRoutes.public.courses_detail} element={<Course/>}/>
           <Route path='create_exam' element={<CreateExam />} />
-          <Route path='blog' element={<BlogList />} />
-          <Route path='contact' element={<Contact />} />
+          <Route path={AppRoutes.public.blog} element={<BlogList />} />
+          <Route path={AppRoutes.public.contact} element={<Contact />} />
           <Route path='*' element={<Home />}></Route>
         </Route>
         <Route path='/admin_user' element={<AdminUser />} />

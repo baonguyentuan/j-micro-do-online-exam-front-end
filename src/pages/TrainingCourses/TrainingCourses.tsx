@@ -6,19 +6,18 @@ import {Button} from 'antd';
 import {useDispatch, useSelector} from 'react-redux';
 import {DispatchType, RootState} from '../../redux/configStore';
 import {useTranslation} from 'react-i18next';
-import {getExamsApi, getExamsByCategoryApi} from '../../redux/reducers/examSlice/examSlice'
+import {getExamsByCategoryApi} from '../../redux/reducers/examSlice/examSlice'
 import {Navigation} from "swiper";
 import CardCourse from "../../components/Card/CardContest";
 import {LeftCircleOutlined, RightCircleOutlined} from "@ant-design/icons";
-import {Link, NavLink} from "react-router-dom";
+import {Link} from "react-router-dom";
+import AppRoutes from "../../constants/AppRoutes";
 
-type Props = {}
-
-function TrainingCourses(props: Props) {
+function TrainingCourses() {
     const dispatch: DispatchType = useDispatch()
     const {t} = useTranslation('card')
     const items = [
-        {name: t('nav.home'), link: "/"},
+        {name: t('nav.home'), link: AppRoutes.public.home},
         {name: t('nav.training_course')},
     ];
 
@@ -37,7 +36,7 @@ function TrainingCourses(props: Props) {
                 {
                     Object.keys(hotExamsByCategory).map((name, index) => {
                         return <div key={index} className='size__component py-6'>
-                            <h3 className='text-2xl font-bold'>{name.split(",")[0]}</h3>
+                            <h3 className='text-2xl font-bold'>{name}</h3>
                             <div className='pt-4 relative'>
                                 <Swiper
                                     spaceBetween={30}
@@ -78,7 +77,8 @@ function TrainingCourses(props: Props) {
                             </div>
                             <div className='w-full flex justify-center'>
                                 <Button className='mt-4 btn__banner'>
-                                    <Link to={{pathname:`/training_course/${name.split(",")[1]}`}}>{t('cardCourse.more courses')}</Link>
+                                    <Link
+                                        to={{pathname: `${AppRoutes.public.courses}/${name}`}}>{t('cardCourse.more courses')}</Link>
                                 </Button>
                             </div>
                         </div>
