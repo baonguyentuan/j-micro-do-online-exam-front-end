@@ -1,4 +1,4 @@
-import { ENDPOINT_URL } from "../utils/config"
+import { ENDPOINT_PATH } from "../utils/config"
 import { BaseService } from "./BaseService"
 
 class AuthService extends BaseService {
@@ -6,7 +6,7 @@ class AuthService extends BaseService {
         super()
     }
     getUserInfo=()=>{
-        return this.get(ENDPOINT_URL.AUTH.GET_USER_INFO)
+        return this.get(ENDPOINT_PATH.AUTH.GET_USER_INFO)
     }
 }
 export const authService = new AuthService()

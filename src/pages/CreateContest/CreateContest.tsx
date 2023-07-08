@@ -14,7 +14,7 @@ import { DispatchType, RootState } from '../../redux/configStore';
 import { useDispatch } from 'react-redux';
 import { createContestApi } from '../../redux/reducers/contest/contestSlice';
 import { MAX_DURATION_EXAM, MIN_DURATION_EXAM, MIN_PERIOD_CONTEST } from '../../utils/config';
-import { getExamOptionApi } from '../../redux/reducers/examSlice/examSlice';
+import { getExamOptionApi } from '../../redux/reducers/exam/examSlice';
 import { useSelector } from 'react-redux';
 const { TextArea } = Input;
 type Props = {}
@@ -23,7 +23,7 @@ const DefaultCreateContestFormValue: CreateContestFormModel = {
     name: '',
     description: '',
     duration: 30,
-    timeStart: dayjs(Date.now()).format('YYYY-MM-DD hh:mm'),
+    timeStart: dayjs(Date.now()).format('YYYY-MM-DD hh:mm:ss'),
     contestantList: null,
     exam: null,
 }
@@ -111,7 +111,7 @@ const CreateContest = (props: Props) => {
                         <DatePicker
                             name='timeStart'
                             disabledDate={disabledDate}
-                            format={'YYYY-MM-DD hh:mm'}
+                            format={'YYYY-MM-DD hh:mm:ss'}
                             showTime
                             defaultValue={dayjs(formik.values.timeStart)}
                             onOk={(time) => {

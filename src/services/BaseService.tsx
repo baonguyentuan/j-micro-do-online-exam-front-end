@@ -27,7 +27,7 @@ export class BaseService{
             headers: { "Authorization": "Bearer " + localStorage.getItem(TOKEN) }
         })
     }
-    getByCondition(url:string,model:any) {
+    getByCondition(url:string,model:Object) {
         return axios({
             url: `${DOMAIN}/${url}`,
             method: 'GET',

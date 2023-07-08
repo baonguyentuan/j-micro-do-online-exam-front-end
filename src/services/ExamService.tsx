@@ -1,23 +1,21 @@
-import { number } from "yup"
-import { ExamDetailFormModel } from "../_core/ExamModel"
 import { BaseService } from "./BaseService"
-import { ENDPOINT_URL } from "../utils/config"
+import { ENDPOINT_PATH } from "../utils/config"
 
 class ExamService extends BaseService {
     constructor() {
         super()
     }
     creatExam = (examDetail: FormData) => {
-        return this.post('exams/create', examDetail)
+        return this.post(ENDPOINT_PATH.EXAM.CREATE_EXAM, examDetail)
     }
     getExamOption=()=>{
-        return this.get('exams/options')
+        return this.get(ENDPOINT_PATH.EXAM.GET_EXAM_OPTION)
     }
     editExam = (examDetail: FormData) => {
-        return this.post('exams/edit', examDetail)
+        return this.post(ENDPOINT_PATH.EXAM.EDIT_EXAM, examDetail)
     }
     deleteExam=(examID:number)=>{
-        return this.delete(ENDPOINT_URL.EXAM.DELETE_EXAM,examID)
+        return this.delete(ENDPOINT_PATH.EXAM.DELETE_EXAM,examID)
     }
 
 }

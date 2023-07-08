@@ -1,6 +1,7 @@
 import { createBrowserHistory } from "history"
+import { CategoryDetailModel, CategoryGetModel } from "../_core/CategoryModel"
 export const DOMAIN = 'http://localhost:8763/api/v1'
-export const ENDPOINT_URL = {
+export const ENDPOINT_PATH = {
     EXAM: {
         GET_EXAM: 'exams/get',
         GET_EXAM_OPTION: 'exams/options',
@@ -102,4 +103,17 @@ export const DEFAULT__PAGE__SIZE = 10
 export const MIN_DURATION_EXAM = 10
 export const MAX_DURATION_EXAM = 60
 export const MIN_PERIOD_CONTEST = 2
-
+export let defaultCategoryGet: CategoryGetModel = {
+    name: null,
+    from_date: null,
+    to_date: null,
+    page_size: 10,
+    page_index: 1,
+    order_by: -1
+}
+export const defaultCategoryDetail: CategoryDetailModel = {
+    createAt: '',
+    thumbnail: '',
+    id: -1,
+    name: ''
+}

@@ -4,7 +4,7 @@ import { DispatchType } from '../../configStore';
 import { authService } from '../../../services/AuthService';
 import { STATUS_CODE } from '../../../utils/config';
 import { setLoading } from '../loading/loadingSlice';
-import { getExamType } from '../examSlice/examSlice';
+import { getExamType } from '../exam/examSlice';
 
 
 

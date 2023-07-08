@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import type { ColumnsType } from 'antd/es/table';
 import { DispatchType, RootState } from '../../redux/configStore';
 import { useDispatch } from 'react-redux';
-import { deleteExamApi, getExamOptionApi } from '../../redux/reducers/examSlice/examSlice';
+import { deleteExamApi, getExamOptionApi } from '../../redux/reducers/exam/examSlice';
 import { useSelector } from 'react-redux';
 import { ExamOptionModel } from '../../_core/ExamModel';
 type Props = {}

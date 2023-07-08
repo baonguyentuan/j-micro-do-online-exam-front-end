@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { Layout, Space, Typography } from 'antd';
 import SideBar from '../../components/SideBar/SideBar';
 import AdminUser from '../AdminUser/AdminUser';
+import AdminCategory from './AdminCategory';
+import { PropsDrawerModifierModel } from '../../_core/DrawerModel';
+import DrawerModifier from '../../components/Drawer/DrawerModifier';
 
 const { Content } = Layout;
 
 const Admin: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState('user-management');
-
   const handleSelectOption = (option: string) => {
     setSelectedOption(option);
   };
@@ -16,7 +18,7 @@ const Admin: React.FC = () => {
     <Layout style={{ minHeight: '100vh' }}>
       <SideBar onSelectOption={handleSelectOption} />
       <Layout className="site-layout">
-        <Space direction="vertical" size="large" style={{width:"100%" }}>
+        <Space direction="vertical" size="large" style={{ width: "100%" }}>
           <div style={{
             width: "100%",
             height: "7vh",
@@ -37,8 +39,10 @@ const Admin: React.FC = () => {
         </Space>
         <Content style={{ margin: '16px' }}>
           {selectedOption === 'user-management' && <AdminUser />}
+          {selectedOption === 'category' && <AdminCategory />}
         </Content>
       </Layout>
+      <DrawerModifier  />
     </Layout>
   );
 };

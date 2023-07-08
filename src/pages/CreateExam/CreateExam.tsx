@@ -9,7 +9,7 @@ import CreateQuestion from '../../components/Exam/CreateQuestion';
 import { MAX_DURATION_EXAM, MAX_QUESTION_EXAM, MIN_DURATION_EXAM, MIN_QUESTION_EXAM } from '../../utils/config';
 import { DispatchType, RootState } from '../../redux/configStore';
 import { useDispatch } from 'react-redux';
-import { createExamApi } from '../../redux/reducers/examSlice/examSlice';
+import { createExamApi } from '../../redux/reducers/exam/examSlice';
 import { useTranslation } from 'react-i18next';
 import { getCategoryOptionApi } from '../../redux/reducers/category/categorySlice';
 import { useSelector } from 'react-redux';
@@ -19,14 +19,14 @@ type Props = {}
 const CreateExam = (props: Props) => {
     const optionsCategory: SelectProps['options'] = [];
     let [isNewQuestion, setIsNewQuestion] = useState<boolean>(false)
-    const { lstCategory } = useSelector((state: RootState) => state.categorySlice)
+    const { lstCategoryOption } = useSelector((state: RootState) => state.categorySlice)
     const { userInfo } = useSelector((state: RootState) => state.userSlice)
     const dispatch: DispatchType = useDispatch()
     let { t } = useTranslation("contest")
     useEffect(() => {
         dispatch(getCategoryOptionApi())
     }, [])
-    lstCategory.map((categoryItem, index) => {
+    lstCategoryOption.map((categoryItem, index) => {
         optionsCategory.push({
             label: categoryItem.name,
             value: categoryItem.id,
