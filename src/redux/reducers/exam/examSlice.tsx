@@ -3,13 +3,15 @@ import { setLoading } from '../loading/loadingSlice';
 import { openNotificationWithIcon } from '../../../utils/operate';
 import { ExamDetailFormModel, ExamOptionModel, ExamStateModel } from '../../../_core/ExamModel';
 import { DispatchType } from '../../configStore';
-import { examService } from '../../../services/ExamService';
+import { ExamSearchParams, examService } from '../../../services/ExamService';
 import { STATUS_CODE } from '../../../utils/config';
 
 const initialState: ExamStateModel = {
   // examModify:
   lstOptionExam: [],
-  examType:'PRIVATE'
+  examType: 'PRIVATE',
+  hotExamsByCategory: {},
+  examsByCategory: []
 }
 
 const examSlice = createSlice({
@@ -19,13 +21,19 @@ const examSlice = createSlice({
     getOptionExam: (state: ExamStateModel, action: PayloadAction<{ lstOptionExam: ExamOptionModel[] }>) => {
       state.lstOptionExam = action.payload.lstOptionExam
     },
-    getExamType:(state: ExamStateModel, action: PayloadAction<{ examType: string}>)=>{
-        state.examType=action.payload.examType
+    getExamType: (state: ExamStateModel, action: PayloadAction<{ examType: string }>) => {
+      state.examType = action.payload.examType
+    },
+    hotExamsReceived(state, action) {
+      state.hotExamsByCategory = action.payload
+    },
+    examsCategoryReceived(state, action) {
+      state.examsByCategory = action.payload
     }
   }
 });
 
-export const { getOptionExam,getExamType } = examSlice.actions
+export const { getOptionExam, getExamType, examsCategoryReceived, hotExamsReceived } = examSlice.actions
 
 export default examSlice.reducer
 export const createExamApi = (examDetail: FormData) => {
@@ -75,5 +83,34 @@ export const deleteExamApi = (examID: number) => {
       console.log(err);
       openNotificationWithIcon('error', 'Delete exam failed', '', 1)
     }
+  }
+}
+
+export const getExamsByCategoryApi = () => {
+  return async (dispatch: DispatchType) => {
+      await dispatch(setLoading({ isLoading: true }))
+      try {
+          const result = await examService.getExamByCategory();
+          console.log(result.data.data)
+          dispatch(hotExamsReceived(result.data.data));
+      } catch (err) {
+          openNotificationWithIcon('error', 'Get exams by category failed', '', 1)
+
+      }
+      await dispatch(setLoading({isLoading: false}))
+  }
+}
+
+export const getExamsApi = (params: ExamSearchParams) =>{
+  return async (dispatch: DispatchType) =>{
+      await dispatch(setLoading({ isLoading: true }))
+      try{
+          const result = await examService.getExams(params);
+          dispatch(examsCategoryReceived(result.data.data))
+          console.log(result)
+      }catch (err){
+          console.log(err)
+      }
+      await dispatch(setLoading({isLoading: false}))
   }
 }

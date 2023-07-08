@@ -8,28 +8,28 @@ import ListContestUser from '../../components/Contest/ListContestUser';
 type Props = {}
 
 function Account({ }: Props) {
-    let itemsTab:TabsProps['items']=[
+    let itemsTab: TabsProps['items'] = [
         {
-            label:'Information',
-            key:'information',
-            children:<UserInfo/>
+            label: 'Information',
+            key: 'information',
+            children: <UserInfo />
         },
         {
-            label:'Exam',
-            key:'exam',
-            children:<ListExamUser/>
+            label: 'Exam',
+            key: 'exam',
+            children: <ListExamUser />
         },
         {
-            label:'Contest',
-            key:'contest',
-            children:<ListContestUser/>
+            label: 'Contest',
+            key: 'contest',
+            children: <ListContestUser />
         },
     ]
     return (
-        <div className='size__component py-4' style={{ height: '70vh' }}>
+        <div className='size__component py-4' style={{ minHeight: '70vh' }}>
             <h1 className='text-center font-bold text-2xl m-4'>Your Account Information</h1>
             <Tabs
-            type='card'
+                type='card'
                 tabPosition='left'
                 items={itemsTab}
             />

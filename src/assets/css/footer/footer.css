@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Caprasimo&family=Caveat:wght@700&display=swap');
+
+.logo-font{
+    font-family: 'Caprasimo', cursive;
+    font-family: 'Caveat', cursive;
+}
+
 .footer__intro{
     position: relative;
 }

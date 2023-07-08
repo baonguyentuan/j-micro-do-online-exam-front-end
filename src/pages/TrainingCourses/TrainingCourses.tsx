@@ -1,89 +1,89 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
-import { Swiper, SwiperSlide } from 'swiper/react';
+import {Swiper, SwiperSlide} from 'swiper/react';
 import 'swiper/css';
-import CardContest from '../../components/Card/CardContest';
-import { NavLink } from 'react-router-dom';
-import { Button } from 'antd';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/configStore';
-import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
-import { getLstHotContest } from '../../redux/reducers/contest/contestSlice';
+import {Button} from 'antd';
+import {useDispatch, useSelector} from 'react-redux';
+import {DispatchType, RootState} from '../../redux/configStore';
+import {useTranslation} from 'react-i18next';
+import {getExamsApi, getExamsByCategoryApi} from '../../redux/reducers/exam/examSlice'
+import {Navigation} from "swiper";
+import CardCourse from "../../components/Card/CardContest";
+import {LeftCircleOutlined, RightCircleOutlined} from "@ant-design/icons";
+import {Link, NavLink} from "react-router-dom";
+
 type Props = {}
 
 function TrainingCourses(props: Props) {
-    const { t } = useTranslation('card')
+    const dispatch: DispatchType = useDispatch()
+    const {t} = useTranslation('card')
     const items = [
-        { name: t('nav.home'), link: "/" },
-        { name: t('nav.training_course') },
+        {name: t('nav.home'), link: "/"},
+        {name: t('nav.training_course')},
     ];
-    const { arrHotContest } = useSelector((state: RootState) => state.contestSlice)
-    console.log(arrHotContest);
-    
-    const dispatch = useDispatch()
-    useEffect(()=>{
-        dispatch(getLstHotContest())
-    })
+
+    const {hotExamsByCategory} = useSelector((state: RootState) => state.examSlice)
+
+    useEffect(() => {
+        dispatch(getExamsByCategoryApi())
+    }, [])
+
     return (
         <div>
-            <Breadcrumb items={items} />
-            <div className='size__component py-6'>
-                <div>
-                    <h3 className='text__title'>Amazon</h3>
-                </div>
-                <div className='pt-8'>
-                    <Swiper
-                        spaceBetween={50}
-                        slidesPerView={4}
-                        navigation={true}
-                    >
-                        {arrHotContest.map((contestItem, index) => {
-                            return <SwiperSlide key={contestItem.id}><CardContest contestDetail={contestItem} /> </SwiperSlide>
-                        })}
-                    </Swiper>
-                </div>
-                <div className='w-full flex justify-center'>
-                    <Button className='mt-4 btn__banner'>{t('cardCourse.more courses')}</Button>
-                </div>
+            <div className='size__component'>
+                <Breadcrumb items={items}/>
             </div>
-            <div className='size__component py-6'>
-                <div>
-                    <h3 className='text__title'>Microsoft</h3>
-                </div>
-                <div className='pt-8'>
-                    <Swiper
-                        spaceBetween={50}
-                        slidesPerView={4}
-                        navigation={true}
-                    >
-                        {arrHotContest.map((contestItem, index) => {
-                            return <SwiperSlide key={contestItem.id}><CardContest contestDetail={contestItem} /> </SwiperSlide>
-                        })}
-                    </Swiper>
-                </div>
-                <div className='w-full flex justify-center'>
-                    <Button className='mt-4 btn__banner'>{t('cardCourse.more courses')}</Button>
-                </div>
-            </div>
-            <div className='size__component py-6'>
-                <div>
-                    <h3 className='text__title'>Oracle</h3>
-                </div>
-                <div className='pt-8'>
-                    <Swiper
-                        spaceBetween={50}
-                        slidesPerView={4}
-                        navigation={true}
-                    >
-                        {arrHotContest.map((courseItem, index) => {
-                            return <SwiperSlide key={courseItem.id}><CardContest contestDetail={courseItem} /> </SwiperSlide>
-                        })}
-                    </Swiper>
-                </div>
-                <div className='w-full flex justify-center'>
-                    <Button className='mt-4 btn__banner'>{t('cardCourse.more courses')}</Button>
-                </div>
+            <div>
+                {
+                    Object.keys(hotExamsByCategory).map((name, index) => {
+                        return <div key={index} className='size__component py-6'>
+                            <h3 className='text-2xl font-bold'>{name.split(",")[0]}</h3>
+                            <div className='pt-4 relative'>
+                                <Swiper
+                                    spaceBetween={30}
+                                    slidesPerView={2}
+                                    modules={[Navigation]}
+                                    navigation={{
+                                        prevEl: '.customPrevSlide',
+                                        nextEl: '.customNextSlide',
+                                    }}
+                                    breakpoints={{
+                                        1280: {
+                                            slidesPerView: 4,
+                                        },
+                                        1084: {
+                                            slidesPerView: 3,
+                                        },
+                                        640: {
+                                            slidesPerView: 2,
+                                        },
+                                    }}
+                                >
+                                    {
+                                        hotExamsByCategory[name].map((exam, index: number) => {
+                                            return <SwiperSlide key={index}>
+                                                <CardCourse examCard={exam}/>
+                                            </SwiperSlide>
+                                        })
+                                    }
+                                </Swiper>
+                                {
+                                    hotExamsByCategory[`${name}`].length > 4 ? (<>
+                                        <Button className='customNavigationSlide customPrevSlide'><LeftCircleOutlined
+                                            style={{transform: 'translateY(-6px)'}}/></Button>
+                                        <Button className='customNavigationSlide customNextSlide'><RightCircleOutlined
+                                            style={{transform: 'translateY(-6px)'}}/></Button>
+                                    </>) : ''
+                                }
+                            </div>
+                            <div className='w-full flex justify-center'>
+                                <Button className='mt-4 btn__banner'>
+                                    <Link to={{pathname:`/training_course/${name.split(",")[1]}`}}>{t('cardCourse.more courses')}</Link>
+                                </Button>
+                            </div>
+                        </div>
+                    })
+                }
             </div>
         </div>
     );

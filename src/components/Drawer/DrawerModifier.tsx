@@ -12,7 +12,7 @@ const DrawerModifier = () => {
             dispatch(closeDrawer())
         }}>
             {component}
-            <Button className='btn__contest' style={{padding:"12px 24px"}} onClick={() => {
+            <Button className='btn__contest' style={{padding:"8px 24px"}} onClick={() => {
                     submit()
             }}>Save</Button>
         </Drawer>

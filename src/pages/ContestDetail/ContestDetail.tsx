@@ -264,12 +264,12 @@ const ContestDetail = ({ }: Props) => {
                         <NavLink to={'/home'}><ArrowRightOutlined className='-translate-y-1' /></NavLink>
                     </div>
                     <div className='xl:block hidden'>
-                        {arrRelateContest.map((contest, index) => {
-                            return <Fragment key={contest.id}>
-                                <CardCourse contestDetail={contest} />
-                                <br />
-                            </Fragment>
-                        })}
+                        {/*{arrRelateContest.map((contest, index) => {*/}
+                        {/*    return <Fragment key={contest.id}>*/}
+                        {/*        <CardCourse contestDetail={contest} />*/}
+                        {/*        <br />*/}
+                        {/*    </Fragment>*/}
+                        {/*})}*/}
                     </div>
                     <div className='xl:hidden block relative'>
                         <Swiper
@@ -289,9 +289,9 @@ const ContestDetail = ({ }: Props) => {
                                 },
                             }}
                         >
-                            {arrRelateContest.map((contestItem, index) => {
-                                return <SwiperSlide key={contestItem.id}><CardCourse contestDetail={contestItem} /> </SwiperSlide>
-                            })}
+                            {/*{arrRelateContest.map((contestItem, index) => {*/}
+                            {/*    return <SwiperSlide key={contestItem.id}><CardCourse contestDetail={contestItem} /> </SwiperSlide>*/}
+                            {/*})}*/}
                         </Swiper>
                         <Button className='customNavigationSlide customPrevSlide'><LeftCircleOutlined style={{ transform: 'translateY(-6px)' }} /></Button>
                         <Button className='customNavigationSlide customNextSlide'><RightCircleOutlined style={{ transform: 'translateY(-6px)' }} /></Button>

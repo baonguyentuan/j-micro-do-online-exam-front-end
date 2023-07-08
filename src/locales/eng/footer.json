@@ -1,6 +1,8 @@
 {
     "uploadFile":"Upload File",
     "examProvider":"Exam Provider",
+    "requestExam": "Request Exam",
+    "archive": "Archive",
     "faq":"FAQ",
     "blog":"Blog",
     "contact":"Contact",

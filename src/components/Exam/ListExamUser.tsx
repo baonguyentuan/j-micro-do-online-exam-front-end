@@ -6,19 +6,14 @@ import { useDispatch } from 'react-redux';
 import { deleteExamApi, getExamOptionApi } from '../../redux/reducers/exam/examSlice';
 import { useSelector } from 'react-redux';
 import { ExamOptionModel } from '../../_core/ExamModel';
+import { useNavigate } from 'react-router-dom';
 type Props = {}
 
 const ListExamUser = (props: Props) => {
     let { lstOptionExam } = useSelector((state: RootState) => state.examSlice)
+    let navigate = useNavigate()
     let dispatch: DispatchType = useDispatch()
     const columns = [
-        {
-            title: 'Numeric order',
-            dataIndex: 'numericOrder',
-            key: 'numericOrder',
-            width: '5%',
-            render: (text: string, record: ExamOptionModel, index: number) => <p>{index + 1}</p>,
-        },
         {
             title: 'Name',
             dataIndex: 'name',
@@ -36,7 +31,7 @@ const ListExamUser = (props: Props) => {
                     <Popconfirm
                         placement="topRight"
                         title={"Are you sure to delete this exam"}
-                        onConfirm={()=>{
+                        onConfirm={() => {
                             dispatch(deleteExamApi(record.id))
                         }}
                         okType='danger'
@@ -54,6 +49,14 @@ const ListExamUser = (props: Props) => {
     }, [])
     return (
         <div>
+            <div>
+                <div className='my-4 flex justify-between items-center'>
+                    <Button onClick={async () => {
+                        navigate('/create_exam')
+                    }}>Create Exam</Button>
+                    <p className='mx-4 font-bold text-blue-600 text-base'><span>Total: </span><span>{lstOptionExam.length}</span></p>
+                </div>
+            </div>
             <Table rowKey={'id'} columns={columns} dataSource={lstOptionExam} />
         </div>
     )
