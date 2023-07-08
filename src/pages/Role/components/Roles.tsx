@@ -3,11 +3,14 @@ import { Button, Table, Input, Modal, Form } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { addRole, updateRole } from '../../../redux/reducers/roles/roles';
 import { EndpointDetailModel } from '../../../_core/EndpointModel';
+import { useDispatch } from 'react-redux';
+import { DispatchType } from '../../../redux/configStore';
 
 const Roles = ({ roles }: any) => {
+    let dispatch: DispatchType = useDispatch()
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [form] = Form.useForm();
-    const [selectedRecord, setSelectedRecord] = useState<EndpointDetailModel | null>();
+    const [selectedRecord, setSelectedRecord] = useState<EndpointDetailModel>();
 
     const showModal = () => {
         form.resetFields();
@@ -23,22 +26,21 @@ const Roles = ({ roles }: any) => {
             await form.validateFields();
             const values = form.getFieldsValue();
             const { roleName } = values;
-            await addRole(roleName);
+            await dispatch(addRole(roleName));
             setIsModalVisible(false);
         } catch (error) {
             console.log(error);
         }
     };
 
-
-    // const handleUpdateRole = () => {
-    //     form.validateFields().then((values) => {
-    //         const { roleName } = values;
-    //         const updatedRole = { roleName };
-    //         updateRole(selectedRecord.id);
-    //         setIsModalVisible(false);
-    //     });
-    // };
+    const handleUpdateRole = () => {
+        form.validateFields().then((values) => {
+            const { roleName } = values;
+            const updatedRole = { roleName };
+            // dispatch(updateRole(selectedRecord.id));
+            setIsModalVisible(false);
+        });
+    };
 
     const columns = [
         {
