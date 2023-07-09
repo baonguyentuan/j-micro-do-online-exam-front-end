@@ -1,14 +1,15 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {setLoading} from '../loading/loadingSlice';
-import {openNotificationWithIcon} from '../../../utils/operate';
-import {ExamOptionModel, ExamSearchParams, examSliceInitState} from '../../../_core/exam';
-import {DispatchType} from '../../configStore';
-import {examService} from '../../../services/ExamService';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { setLoading } from '../loading/loadingSlice';
+import { openNotificationWithIcon } from '../../../utils/operate';
+import { ExamOptionModel, ExamSearchParams, examSliceInitState } from '../../../_core/exam';
+import { DispatchType } from '../../configStore';
+import { examService } from '../../../services/ExamService';
 import Constants from "../../../constants/Constants";
 
 const initialState = {
   hotExamsByCategory: {},
-  examType: 'PRIVATE'
+  examType: 'PRIVATE',
+  lstOptionExam: [{}]
 } as examSliceInitState
 
 const examSlice = createSlice({
@@ -61,7 +62,7 @@ export default examSlice.reducer
 
 export const createExamApi = (examDetail: FormData) => {
   return async (dispatch: DispatchType) => {
-    await dispatch(setLoading({isLoading: true}))
+    await dispatch(setLoading({ isLoading: true }))
     try {
       const result = await examService.creatExam(examDetail)
       if (result.status === Constants.httpStatusCode.SUCCESS) {
@@ -74,26 +75,26 @@ export const createExamApi = (examDetail: FormData) => {
       console.log(err);
       openNotificationWithIcon('error', 'Create exam failed', '', 1)
     }
-    await dispatch(setLoading({isLoading: false}))
+    await dispatch(setLoading({ isLoading: false }))
   }
 }
 
 export const getExamsByCategoryApi = () => {
   return async (dispatch: DispatchType) => {
-    await dispatch(setLoading({isLoading: true}))
+    await dispatch(setLoading({ isLoading: true }))
     try {
       const result = await examService.getExamByCategory();
       dispatch(hotExamsReceived(result.data.data));
     } catch (err) {
       openNotificationWithIcon('error', 'Get exams by category failed', '', 1)
     }
-    await dispatch(setLoading({isLoading: false}))
+    await dispatch(setLoading({ isLoading: false }))
   }
 }
 
 export const getExamsApi = (params: ExamSearchParams) => {
   return async (dispatch: DispatchType) => {
-    await dispatch(setLoading({isLoading: true}))
+    await dispatch(setLoading({ isLoading: true }))
     try {
       const result = await examService.getExams(params);
       dispatch(examsCategoryReceived(result.data))
@@ -101,13 +102,13 @@ export const getExamsApi = (params: ExamSearchParams) => {
       console.log(err)
       openNotificationWithIcon('error', 'Get exams failed', '', 1)
     }
-    await dispatch(setLoading({isLoading: false}))
+    await dispatch(setLoading({ isLoading: false }))
   }
 }
 
 export const getExamDurationOptions = () => {
   return async (dispatch: DispatchType) => {
-    await dispatch(setLoading({isLoading: true}))
+    await dispatch(setLoading({ isLoading: true }))
     try {
       const result = await examService.getExamDurationOptions();
       dispatch(examDurationOptionsReceived(result.data.data));
@@ -115,13 +116,13 @@ export const getExamDurationOptions = () => {
       console.log(err)
       openNotificationWithIcon('error', 'Get exam duration options failed', '', 1)
     }
-    await dispatch(setLoading({isLoading: false}))
+    await dispatch(setLoading({ isLoading: false }))
   }
 }
 
 export const getExamOrderByOptions = () => {
   return async (dispatch: DispatchType) => {
-    await dispatch(setLoading({isLoading: true}))
+    await dispatch(setLoading({ isLoading: true }))
     try {
       const result = await examService.getExamOrderByOptions();
       dispatch(examOrderByOptionsReceived(result.data.data))
@@ -129,26 +130,26 @@ export const getExamOrderByOptions = () => {
       console.log(err)
       openNotificationWithIcon('error', 'Get exam order by options failed', '', 1)
     }
-    await dispatch(setLoading({isLoading: false}))
+    await dispatch(setLoading({ isLoading: false }))
   }
 }
 
 export const getExamDetail = (name: object) => {
   return async (dispatch: DispatchType) => {
-    await dispatch(setLoading({isLoading: true}))
+    await dispatch(setLoading({ isLoading: true }))
     try {
       const result = await examService.getExamDetail(name);
       dispatch(examGetDetailReceived(result.data.data))
     } catch (err) {
       openNotificationWithIcon('error', 'Get exam detail failed', '', 1)
     }
-    await dispatch(setLoading({isLoading: false}))
+    await dispatch(setLoading({ isLoading: false }))
   }
 }
 
 export const fetchExamDetail = (name: string) => {
   return async (dispatch: DispatchType) => {
-    await dispatch(setLoading({isLoading: true}))
+    await dispatch(setLoading({ isLoading: true }))
     try {
       const result = await examService.fetchExamDetail(name);
       dispatch(examFetchDetailReceived(result.data))
@@ -156,20 +157,20 @@ export const fetchExamDetail = (name: string) => {
     } catch (err) {
       openNotificationWithIcon('error', 'Fetch exam detail failed', '', 1)
     }
-    await dispatch(setLoading({isLoading: false}))
+    await dispatch(setLoading({ isLoading: false }))
   }
 }
 
 export const getExamsRandom = (name: object) => {
   return async (dispatch: DispatchType) => {
-    await dispatch(setLoading({isLoading: true}))
+    await dispatch(setLoading({ isLoading: true }))
     try {
       const result = await examService.getRandomExams(name);
       dispatch(examsRandomReceived(result.data.data))
     } catch (err) {
       openNotificationWithIcon('error', 'Get random exams failed', '', 1)
     }
-    await dispatch(setLoading({isLoading: false}))
+    await dispatch(setLoading({ isLoading: false }))
   }
 }
 
@@ -178,7 +179,7 @@ export const getExamOptionApi = () => {
     try {
       const result = await examService.getExamOption()
       if (result.status === Constants.httpStatusCode.SUCCESS) {
-        dispatch(getOptionExam({lstOptionExam: result.data.data}))
+        dispatch(getOptionExam({ lstOptionExam: result.data.data }))
       } else {
         console.log(result);
       }

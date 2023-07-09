@@ -1,5 +1,5 @@
 export default {
-  domain:process.env.REACT_APP_SERVER_URI,
+  domain:process.env.REACT_APP_SERVER_URL,
   auth: {
     "LOGIN": 'auth/login',
     "LOGOUT": 'auth/logou',
