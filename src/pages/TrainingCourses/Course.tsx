@@ -1,25 +1,24 @@
 import {useNavigate, useParams} from "react-router-dom";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {DispatchType, RootState} from "../../redux/configStore";
 import {useDispatch, useSelector} from "react-redux";
 import {getExamDetail, getExamsRandom} from "../../redux/reducers/exam";
 import Constants from "../../constants/Constants";
 import styled from "styled-components";
-import {Avatar, Button, Divider, Form, Pagination, Rate} from 'antd';
+import {Button, Divider, Form, Rate} from 'antd';
 import {useTranslation} from "react-i18next";
 import AppRoutes from "../../constants/AppRoutes";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
-import {CommentFormValue, ContestCommentModel} from "../../_core/CommentModel";
+import {CommentFormValue} from "../../_core/CommentModel";
 import CardContest from "../../components/Card/CardContest";
 import {useFormik} from 'formik';
 import * as Yup from 'yup'
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
-import {StarFilled, UserOutlined} from "@ant-design/icons";
+import {StarFilled} from "@ant-design/icons";
 import ExamFeedBack from "../../components/exams/ExamFeedBack";
 import {backToPosition} from "../../utils/operate";
-
-const DEFAULT__PAGESIZE = 10
+import '../../assets/css/feedback/feedback.css';
 
 const initialFormValue: CommentFormValue = {
   comment: '',
@@ -52,8 +51,8 @@ function Course() {
     backToPosition(0)
   }, [name])
 
-  
-  const onHandleChangeFeedBackFilter = (star:number)=>{
+
+  const onHandleChangeFeedBackFilter = (star: number) => {
     setFilter(star);
   }
 
@@ -137,7 +136,7 @@ function Course() {
 
     <div className='course__container'>
       <Breadcrumb items={items}/>
-      <div className='top mb-14'>
+      <div className='top mb-14 mt-10 md:mt-16'>
         {
           examGetDetail !== undefined ?
             <div className='grid grid-cols-6 gap-10 md:gap-16 mb-6'>
@@ -189,14 +188,15 @@ function Course() {
         <div className='xl:col-span-4 col-span-6'>
           <ExamFeedBack/>
 
-          <div className='feedback__box '>
+          <div className='feedback__box'>
             <h1 className='font-semibold text-2xl mb-5'>{t('feedback.feedback')}</h1>
             <div className='flex items-center'>
               <span className='mr-4'>{t('feedback.filter')}</span>
               <div className='flex gap-2'>
                 {
                   feedBackRange.map((opt, index) => {
-                    return <ExamFeedBackFilterButton key={index} defaultStart={filter} star={opt} onHandleFilter={onHandleChangeFeedBackFilter}/>
+                    return <ExamFeedBackFilterButton key={index} defaultStart={filter} star={opt}
+                                                     onHandleFilter={onHandleChangeFeedBackFilter}/>
                   })
                 }
               </div>
@@ -218,14 +218,14 @@ function Course() {
             {/*})}*/}
 
             {/*<Pagination className='text-center mt-4' defaultCurrent={1} total={currentCommentList.length}*/}
-            {/*            defaultPageSize={DEFAULT__PAGESIZE} onChange={(page, pageSize) => {*/}
+            {/*            defaultPageSize={AppConfigs.pagination.DEFAULT_PAGE_SIZE} onChange={(page, pageSize) => {*/}
             {/*  let topScroll = document.getElementById('feedbackArea')?.offsetTop*/}
             {/*  if (topScroll) {*/}
             {/*    backToPosition(topScroll)*/}
             {/*  }*/}
             {/*  setCurrentPage(page)*/}
             {/*}}/>*/}
-            
+
           </div>
 
         </div>
@@ -248,18 +248,18 @@ function Course() {
 
 type ExamFeedBackFilterButtonProps = {
   star: number,
-  defaultStart:number,
-  onHandleFilter:(start: number)=>void
+  defaultStart: number,
+  onHandleFilter: (start: number) => void
 }
 
 
 const ExamFeedBackFilterButton = (props: ExamFeedBackFilterButtonProps) => {
-  const {star,defaultStart,onHandleFilter} = props;
+  const {star, defaultStart, onHandleFilter} = props;
   const {t} = useTranslation('contest');
   const handleClickButton = (star: number) => {
     onHandleFilter(star);
   }
-  
+
   return (<ExamFeedBackFilterButtonWrapper>
     {
       star === 0 ? <Button className={`font-medium ${defaultStart === star ? 'active' : ''}`} onClick={() => {

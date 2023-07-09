@@ -7,7 +7,7 @@ const {Title} = Typography;
 
 function Breadcrumb({items}: any) {
     return (
-        <NavBreadcrumb className="text-black mt-4 mb-3" aria-label="Breadcrumb">
+        <NavBreadcrumb className="text-black mt-4 mb-10" aria-label="Breadcrumb">
             <ol className="list-none p-0 inline-flex font-bold">
                 {items.map((item: any, index: number) => (
                     <Title level={4} key={index} className="mr-1">
@@ -33,6 +33,7 @@ const NavBreadcrumb = styled.nav`
   a {
     color: #0E2954;
     transition: .3s all ease;
+    font-size: 18px;
   }
 
 `

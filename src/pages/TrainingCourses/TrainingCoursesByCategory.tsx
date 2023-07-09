@@ -11,7 +11,7 @@ import type {CheckboxValueType} from 'antd/es/checkbox/Group';
 import styled from "styled-components";
 import Constants from "../../constants/Constants";
 import AppRoutes from "../../constants/AppRoutes";
-import {getExamDurationOptions, getExamOrderByOptions} from "../../redux/reducers/exam";
+import {getExamDurationOptions, getExamOrderByOptions, getExamsApi} from "../../redux/reducers/exam";
 
 const {Title} = Typography;
 
@@ -39,6 +39,10 @@ function TrainingCoursesByCategory() {
   const {examsByCategory, examOrderByOptions, examDurationOptions} = useSelector((state: RootState) => state.examSlice)
 
   useEffect(() => {
+    dispatch(getExamsApi(searchExams))
+  }, [category, searchExams])
+  
+  useEffect(() => {
     dispatch(getExamDurationOptions())
     dispatch(getExamOrderByOptions())
   }, [])
@@ -65,7 +69,7 @@ function TrainingCoursesByCategory() {
         {
           examsByCategory !== undefined ?
             (
-              <div className='mt-10'>
+              <div className=''>
                 {/* SEARCH AREA*/}
                 <div className='search_area border-dashed border-2 border-indigo-200 rounded-sm p-5'>
                   <div className='flex flex-wrap xl:flex-nowrap justify-between gap-5 mb-5'>

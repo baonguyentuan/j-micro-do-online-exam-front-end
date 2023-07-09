@@ -73,5 +73,9 @@ export default {
   },
   notification:{
     "GET_NOTIFY_BY_USER":'notify/user'
+  },
+  feedback:{
+    "GET_FEEDBACK_BY_EXAM_NAME":'',
+    
   }
 }
