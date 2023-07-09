@@ -1,5 +1,5 @@
 export default {
-  domain:process.env.REACT_APP_SERVER_URL,
+  domain:process.env.REACT_APP_SERVER_URL || "http://localhost:8763/api/v1",
   auth: {
     "LOGIN": 'auth/login',
     "LOGOUT": 'auth/logou',
@@ -75,7 +75,11 @@ export default {
     "GET_NOTIFY_BY_USER":'notify/user'
   },
   feedback:{
-    "GET_FEEDBACK_BY_EXAM_NAME":'',
-    
+    "EDIT":'exams/feedback/edit',
+    "DELETE":'exams/feedback/delete',
+    "GET_EXAM_RATING":'exams/feedback/calculate',
+    "CREATE_EXAM_FEEDBACK":'exams/feedback/create',
+    "GET_FEEDBACK_BY_EXAM_NAME":'exams/feedback/exam',
+    "GET_STATUS_USER_FEEDBACK":'exams/feedback/check',
   }
 }

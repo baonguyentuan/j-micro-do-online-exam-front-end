@@ -12,6 +12,16 @@ export class BaseService {
       headers: {"Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken)}
     })
   }
+  
+  putByCondition(url:string,model:Object,params:Object){
+    return axios({
+      url:`${ApiEndpoint.domain}/${url}`,
+      method:'PUT',
+      data:model,
+      params:params,
+      headers: {"Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken)}
+    })
+  }
 
   post(url: string, model: any) {
     return axios({
