@@ -1,13 +1,18 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { ContestInfoModel, ContestResultModel, ContestState, ContestingInfoModel, CreateContestFormModel } from '../../../_core/ContestModel';
-import { DispatchType } from '../../configStore';
-import { STATUS_CODE, history } from '../../../utils/config';
-import { setLoading } from '../loading/loadingSlice';
-import { getLstContestComment } from '../comment/contestCommentSlice';
-import { BaseService } from '../../../services/BaseService';
-import { contestService } from '../../../services/ContestService';
-import { openNotificationWithIcon } from '../../../utils/operate';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit'
+import {
+  ContestInfoModel,
+  ContestingInfoModel,
+  ContestResultModel,
+  ContestState,
+  CreateContestFormModel
+} from '../../../_core/ContestModel';
+import {DispatchType} from '../../configStore';
+import {setLoading} from '../loading/loadingSlice';
+import {getLstContestComment} from '../comment/contestCommentSlice';
+import {openNotificationWithIcon} from '../../../utils/operate';
 import arrQuestion from './dethi.json'
+import {history} from "../../../index";
+
 let lstContest = [
   {
     id: 1,
@@ -735,7 +740,7 @@ const contestSlice = createSlice({
       state.contestingInfo = action.payload.contest
     },
     createLstAnswer: (state: ContestState) => {
-      state.lstAnswer=[]
+      state.lstAnswer = []
       state.contestingInfo?.lstQuestion.map((question, questionIndex) => {
         state.lstAnswer.push({
           questionIndex,
@@ -765,30 +770,37 @@ const contestSlice = createSlice({
     },
   }
 });
-export const { getContestDetail, getLstRelateContest, getLstHotContest, getContestingInfo, createLstAnswer, setAnswer } = contestSlice.actions
+export const {
+  getContestDetail,
+  getLstRelateContest,
+  getLstHotContest,
+  getContestingInfo,
+  createLstAnswer,
+  setAnswer
+} = contestSlice.actions
 export default contestSlice.reducer
 export const getContestDetailApi = (contestId: Number) => {
   return async (dispatch: DispatchType) => {
-    await dispatch(setLoading({ isLoading: true }))
+    await dispatch(setLoading({isLoading: true}))
     try {
       let contestFindIndex = lstContest.findIndex((contest) => contest.id === contestId)
       if (contestFindIndex !== -1) {
         let currentContestDetail = lstContest[contestFindIndex]
-        await dispatch(getContestDetail({ contest: currentContestDetail }))
-        await dispatch(getLstRelateContest({ lstContest: lstContest }))
-        await dispatch(getLstContestComment({ lstComment: currentContestDetail.rating }))
+        await dispatch(getContestDetail({contest: currentContestDetail}))
+        await dispatch(getLstRelateContest({lstContest: lstContest}))
+        await dispatch(getLstContestComment({lstComment: currentContestDetail.rating}))
       } else {
         history.push('/home')
       }
     } catch (err) {
       console.log(err);
     }
-    await dispatch(setLoading({ isLoading: false }))
+    await dispatch(setLoading({isLoading: false}))
   }
 }
 export const createContestApi = (contestDetail: CreateContestFormModel) => {
   return async (dispatch: DispatchType) => {
-    await dispatch(setLoading({ isLoading: true }))
+    await dispatch(setLoading({isLoading: true}))
     try {
       //   const result = await contestService.creatContest(contestDetail)
       //   if (result.status === STATUS_CODE.SUCCESS) {
@@ -801,12 +813,12 @@ export const createContestApi = (contestDetail: CreateContestFormModel) => {
       console.log(err);
       openNotificationWithIcon('error', 'Create Contest failed', '', 1)
     }
-    await dispatch(setLoading({ isLoading: false }))
+    await dispatch(setLoading({isLoading: false}))
   }
 }
 export const sendContestResultApi = (contestResult: ContestResultModel[]) => {
   return async (dispatch: DispatchType) => {
-    await dispatch(setLoading({ isLoading: true }))
+    await dispatch(setLoading({isLoading: true}))
     try {
       // const result = await contestService.sendContestResult(contestResult)
       //   if (result.status === STATUS_CODE.SUCCESS) {
@@ -819,12 +831,12 @@ export const sendContestResultApi = (contestResult: ContestResultModel[]) => {
       console.log(err);
       openNotificationWithIcon('error', 'Send Result failed', '', 1)
     }
-    await dispatch(setLoading({ isLoading: false }))
+    await dispatch(setLoading({isLoading: false}))
   }
 }
-export const getContestingInfoApi = (contestId: Number) => {  
+export const getContestingInfoApi = (contestId: Number) => {
   return async (dispatch: DispatchType) => {
-    await dispatch(setLoading({ isLoading: true }))
+    await dispatch(setLoading({isLoading: true}))
     try {
       let newContestDetail = {
         name: "Enlish",
@@ -835,11 +847,11 @@ export const getContestingInfoApi = (contestId: Number) => {
         timeStart: '2023-06-29 23:00:00',
         lstQuestion: arrQuestion
       }
-      await dispatch(getContestingInfo({ contest: newContestDetail }))
+      await dispatch(getContestingInfo({contest: newContestDetail}))
       await dispatch(createLstAnswer())
     } catch (err) {
       console.log(err);
     }
-    await dispatch(setLoading({ isLoading: false }))
+    await dispatch(setLoading({isLoading: false}))
   }
 }

@@ -1,12 +1,14 @@
-import { ENDPOINT_PATH } from "../utils/config"
-import { BaseService } from "./BaseService"
+import {BaseService} from "./BaseService"
+import ApiEndpoint from "../constants/ApiEndpoint";
 
 class AuthService extends BaseService {
-    constructor() {
-        super()
-    }
-    getUserInfo=()=>{
-        return this.get(ENDPOINT_PATH.AUTH.GET_USER_INFO)
-    }
+  constructor() {
+    super()
+  }
+
+  getUserInfo = () => {
+    return this.get(ApiEndpoint.auth.GET_USER_INFO)
+  }
 }
+
 export const authService = new AuthService()

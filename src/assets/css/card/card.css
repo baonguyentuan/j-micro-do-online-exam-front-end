@@ -67,7 +67,7 @@
 
 }
 .course__premiumTag{
-    @apply inline-block absolute top-3 right-0 text-center text-black font-semibold;
+    @apply inline-block absolute top-3 right-1 text-center text-black font-semibold rounded;
     width: 80px;
     height: 30px;
     line-height: 30px;

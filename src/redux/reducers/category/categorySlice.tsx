@@ -1,10 +1,16 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { CategoryDetailModel, CategoryGetModel, CategoryOptionModel, CategoryStateModel } from '../../../_core/CategoryModel';
-import { setLoading } from '../loading/loadingSlice';
-import { DispatchType } from '../../configStore';
-import { openNotificationWithIcon } from '../../../utils/operate';
-import { categoryService } from '../../../services/CategoryService';
-import { STATUS_CODE, defaultCategoryGet } from '../../../utils/config';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit'
+import {
+  CategoryDetailModel,
+  CategoryGetModel,
+  CategoryOptionModel,
+  CategoryStateModel,
+  defaultCategoryGet
+} from '../../../_core/CategoryModel';
+import {setLoading} from '../loading/loadingSlice';
+import {DispatchType} from '../../configStore';
+import {openNotificationWithIcon} from '../../../utils/operate';
+import {categoryService} from '../../../services/CategoryService';
+import Constants from "../../../constants/Constants";
 
 const initialState: CategoryStateModel = {
   lstCategoryOption: [],
@@ -33,49 +39,49 @@ const categorySlice = createSlice({
     },
   }
 });
-export const { getCategoryOption, getLstCategory, getCurrentCategory } = categorySlice.actions
+export const {getCategoryOption, getLstCategory, getCurrentCategory} = categorySlice.actions
 export default categorySlice.reducer
 
 export const getCategoryOptionApi = () => {
   return async (dispatch: DispatchType) => {
-    await dispatch(setLoading({ isLoading: true }))
+    await dispatch(setLoading({isLoading: true}))
     try {
       const result = await categoryService.getCategoryOption()
-      if (result.status === STATUS_CODE.SUCCESS) {
-        await dispatch(getCategoryOption({ lstCategoryOption: result.data.data }))
+      if (result.status === Constants.httpStatusCode.SUCCESS) {
+        await dispatch(getCategoryOption({lstCategoryOption: result.data.data}))
       } else {
         console.log(result);
       }
     } catch (err) {
       console.log(err);
     }
-    await dispatch(setLoading({ isLoading: false }))
+    await dispatch(setLoading({isLoading: false}))
   }
 }
 
 export const getCategoryByConditionApi = (condition: CategoryGetModel) => {
   return async (dispatch: DispatchType) => {
-    await dispatch(setLoading({ isLoading: true }))
+    await dispatch(setLoading({isLoading: true}))
     try {
       const result = await categoryService.getCategoryByCondition(condition)
-      if (result.status === STATUS_CODE.SUCCESS) {
-        await dispatch(getLstCategory({ lstCategory: result.data.data }))
+      if (result.status === Constants.httpStatusCode.SUCCESS) {
+        await dispatch(getLstCategory({lstCategory: result.data.data}))
       } else {
         console.log(result);
       }
     } catch (err) {
       console.log(err);
     }
-    await dispatch(setLoading({ isLoading: false }))
+    await dispatch(setLoading({isLoading: false}))
   }
 }
 
 export const deleteCategoryApi = (idCategory: number) => {
   return async (dispatch: DispatchType) => {
-    await dispatch(setLoading({ isLoading: true }))
+    await dispatch(setLoading({isLoading: true}))
     try {
       const result = await categoryService.deleteCategory(idCategory)
-      if (result.status === STATUS_CODE.SUCCESS) {
+      if (result.status === Constants.httpStatusCode.SUCCESS) {
         await dispatch(getCategoryByConditionApi(categorySlice.getInitialState().currentFilterCategory))
         openNotificationWithIcon('success', 'Delete category successful', '', 1)
       } else {
@@ -86,16 +92,16 @@ export const deleteCategoryApi = (idCategory: number) => {
       console.log(err);
       openNotificationWithIcon('error', 'Delete category failed', '', 1)
     }
-    await dispatch(setLoading({ isLoading: false }))
+    await dispatch(setLoading({isLoading: false}))
   }
 }
 
 export const getCategoryDetailApi = (idCategory: number) => {
   return async (dispatch: DispatchType) => {
     try {
-      const result = await categoryService.getCategoryDetail({ id: idCategory })
-      if (result.status === STATUS_CODE.SUCCESS) {
-        await dispatch(getCurrentCategory({ categoryDetail: result.data.data }))
+      const result = await categoryService.getCategoryDetail({id: idCategory})
+      if (result.status === Constants.httpStatusCode.SUCCESS) {
+        await dispatch(getCurrentCategory({categoryDetail: result.data.data}))
       } else {
         console.log(result);
       }
@@ -109,7 +115,7 @@ export const createCategoryApi = (categoryModel: FormData) => {
   return async (dispatch: DispatchType) => {
     try {
       const result = await categoryService.createCategory(categoryModel)
-      if (result.status === STATUS_CODE.SUCCESS) {
+      if (result.status === Constants.httpStatusCode.SUCCESS) {
         openNotificationWithIcon('success', 'Create category successful', '', 1)
       } else {
         console.log(result);
@@ -126,7 +132,7 @@ export const updateCategoryNameApi = (nameModel: FormData) => {
   return async (dispatch: DispatchType) => {
     try {
       const result = await categoryService.updateCategoryName(nameModel)
-      if (result.status === STATUS_CODE.SUCCESS) {
+      if (result.status === Constants.httpStatusCode.SUCCESS) {
         openNotificationWithIcon('success', 'Update category successful', '', 1)
       } else {
         console.log(result);
@@ -143,7 +149,7 @@ export const updateCategoryThumbnailApi = (thumbnailModel: FormData) => {
   return async (dispatch: DispatchType) => {
     try {
       const result = await categoryService.updateCategoryThumbnail(thumbnailModel)
-      if (result.status === STATUS_CODE.SUCCESS) {
+      if (result.status === Constants.httpStatusCode.SUCCESS) {
         openNotificationWithIcon('success', 'Update category successful', '', 1)
       } else {
         console.log(result);
