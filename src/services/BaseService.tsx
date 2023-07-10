@@ -9,17 +9,17 @@ export class BaseService {
       url: `${ApiEndpoint.domain}/${url}`,
       method: 'PUT',
       data: model,
-      headers: {"Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken)}
+      headers: { "Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken) }
     })
   }
-  
-  putByCondition(url:string,model:Object,params:Object){
+
+  putByCondition(url: string, model: Object, params: Object) {
     return axios({
-      url:`${ApiEndpoint.domain}/${url}`,
-      method:'PUT',
-      data:model,
-      params:params,
-      headers: {"Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken)}
+      url: `${ApiEndpoint.domain}/${url}`,
+      method: 'PUT',
+      data: model,
+      params: params,
+      headers: { "Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken) }
     })
   }
 
@@ -28,7 +28,16 @@ export class BaseService {
       url: `${ApiEndpoint.domain}/${url}`,
       method: 'POST',
       data: model,
-      headers: {"Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken)}
+      headers: { "Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken) }
+    })
+  }
+
+  postAdmin(url: string, model: any) {
+    return axios({
+      url: `${ApiEndpoint.domain}/${url}`,
+      method: 'POST',
+      params: model,
+      headers: { "Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken) }
     })
   }
 
@@ -36,7 +45,16 @@ export class BaseService {
     return axios({
       url: `${ApiEndpoint.domain}/${url}`,
       method: 'GET',
-      headers: {"Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken)}
+      headers: { "Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken) }
+    })
+  }
+
+  getOrderBy(url: string, model: string) {
+    return axios({
+      url: `${ApiEndpoint.domain}/${url}`,
+      method: 'GET',
+      params: model,
+      headers: { "Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken) }
     })
   }
 
@@ -45,7 +63,7 @@ export class BaseService {
       url: `${ApiEndpoint.domain}/${url}`,
       method: 'GET',
       params: model,
-      headers: {"Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken)}
+      headers: { "Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken) }
     })
   }
 
@@ -54,7 +72,7 @@ export class BaseService {
       url: `${ApiEndpoint.domain}/${url}`,
       method: 'GET',
       params: model,
-      headers: {"Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken)}
+      headers: { "Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken) }
     })
   }
 
@@ -62,7 +80,7 @@ export class BaseService {
     return axios({
       url: `${ApiEndpoint.domain}/${url}?id=${id}`,
       method: 'DELETE',
-      headers: {"Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken)}
+      headers: { "Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken) }
     })
   }
 }

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Layout, Space, Typography } from 'antd';
-import SideBar from '../../components/SideBar/SideBar';
-import AdminUser from '../AdminUser/AdminUser';
+import SideBar from '../components/SideBar/SideBar';
+import AdminUser from './AdminUser/AdminUser';
 import AdminCategory from './AdminCategory';
-import { PropsDrawerModifierModel } from '../../_core/DrawerModel';
-import DrawerModifier from '../../components/Drawer/DrawerModifier';
+import { PropsDrawerModifierModel } from '../_core/DrawerModel';
+import DrawerModifier from '../components/Drawer/DrawerModifier';
+import Role from './AdminRole';
+import AdminEndpoint from './AdminEndpoint';
 
 const { Content } = Layout;
 
@@ -40,9 +42,11 @@ const Admin: React.FC = () => {
         <Content style={{ margin: '16px' }}>
           {selectedOption === 'user-management' && <AdminUser />}
           {selectedOption === 'category' && <AdminCategory />}
+          {selectedOption === 'role' && <Role />}
+          {selectedOption === 'endpoint' && <AdminEndpoint />}
         </Content>
       </Layout>
-      <DrawerModifier  />
+      <DrawerModifier />
     </Layout>
   );
 };

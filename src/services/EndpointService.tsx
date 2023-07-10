@@ -1,21 +1,27 @@
 import { EndpointDetailModel } from "../_core/EndpointModel"
 import { BaseService } from "./BaseService"
 
-class EnpointService extends BaseService {
+class EndpointService extends BaseService {
     constructor() {
         super()
     }
-    getEndpointOption=()=>{
+    getEndpoints = () => {
+        return this.get('auth/endpoints')
+    }
+    getEndpointsOrderBy = (order_by: any) => {
+        return this.getOrderBy('auth/endpoints', order_by)
+    }
+    getEndpointOption = () => {
         return this.get('auth/endpoints/options')
     }
-    creatEndpoint = (endpointPath: string) => {
-        return this.post('auth/endpoints/create', endpointPath)
+    createEndpoint = (endpointPath: any) => {
+        return this.postAdmin('auth/endpoints/create', endpointPath)
     }
     editEndpoint = (endpointDetail: EndpointDetailModel) => {
         return this.post('auth/endpoints/edit', endpointDetail)
     }
-    deleteEndpoint=(endpointID:number)=>{
-        return this.delete('auth/endpoints/delete',endpointID)
+    deleteEndpoint = (id: number) => {
+        return this.delete('auth/endpoints/delete', id)
     }
 }
-export const endpointService = new EnpointService()
+export const endpointService = new EndpointService()
