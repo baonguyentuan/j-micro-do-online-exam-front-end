@@ -17,8 +17,8 @@ class EndpointService extends BaseService {
     createEndpoint = (endpointPath: any) => {
         return this.postAdmin('auth/endpoints/create', endpointPath)
     }
-    editEndpoint = (endpointDetail: EndpointDetailModel) => {
-        return this.post('auth/endpoints/edit', endpointDetail)
+    editEndpoint = (id: number, endPointPath: string) => {
+        return this.putAdmin('auth/endpoints/edit', {id, endPointPath})
     }
     deleteEndpoint = (id: number) => {
         return this.delete('auth/endpoints/delete', id)

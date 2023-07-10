@@ -7,11 +7,11 @@ class RoleService extends BaseService {
     getRoles = () => {
         return this.get('auth/roles')
     }
-    createRole = (rolePath: string) => {
-        return this.post('auth/roles/create', rolePath)
+    createRole = (name: string, endPoint: string) => {
+        return this.postAdmin('auth/roles/create', {name, endPoint})
     }
-    editRole = (id: number) => {
-        return this.put('auth/roles/edit', id)
+    editRole = (name: string, endPoint: string) => {
+        return this.putAdmin('auth/roles/edit', {name, endPoint})
     }
 }
 export const rolesService = new RoleService()

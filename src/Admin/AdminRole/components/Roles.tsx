@@ -1,52 +1,63 @@
-import React, { useState } from 'react';
-import { Button, Table, Input, Modal, Form } from 'antd';
+import { useEffect, useState } from 'react';
+import { Button, Table, Input, Modal, Form, Select } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { addRole, updateRole } from '../../../redux/reducers/role/roleSlice';
 import { EndpointDetailModel } from '../../../_core/EndpointModel';
-import { useDispatch } from 'react-redux';
-import { DispatchType } from '../../../redux/configStore';
+import { useDispatch, useSelector } from 'react-redux';
+import { DispatchType, RootState } from '../../../redux/configStore';
 import { EditOutlined } from '@ant-design/icons';
+import { getEndpointOptionApi } from '../../../redux/reducers/endpoint/endpointSlice';
 
 const Roles = ({ roles }: any) => {
     let dispatch: DispatchType = useDispatch()
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const [currentPage, setCurrentPage] = useState(1);
     const [form] = Form.useForm();
+    const endpointOption = useSelector((state: RootState) => state.endpointSlice?.options);
+    console.log('endpointOption', endpointOption)
+    const [state, setState] = useState({
+        currentPage: 1,
+        isModalVisible: false,
+    })
     const [selectedRecord, setSelectedRecord] = useState<EndpointDetailModel>();
 
     const showModal = () => {
         form.resetFields();
-        setIsModalVisible(true);
+        setState({ ...state, isModalVisible: true })
     };
 
     const handleCancel = () => {
-        setIsModalVisible(false);
+        setState({ ...state, isModalVisible: false })
     };
 
     const handleChangePage = (page: number) => {
-        setCurrentPage(page);
+        setState({ ...state, currentPage: page });
     };
 
     const handleAddRole = async () => {
         try {
             await form.validateFields();
             const values = form.getFieldsValue();
-            const { roleName } = values;
-            await dispatch(addRole(roleName));
-            setIsModalVisible(false);
+            console.log('values', values)
+            await dispatch(addRole(roles.roleName, values.name));
+            setState({ ...state, isModalVisible: false })
         } catch (error) {
             console.log(error);
         }
     };
 
-    // const handleUpdateRole = () => {
-    //     form.validateFields().then((values) => {
-    //         const { roleName } = values;
-    //         const updatedRole = { roleName };
-    //         dispatch(updateRole(selectedRecord.id));
-    //         setIsModalVisible(false);
-    //     });
-    // };
+    const handleUpdateRole = async () => {
+        try {
+            await form.validateFields();
+            const values = form.getFieldsValue();
+            await dispatch(updateRole(roles.roleName, values.name));
+            setState({ ...state, isModalVisible: false })
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        dispatch(getEndpointOptionApi());
+    }, []);
 
     const columns = [
         {
@@ -90,7 +101,7 @@ const Roles = ({ roles }: any) => {
                 columns={columns}
                 pagination={{
                     position: ['bottomCenter'],
-                    current: currentPage,
+                    current: state.currentPage,
                     total: roles?.data?.length,
                     pageSize: 10,
                     onChange: handleChangePage,
@@ -98,14 +109,17 @@ const Roles = ({ roles }: any) => {
             />
 
             <Modal
-                title={selectedRecord ? 'Edit Role' : 'Add Role'}
-                open={isModalVisible}
-                onOk={handleAddRole}
+                title={selectedRecord?.id ? 'Edit Role' : 'Add Role'}
+                open={state.isModalVisible}
+                onOk={selectedRecord?.id ? handleUpdateRole : handleAddRole}
                 onCancel={handleCancel}
             >
                 <Form form={form} layout="vertical">
                     <Form.Item name="roleName" label="Role Name" rules={[{ required: true, message: 'Please enter the role name' }]}>
                         <Input placeholder="Enter role name" />
+                    </Form.Item>
+                    <Form.Item name="endPoint" label="Endpoint" rules={[{ required: true }]}>
+                        <Select showSearch placeholder="Select endpoint" options={endpointOption} />
                     </Form.Item>
                 </Form>
             </Modal>

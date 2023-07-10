@@ -13,6 +13,15 @@ export class BaseService {
     })
   }
 
+  putAdmin(url: string, model: any) {
+    return axios({
+      url: `${ApiEndpoint.domain}/${url}`,
+      method: 'PUT',
+      params: model,
+      headers: { "Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken) }
+    })
+  }
+
   putByCondition(url: string, model: Object, params: Object) {
     return axios({
       url: `${ApiEndpoint.domain}/${url}`,

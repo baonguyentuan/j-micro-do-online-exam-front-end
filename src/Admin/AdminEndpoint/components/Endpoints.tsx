@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button, Table, Input, Modal, Form } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { createEndpointApi, getEndpointOderBy } from '../../../redux/reducers/endpoint/endpointSlice';
+import { createEndpointApi, getEndpointOderBy, updateEndpointApi } from '../../../redux/reducers/endpoint/endpointSlice';
 import { EndpointDetailModel } from '../../../_core/EndpointModel';
 import { useDispatch } from 'react-redux';
 import { DispatchType } from '../../../redux/configStore';
@@ -10,36 +10,43 @@ import ModalDeleteEndpoint from './ModalDeleteEndpoint';
 
 const Endpoints = ({ endpoints }: any) => {
     let dispatch = useDispatch<DispatchType>()
-    const [currentPage, setCurrentPage] = useState(1);
-    const [isModalVisible, setIsModalVisible] = useState(false);
     const [form] = Form.useForm();
+    const [state, setState] = useState({
+        currentPage: 1,
+        isModalVisible: false,
+    })
     const [selectedRecord, setSelectedRecord] = useState<EndpointDetailModel>();
     const [deletingId, setDeletingId] = useState<any>(null);
     const showModal = () => {
-        form.resetFields();
-        setIsModalVisible(true);
+        setState({ ...state, isModalVisible: true })
     };
 
     const handleCancel = () => {
-        setIsModalVisible(false);
+        setState({ ...state, isModalVisible: false })
     };
 
     const handleChangePage = (page: number) => {
-        setCurrentPage(page);
+        setState({ ...state, currentPage: page });
     };
 
     const handleCreateEndpoint = async () => {
-        try {
-            await form.validateFields();
-            const values = form.getFieldsValue();
-            const { endpointPath } = values;
-            const orderBy = 1;
-            dispatch(createEndpointApi(endpointPath));
-            dispatch(getEndpointOderBy(orderBy));
-            setIsModalVisible(false);
-        } catch (error) {
-            console.log(error);
+        await form.validateFields();
+        const values = form.getFieldsValue();
+        const { endpointPath } = values;
+        const orderBy = 1;
+        dispatch(createEndpointApi(endpointPath));
+        dispatch(getEndpointOderBy(orderBy));
+        setState({ ...state, isModalVisible: false })
+    };
+    const handleUpdateEndpoint = async () => {
+        await form.validateFields();
+        const values = form.getFieldsValue();
+        if (selectedRecord) {
+            dispatch(updateEndpointApi(selectedRecord.id, values.endpointPath));
         }
+        setState({ ...state, isModalVisible: false })
+        form.resetFields();
+        setSelectedRecord(undefined);
     };
 
     const handleOpenDeletePopup = (id: number) => {
@@ -109,7 +116,7 @@ const Endpoints = ({ endpoints }: any) => {
                 columns={columns}
                 pagination={{
                     position: ['bottomCenter'],
-                    current: currentPage,
+                    current: state.currentPage,
                     total: endpoints?.data?.length,
                     pageSize: 10,
                     onChange: handleChangePage,
@@ -118,16 +125,13 @@ const Endpoints = ({ endpoints }: any) => {
 
             <Modal
                 title={selectedRecord?.id ? 'Edit Endpoint' : 'Add Endpoint'}
-                open={isModalVisible}
-                onOk={handleCreateEndpoint}
+                open={state.isModalVisible}
+                onOk={selectedRecord?.id ? handleUpdateEndpoint : handleCreateEndpoint}
                 onCancel={handleCancel}
             >
                 <Form form={form} layout="vertical">
                     <Form.Item name="endpointPath" label="Endpoint" rules={[{ required: true, message: 'Please enter value of endpoint' }]}>
-                        <Input
-                            placeholder="Enter endpoint"
-                            value={selectedRecord?.id ? selectedRecord?.endPointPath : ''}
-                        />
+                        <Input placeholder="Enter endpoint" />
                     </Form.Item>
                 </Form>
             </Modal>

@@ -39,40 +39,40 @@ export default rolesSlice.reducer;
 
 export const getRolesApi = () => {
     return async (dispatch: DispatchType) => {
-        await dispatch(setLoading({ isLoading: true }));
+        dispatch(setLoading({ isLoading: true }));
         try {
             const result = await rolesService.getRoles();
             dispatch(getRoles(result.data));
         } catch (err) {
             console.log(err);
         }
-        await dispatch(setLoading({ isLoading: false }));
+        dispatch(setLoading({ isLoading: false }));
     };
 };
 
-export const addRole = (roleName: string) => {
+export const addRole = (name: string, endPoint: string) => {
     return async (dispatch: DispatchType) => {
-        await dispatch(setLoading({ isLoading: true }));
+        dispatch(setLoading({ isLoading: true }));
         try {
-            const result = await rolesService.createRole(roleName);
+            const result = await rolesService.createRole(name, endPoint);
             dispatch(addRoleSuccess(result.data));
             await dispatch(getRolesApi());
         } catch (err) {
             console.log(err);
         }
-        await dispatch(setLoading({ isLoading: false }));
+        dispatch(setLoading({ isLoading: false }));
     };
 };
 
-export const updateRole = (roleDetail: { id: number; }) => {
+export const updateRole = (name: string, endPoint: string) => {
     return async (dispatch: DispatchType) => {
-        await dispatch(setLoading({ isLoading: true }));
+        dispatch(setLoading({ isLoading: true }));
         try {
-            const result = await rolesService.editRole(roleDetail.id);
-            dispatch(updateRoleSuccess({ id: roleDetail.id, updatedRole: result.data }));
+            await rolesService.editRole(name, endPoint);
+            dispatch(updateRoleSuccess({ name, endPoint }));
         } catch (err) {
             console.log(err);
         }
-        await dispatch(setLoading({ isLoading: false }));
+        dispatch(setLoading({ isLoading: false }));
     };
 };

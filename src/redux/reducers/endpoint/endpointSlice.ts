@@ -12,6 +12,10 @@ const initialState = {
     updatedBy: '',
     updatedAt: '',
   }],
+  options: [{
+    id: 1,
+    name: ''
+  }],
   order_by: 1,
 }
 
@@ -23,8 +27,18 @@ const endpointSlice = createSlice({
       state.data = action.payload;
       state.order_by = action.payload.order_by;
     },
+    getEndpointOptions: (state, action) => {
+      state.options = action.payload.options;
+    },
     createEndpoint: (state, action) => {
       state.data.push(action.payload);
+    },
+    updateEndpoint: (state, action) => {
+      const { id, endpointPath } = action.payload;
+      const endpointIndex = state.data.findIndex((endpoint) => endpoint.id === id);
+      if (endpointIndex !== -1) {
+        state.data[endpointIndex].endPoint = endpointPath;
+      }
     },
     deleteEndpoint: (state, action) => {
       const { id } = action.payload;
@@ -33,7 +47,7 @@ const endpointSlice = createSlice({
   }
 });
 
-export const { getEndpoints, createEndpoint, deleteEndpoint } = endpointSlice.actions
+export const { getEndpoints, getEndpointOptions, createEndpoint, updateEndpoint, deleteEndpoint } = endpointSlice.actions
 
 export default endpointSlice.reducer
 export const getEndpointApi = () => {
@@ -42,6 +56,18 @@ export const getEndpointApi = () => {
     try {
       const result = await endpointService.getEndpoints()
       dispatch(getEndpoints(result.data));
+    } catch (err) {
+      console.log(err);
+    }
+    await dispatch(setLoading({ isLoading: false }))
+  }
+}
+export const getEndpointOptionApi = () => {
+  return async (dispatch: DispatchType) => {
+    dispatch(setLoading({ isLoading: true }))
+    try {
+      const result = await endpointService.getEndpointOption()
+      dispatch(getEndpointOptions(result.data));
     } catch (err) {
       console.log(err);
     }
@@ -64,10 +90,22 @@ export const createEndpointApi = (endPointPath: string) => {
   return async (dispatch: DispatchType) => {
     dispatch(setLoading({ isLoading: true }));
     try {
-
       await endpointService.createEndpoint({ endPointPath });
       const result = await endpointService.getEndpoints();
       dispatch(getEndpoints(result.data));
+    } catch (err) {
+      console.log(err);
+    }
+    await dispatch(setLoading({ isLoading: false }));
+  };
+};
+
+export const updateEndpointApi = (id: number, endPointPath: string) => {
+  return async (dispatch: DispatchType) => {
+    dispatch(setLoading({ isLoading: true }));
+    try {
+      await endpointService.editEndpoint(id, endPointPath );
+      dispatch(updateEndpoint({ id, endPointPath }));
     } catch (err) {
       console.log(err);
     }
