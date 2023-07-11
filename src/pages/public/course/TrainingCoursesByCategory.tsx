@@ -1,17 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
-import {DispatchType, RootState} from "../../redux/configStore";
+import {DispatchType, RootState} from "../../../redux/configStore";
 import {useDispatch, useSelector} from "react-redux";
-import CardContest from "../../components/Card/CardContest";
-import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
+import CardContest from "../../../components/Card/CardContest";
+import Breadcrumb from "../../../components/breadcrumb/Breadcrumb";
 import {useTranslation} from "react-i18next";
 import {InboxOutlined} from "@ant-design/icons";
 import {Button, Checkbox, Input, Pagination, Radio, RadioChangeEvent, Typography} from 'antd';
 import type {CheckboxValueType} from 'antd/es/checkbox/Group';
 import styled from "styled-components";
-import Constants from "../../constants/Constants";
-import AppRoutes from "../../constants/AppRoutes";
-import {getExamDurationOptions, getExamOrderByOptions, getExamsApi} from "../../redux/reducers/exam";
+import Constants from "../../../constants/Constants";
+import AppRoutes from "../../../constants/AppRoutes";
+import {getExamDurationOptions, getExamOrderByOptions, getExamsApi} from "../../../redux/reducers/exam";
 
 const {Title} = Typography;
 

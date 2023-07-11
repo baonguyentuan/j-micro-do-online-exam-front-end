@@ -3,7 +3,7 @@ import { Button, Checkbox, Input, InputNumber, Popconfirm, Radio, Select, Table 
 import { PlusCircleOutlined, DeleteOutlined, CheckOutlined, EditOutlined, CloseCircleOutlined } from '@ant-design/icons'
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
-import { QuestionRowModel } from '../../_core/exam';
+import { QuestionRowModel } from '../../../_core/exam';
 import { useTranslation } from 'react-i18next';
 const { TextArea } = Input
 type Props = {
