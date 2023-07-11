@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { PropsDrawerModifierModel } from '../../../_core/DrawerModel';
-import { ReactElement } from 'react';
+import Constants from '../../../constants/Constants';
 
 const initialState: PropsDrawerModifierModel = {
   isOpen: false,
-  typeContent: 'createCategory'
+  typeContent: Constants.typeDrawer.CREAT_CATEGORY
 }
 
 const drawerSlice = createSlice({
@@ -21,6 +21,6 @@ const drawerSlice = createSlice({
   }
 });
 
-export const {closeDrawer, setDrawerInfo } = drawerSlice.actions
+export const { closeDrawer, setDrawerInfo } = drawerSlice.actions
 
 export default drawerSlice.reducer

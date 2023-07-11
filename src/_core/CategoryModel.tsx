@@ -17,7 +17,7 @@ export interface CategoryDetailModel {
     id: number,
     name: string,
     createAt: string,
-    thumbnail: string | File
+    thumbnail: string
 }
 export interface CategoryStateModel {
     lstCategoryOption: CategoryOptionModel[],
@@ -30,7 +30,7 @@ export let defaultCategoryGet: CategoryGetModel = {
   name: null,
   from_date: null,
   to_date: null,
-  page_size: 10,
+  page_size: -1,
   page_index: 1,
   order_by: -1
 }

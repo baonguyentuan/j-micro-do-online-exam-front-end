@@ -1,5 +1,5 @@
 import React from 'react'
-import {Card} from 'antd';
+import { Card, Rate } from "antd";
 import {useTranslation} from 'react-i18next';
 import {useNavigate} from 'react-router-dom';
 import {ExamCardInfoModel} from "../../_core/exam";
@@ -47,11 +47,15 @@ const CardContest = ({examCard}: Props) => {
           <p className='statsName'>{t('cardCourse.duration')}</p>
           <p>{examCard.duration} min</p>
         </div>
-        {/*<div>*/}
-        {/*    <p className='statsName'>{t('cardCourse.rating')}</p>*/}
-        {/*    <Rate className='flex items-center text-xs' disabled*/}
-        {/*          defaultValue={calculateAverageRate(contestDetail.rating)}/>*/}
-        {/*</div>*/}
+        <div>
+            <p className='statsName'>{t('cardCourse.rating')}</p>
+            <Rate className='flex items-center text-xs' disabled
+                  defaultValue={examCard?.totalRating}/>
+        </div>
+        <div>
+            <p className='statsName'>Download</p>
+          <p>{examCard?.downloadNumber}</p>
+        </div>
       </div>
     </Card>
   )

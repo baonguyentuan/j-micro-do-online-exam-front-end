@@ -24,5 +24,9 @@ export default {
     EXAM: "exam-management",
     CONTEST: "contest-management",
     LOGOUT: "logout"
+  },
+  typeDrawer:{
+    CREAT_CATEGORY:'createCategory',
+    EDIT_CATEGORY:'updateCategory'
   }
 }

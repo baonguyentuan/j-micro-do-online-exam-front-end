@@ -1,4 +1,4 @@
-import { Button, Form, Input, Upload } from 'antd'
+import { Button, Form, Input } from 'antd'
 import React, { useState } from 'react'
 import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
@@ -6,7 +6,6 @@ import { DispatchType, RootState } from '../../redux/configStore';
 import { useDispatch } from 'react-redux';
 import { createCategoryApi, getCurrentCategory, updateCategoryNameApi, updateCategoryThumbnailApi } from '../../redux/reducers/category/categorySlice';
 import Constants from '../../constants/Constants';
-import { CategoryDetailModel, defaultCategoryDetail } from '../../_core/CategoryModel';
 import { closeDrawer } from '../../redux/reducers/drawer/drawerSlice';
 import { useTranslation } from 'react-i18next';
 type Props = {
@@ -15,22 +14,23 @@ type Props = {
 const FormCategoryModifier = ({ formStatus }: Props) => {
     let { currentCategoryDetail } = useSelector((state: RootState) => state.categorySlice)
     const dispatch: DispatchType = useDispatch()
-    let {t}=useTranslation('admin')
+    let { t } = useTranslation('admin')
     let { id, createAt, name, thumbnail } = currentCategoryDetail
-    let [formValues, setFormValues] = useState<CategoryDetailModel>({ id, createAt, name, thumbnail })
+    let [file, setFile] = useState<File>()
     let [img, setImg] = useState<any>(thumbnail)
+    let [isChangeName, setIsChangeName] = useState(false)
     const validateForm = () => {
-        if (formValues.name === '' || formValues.thumbnail === Constants.defaultThumbnail) {
-            return false
-        } else {
+        if (name !== '' || thumbnail !== Constants.defaultThumbnail || file) {
             return true
+        } else {
+            return false
         }
     }
     const renderImg = () => {
-        if (typeof formValues.thumbnail === 'string') {
-            return <img className='mb-4 mx-auto' height={150} width={150} src={formValues.thumbnail} alt='' />
-        } else {
+        if (file) {
             return <img className='mb-4 mx-auto' height={150} width={150} src={img} alt='img' />
+        } else {
+            return <img className='mb-4 mx-auto' height={150} width={150} src={thumbnail} alt='' />
         }
     }
     const renderCreateAt = () => {
@@ -52,17 +52,16 @@ const FormCategoryModifier = ({ formStatus }: Props) => {
     const renderButtonSubmit = () => {
         if (formStatus === Constants.formStatus.EDIT) {
             return <Button disabled={!validateForm()} className='btn__contest' onClick={async () => {
-                if (formValues.name !== name) {
+                if (isChangeName) {
                     await dispatch(updateCategoryNameApi({
                         id,
-                        name: formValues.name
+                        name
                     }))
-                } else if (formValues.thumbnail !== thumbnail) {
+                }
+                if (file) {
                     let formData = new FormData()
-                    if (typeof formValues.thumbnail === 'object') {
-                        formData.append('categoryId', id.toString())
-                        formData.append('image', formValues.thumbnail, formValues.thumbnail.name)
-                    }
+                    formData.append('categoryId', id.toString())
+                    formData.append('image', file, file.name)
                     await dispatch(updateCategoryThumbnailApi(formData))
                 }
                 await dispatch(closeDrawer())
@@ -71,11 +70,11 @@ const FormCategoryModifier = ({ formStatus }: Props) => {
             return <Button disabled={!validateForm()} className='btn__contest'
                 onClick={async () => {
                     let formData = new FormData()
-                    if (typeof formValues.thumbnail === 'object') {
-                        formData.append('categoryName', formValues.name)
-                        formData.append('image', formValues.thumbnail, formValues.thumbnail.name)
+                    if (file) {
+                        formData.append('categoryName', name)
+                        formData.append('image', file, file.name)
                         await dispatch(createCategoryApi(formData))
-                        await setFormValues(defaultCategoryDetail)
+                        setImg(Constants.defaultThumbnail)
                     }
                 }}
             >{t('add')}</Button>
@@ -102,16 +101,17 @@ const FormCategoryModifier = ({ formStatus }: Props) => {
                                 }
                             }
                             reader.readAsDataURL(file)
-                            await setFormValues({ ...formValues, thumbnail: file })
+                            await setFile(file)
                         }
                     }} />
-                <p className='text-xs text-red-500'>{formValues.thumbnail === Constants.defaultThumbnail ? t('thumbnail is required') : ''}</p>
+                <p className='text-xs text-red-500'>{thumbnail !== Constants.defaultThumbnail || file ? "" : t('thumbnail is required')}</p>
             </Form.Item>
             <Form.Item label="Name" >
-                <Input value={formValues.name} onChange={async (event) => {
-                    await setFormValues({ ...formValues, name: event.target.value })
+                <Input value={name} onChange={async (event) => {
+                    await dispatch(getCurrentCategory({ categoryDetail: { ...currentCategoryDetail, name: event.target.value } }))
+                    await setIsChangeName(true)
                 }} />
-                <p className='text-xs text-red-500'>{formValues.name === '' ? t('name is required') : ''}</p>
+                <p className='text-xs text-red-500'>{name === '' ? t('name is required') : ''}</p>
             </Form.Item>
             {renderCreateAt()}
             <Form.Item wrapperCol={{ span: 24 }}>

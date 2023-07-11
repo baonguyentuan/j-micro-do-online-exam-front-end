@@ -1,4 +1,4 @@
-import {OrderByModel, PaginationModel} from "../common/Common";
+import { OrderByModel, PaginationModel } from "../common/Common";
 
 export interface QuestionRowModel {
   id: number,
@@ -12,7 +12,7 @@ export interface QuestionRowModel {
 export interface ExamDetailFormModel {
   title: string,
   categoryId: number | null,
-  examType:string,
+  examType: string,
   description: string,
   duration: number,
   question: QuestionRowModel[],
@@ -29,14 +29,16 @@ export interface QuestionContestModel {
 
 export interface ExamCardInfoModel {
   id: number
-  categoryID: number
   image: string,
   examType: string,
   examName: string,
+  createAt: string,
   duration: number,
+  totalRating: number
+  categoryID: number
+  description: string,
   categoryName: string,
   downloadNumber: number,
-  description: string,
 }
 
 export interface ExamFetchModel {
@@ -56,14 +58,14 @@ export interface QuestionExamModel {
 }
 
 export interface ExamSearchParams {
-  name: string | null
-  durations: string | null
-  category_ids: string | null
-  from_date: string | null
-  to_date: string | null
-  page_size: number
-  page_index: number
-  order_by: number
+  name: string | null;
+  durations: string | null;
+  category_ids: string | null;
+  from_date: string | null;
+  to_date: string | null;
+  page_size: number;
+  page_index: number;
+  order_by: number;
 }
 
 export type ExamCategory = {
@@ -75,9 +77,9 @@ export type ExamsByCategory = {
   pagination: PaginationModel
 }
 
-export interface ExamOptionModel{
-  id:number,
-  name:string
+export interface ExamOptionModel {
+  id: number,
+  name: string
 }
 
 export interface QuestionExamSubmitModel {
@@ -89,21 +91,21 @@ export interface QuestionExamSubmitModel {
 }
 
 export interface examSliceInitState {
-  examType: string
+  examType: string;
 
-  lstOptionExam:ExamOptionModel[]
-  
-  hotExamsByCategory: ExamCategory
+  lstOptionExam: ExamOptionModel[];
 
-  examsByCategory: ExamsByCategory
+  hotExamsByCategory: ExamCategory;
 
-  examDurationOptions: []
+  examsByCategory: ExamsByCategory;
 
-  examOrderByOptions: OrderByModel[]
+  examDurationOptions: [];
 
-  examGetDetail: ExamCardInfoModel
-  
-  examFetchDetail: ExamFetchModel
-  
-  randomExams: ExamCardInfoModel[]
+  examOrderByOptions: OrderByModel[];
+
+  examGetDetail: ExamCardInfoModel;
+
+  examFetchDetail: ExamFetchModel;
+
+  randomExams: ExamCardInfoModel[];
 }

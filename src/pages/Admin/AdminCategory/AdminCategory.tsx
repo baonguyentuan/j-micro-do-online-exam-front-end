@@ -115,7 +115,7 @@ const AdminCategory = () => {
           }))
         }}>{t('add category')}</Button>
         <Input
-          placeholder='Search'
+          placeholder={t('search')}
           size='large'
           onChange={(event) => {
             setTimeout(() => {

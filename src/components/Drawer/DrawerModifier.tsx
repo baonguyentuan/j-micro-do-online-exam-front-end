@@ -14,8 +14,8 @@ const DrawerModifier = () => {
         <Drawer placement="right" open={isOpen} onClose={() => {
             dispatch(closeDrawer())
         }}>
-            {typeContent === 'createCategory' && <FormCategoryModifier formStatus={Constants.formStatus.CREATE} />}
-            {typeContent === 'updateCategory' && <FormCategoryModifier formStatus={Constants.formStatus.EDIT} />}
+            {typeContent === Constants.typeDrawer.CREAT_CATEGORY && <FormCategoryModifier formStatus={Constants.formStatus.CREATE} />}
+            {typeContent === Constants.typeDrawer.EDIT_CATEGORY && <FormCategoryModifier formStatus={Constants.formStatus.EDIT} />}
         </Drawer>
     )
 }
