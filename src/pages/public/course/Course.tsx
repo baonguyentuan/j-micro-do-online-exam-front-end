@@ -1,26 +1,26 @@
 import { useNavigate, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { DispatchType, RootState } from "../../redux/configStore";
+import { DispatchType, RootState } from "../../../redux/configStore";
 import { useDispatch, useSelector } from "react-redux";
-import { getExamDetail, getExamsRandom } from "../../redux/reducers/exam";
-import Constants from "../../constants/Constants";
+import { getExamDetail, getExamsRandom } from "../../../redux/reducers/exam";
+import Constants from "../../../constants/Constants";
 import styled from "styled-components";
 import { Button, Divider, Form, Rate } from "antd";
 import { useTranslation } from "react-i18next";
-import AppRoutes from "../../constants/AppRoutes";
-import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
-import { CommentFormValue } from "../../_core/CommentModel";
-import CardContest from "../../components/Card/CardContest";
+import AppRoutes from "../../../constants/AppRoutes";
+import Breadcrumb from "../../../components/breadcrumb/Breadcrumb";
+import { CommentFormValue } from "../../../_core/CommentModel";
+import CardContest from "../../../components/Card/CardContest";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { InboxOutlined, StarFilled } from "@ant-design/icons";
-import ExamFeedBack from "../../components/exams/ExamFeedBack";
-import { backToPosition } from "../../utils/operate";
-import "../../assets/css/feedback/feedback.css";
-import { calculateExamRating, getFeedBackByExam } from "../../redux/reducers/feedback";
-import { FeedBackSearchParams } from "../../_core/feedback";
+import ExamFeedBack from "../../../components/exams/ExamFeedBack";
+import { backToPosition } from "../../../utils/operate";
+import "../../../assets/css/feedback/feedback.css";
+import { calculateExamRating, getFeedBackByExam } from "../../../redux/reducers/feedback";
+import { FeedBackSearchParams } from "../../../_core/feedback";
 
 const initialFormValue: CommentFormValue = {
   comment: "",

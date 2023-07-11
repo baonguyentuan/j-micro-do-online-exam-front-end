@@ -1,17 +1,17 @@
 import React, {useEffect} from 'react';
-import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
+import Breadcrumb from "../../../components/breadcrumb/Breadcrumb";
 import {Swiper, SwiperSlide} from 'swiper/react';
 import 'swiper/css';
 import {Button} from 'antd';
 import {useDispatch, useSelector} from 'react-redux';
-import {DispatchType, RootState} from '../../redux/configStore';
+import {DispatchType, RootState} from '../../../redux/configStore';
 import {useTranslation} from 'react-i18next';
-import {getExamsByCategoryApi} from '../../redux/reducers/exam'
+import {getExamsByCategoryApi} from '../../../redux/reducers/exam'
 import {Navigation} from "swiper";
-import CardCourse from "../../components/Card/CardContest";
+import CardCourse from "../../../components/Card/CardContest";
 import {LeftCircleOutlined, RightCircleOutlined} from "@ant-design/icons";
 import {Link} from "react-router-dom";
-import AppRoutes from "../../constants/AppRoutes";
+import AppRoutes from "../../../constants/AppRoutes";
 
 function TrainingCourses() {
   const dispatch: DispatchType = useDispatch()
