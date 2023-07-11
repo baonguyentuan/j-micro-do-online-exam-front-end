@@ -1,6 +1,6 @@
 import { Modal, Form, Input, Upload, Select, Button } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { IUser } from '../../_core/AdminUser';
+import { IUser } from '../../_core/Admin/AdminUser';
 import { useEffect, useState } from 'react';
 import { updateUser } from '../../redux/reducers/adminUser/adminUserSlice';
 import { useDispatch } from 'react-redux';
@@ -13,7 +13,7 @@ interface PopupEditUserProps {
 }
 
 const PopupEditUser = ({ editingUser, onClose, onSave }: PopupEditUserProps) => {
-    const {t}=useTranslation('adminUser');
+    const { t } = useTranslation('adminUser');
     const dispatch = useDispatch();
     const [form] = Form.useForm();
     const [imageUrl, setImageUrl] = useState<string>('');

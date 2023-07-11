@@ -1,8 +1,8 @@
-import {Button, Popconfirm, Space, Table} from 'antd'
-import React, {useEffect} from 'react'
-import type {ColumnsType} from 'antd/es/table';
-import {DispatchType, RootState} from '../../redux/configStore';
-import {useDispatch, useSelector} from 'react-redux';
+import { Button, Popconfirm, Space, Table } from 'antd'
+import React, { useEffect } from 'react'
+import type { ColumnsType } from 'antd/es/table';
+import { DispatchType, RootState } from '../redux/configStore';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   deleteCategoryApi,
   getCategoryByConditionApi,
@@ -10,14 +10,14 @@ import {
   getCurrentCategory,
   updateCategoryNameApi,
   updateCategoryThumbnailApi
-} from '../../redux/reducers/category/categorySlice';
-import {CategoryDetailModel, defaultCategoryDetail, defaultCategoryGet} from '../../_core/CategoryModel';
+} from '../redux/reducers/category/categorySlice';
+import { CategoryDetailModel, defaultCategoryDetail, defaultCategoryGet } from '../_core/CategoryModel';
 import dayjs from 'dayjs';
-import FormCategoryModifier from '../../components/Form/FormCategoryModifier';
-import {setDrawerInfo} from '../../redux/reducers/drawer/drawerSlice';
+import FormCategoryModifier from '../components/Form/FormCategoryModifier';
+import { setDrawerInfo } from '../redux/reducers/drawer/drawerSlice';
 
 const AdminCategory = () => {
-  let {lstCategory, currentCategoryDetail} = useSelector((state: RootState) => state.categorySlice)
+  let { lstCategory, currentCategoryDetail } = useSelector((state: RootState) => state.categorySlice)
   const dispatch: DispatchType = useDispatch()
   useEffect(() => {
     dispatch(getCategoryByConditionApi(defaultCategoryGet))
@@ -29,7 +29,7 @@ const AdminCategory = () => {
       key: 'thumbnail',
       render: (text, record, index) => {
         if (typeof record.thumbnail === 'string') {
-          return <img width={50} height={50} src={record.thumbnail} alt={record.name}/>
+          return <img width={50} height={50} src={record.thumbnail} alt={record.name} />
         }
       }
     },
@@ -57,7 +57,7 @@ const AdminCategory = () => {
 
             await dispatch(setDrawerInfo({
               title: 'Edit Category',
-              component: <FormCategoryModifier/>,
+              component: <FormCategoryModifier />,
               submit: async () => {
 
                 let nameFormData = new FormData()
@@ -95,10 +95,10 @@ const AdminCategory = () => {
       <h1 className="text-2xl text-center font-bold text-gray-800 mb-2">Category Management</h1>
       <div className='my-4 flex justify-between items-center'>
         <Button onClick={async () => {
-          await dispatch(getCurrentCategory({categoryDetail: defaultCategoryDetail}))
+          await dispatch(getCurrentCategory({ categoryDetail: defaultCategoryDetail }))
           await dispatch(setDrawerInfo({
             title: 'Add Category',
-            component: <FormCategoryModifier/>,
+            component: <FormCategoryModifier />,
             submit: async () => {
               if (typeof currentCategoryDetail.thumbnail !== 'string') {
                 let thumbnailFormData = new FormData()
@@ -112,7 +112,7 @@ const AdminCategory = () => {
         <p className='mx-4 font-bold text-blue-600 text-base'><span>Total: </span><span>{lstCategory.length}</span></p>
       </div>
       <Table className='border-2 border-blue-300' rowKey={'id'} columns={columns} dataSource={lstCategory}
-             bordered={true}/>
+        bordered={true} />
     </div>
   )
 }

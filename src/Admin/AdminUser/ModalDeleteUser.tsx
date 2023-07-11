@@ -8,7 +8,7 @@ interface PopupDeleteUserProps {
     onClose: () => void;
 }
 const PopupDeleteUser = ({ deletingUserId, onClose }: PopupDeleteUserProps) => {
-    const {t}=useTranslation('adminUser');
+    const { t } = useTranslation('adminUser');
     const dispatch = useDispatch();
     const handleConfirm = () => {
         dispatch(deleteUser({ id: deletingUserId }));

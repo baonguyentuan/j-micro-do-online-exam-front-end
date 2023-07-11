@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IUser } from '../../_core/AdminUser';
+import { IUser } from '../../_core/Admin/AdminUser';
 import { EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import PopupEditUser from './ModelEditUser';
 import PopupDeleteUser from './ModalDeleteUser';
@@ -11,7 +11,7 @@ interface Props {
 }
 
 function UserList({ users }: Props) {
-    const {t}=useTranslation('adminUser');
+    const { t } = useTranslation('adminUser');
     const [editingUser, setEditingUser] = useState<IUser | null>(null);
     const [deletingUserId, setDeletingUserId] = useState<number | null>(null);
     const [updateUser, setUpdateUser] = useState<IUser[]>([]);

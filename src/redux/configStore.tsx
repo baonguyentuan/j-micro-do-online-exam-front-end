@@ -11,6 +11,8 @@ import { default as examSlice } from "./reducers/exam";
 import { default as feedBackSlice } from "./reducers/feedback";
 import categorySlice from "./reducers/category/categorySlice";
 import drawerSlice from "./reducers/drawer/drawerSlice";
+import roleSlice from "./reducers/role/roleSlice";
+import endpointSlice from "./reducers/endpoint/endpointSlice";
 
 export const store = configureStore({
   reducer: {
@@ -25,7 +27,9 @@ export const store = configureStore({
     adminUserSlice,
     contestCommentSlice,
     categorySlice,
-    drawerSlice
+    drawerSlice,
+    roleSlice,
+    endpointSlice,
   }
 });
 

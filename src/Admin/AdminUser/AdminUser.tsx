@@ -3,7 +3,7 @@ import UserList from './UserList';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/configStore';
 
-function AdminUser () {
+function AdminUser() {
   const { adminUser } = useSelector((state: RootState) => state.adminUserSlice)
   return (
     <>
