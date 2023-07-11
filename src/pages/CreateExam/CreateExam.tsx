@@ -33,8 +33,6 @@ const CreateExam = (props: Props) => {
       value: categoryItem.id,
     });
   })
-  console.log(userInfo?.roles?.find(roleItem => roleItem === "ADMIN") ? 'FREE' : 'PRIVATE');
-
   let ExamDetailDefaultValue: ExamDetailFormModel = {
     title: '',
     categoryId: null,

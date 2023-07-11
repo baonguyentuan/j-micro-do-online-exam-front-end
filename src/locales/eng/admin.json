@@ -1,0 +1,15 @@
+{
+    "category management":"Category Management",
+    "add category":"Add category",
+    "edit category":"Add category",
+    "thumbnail":"thumbnail",
+    "name":"name",
+    "create at":"Create at",
+    "action":"Action",
+    "total":"Total",
+    "search":"Search",
+    "thumbnail is required":"thumbnail is required",
+    "name is required":"name is required",
+    "add":"Add",
+    "update":"Update"
+}

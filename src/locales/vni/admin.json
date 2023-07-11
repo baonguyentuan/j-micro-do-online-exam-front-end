@@ -1,0 +1,15 @@
+{
+    "category management":"Quản lý thể loại",
+    "add category":"Tạo thể loại",
+    "edit category":"Cập nhật thể loại",
+    "thumbnail":"Ảnh",
+    "name":"Tên",
+    "create at":"Ngày tạo",
+    "action":"Hành động",
+    "total":"Tổng",
+    "search":"Tìm kiếm",
+    "thumbnail is required":"bạn phải chọn ảnh",
+    "name is required":"tên không được bỏ trống",
+    "add":"Tạo",
+    "update":"Cập nhật"
+}

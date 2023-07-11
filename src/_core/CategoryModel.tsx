@@ -1,3 +1,5 @@
+import Constants from "../constants/Constants"
+
 export interface CategoryOptionModel {
     id: number,
     name: string
@@ -34,7 +36,7 @@ export let defaultCategoryGet: CategoryGetModel = {
 }
 export const defaultCategoryDetail: CategoryDetailModel = {
   createAt: '',
-  thumbnail: '',
+  thumbnail: Constants.defaultThumbnail,
   id: -1,
   name: ''
 }

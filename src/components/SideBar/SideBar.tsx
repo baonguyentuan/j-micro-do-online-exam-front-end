@@ -1,35 +1,34 @@
-import React from 'react';
-import { Avatar, Layout, Menu } from 'antd';
-import { UserOutlined, AreaChartOutlined, TeamOutlined, LogoutOutlined,AppstoreAddOutlined } from '@ant-design/icons';
-import { NavLink } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Layout, Menu } from 'antd';
+import { AreaChartOutlined, TeamOutlined, LogoutOutlined, AppstoreOutlined, BranchesOutlined, FileOutlined, DatabaseOutlined, BookOutlined } from '@ant-design/icons';
+import { NavLink, useNavigate } from 'react-router-dom';
+import Constants from '../../constants/Constants';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/configStore';
+
 
 const { Sider } = Layout;
 
-interface SideBarProps {
-  onSelectOption: (option: string) => void;
-}
 
-const SideBar: React.FC<SideBarProps> = ({ onSelectOption }) => {
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
-  const handleClick = (event: any) => {
-    const option = event.key;
-    onSelectOption(option);
-  };
+const SideBar: React.FC = () => {
+  let {optionSidebarAdmin}=useSelector((state:RootState)=>state.menuSlice)
+  const [collapsed, setCollapsed] = useState(false);
+  let navigate = useNavigate()
 
   return (
-    <Sider>
-      <div style={{ display: 'flex', alignItems: 'center', height: '64px', padding: '16px' }}>
-        <Avatar style={{ marginRight: '10px' }} size="large" icon={<UserOutlined />} />
-        <span style={{ color: '#fff', marginTop: '10px' }}>{user?.username}</span>
-      </div>
-      <Menu theme="dark" mode="inline" onClick={handleClick}>
+    <Sider theme='dark' collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+      <Menu selectedKeys={[optionSidebarAdmin]}  theme="dark" mode="inline" >
         <Menu.Item key="report" icon={<AreaChartOutlined />}>Analytics</Menu.Item>
-        <Menu.Item key="user-management" icon={<TeamOutlined />}>User Management</Menu.Item>
-        <Menu.Item key="category" icon={<AppstoreAddOutlined />}>Category</Menu.Item>
-        <Menu.Item key="role" icon={<AppstoreAddOutlined />}>Role</Menu.Item>
-        <Menu.Item key="endpoint" icon={<AppstoreAddOutlined />}>Endpoint</Menu.Item>
-        <Menu.Item key="exam" icon={<AppstoreAddOutlined />}>Exam</Menu.Item>
-        <Menu.Item key="contest" icon={<AppstoreAddOutlined />}>Contest</Menu.Item>
+        <Menu.Item key={Constants.optionMenuAdmin.USER} icon={<TeamOutlined />}>
+          <NavLink to={'/admin/admin_user'}>User Management</NavLink></Menu.Item>
+        <Menu.Item key={Constants.optionMenuAdmin.CATEGORY} icon={<AppstoreOutlined />}>
+          <NavLink to={'/admin/admin_category'}>Category</NavLink></Menu.Item>
+        <Menu.Item key={Constants.optionMenuAdmin.ROLE} icon={<DatabaseOutlined />}>
+          <NavLink to={'/admin/admin_role'}>Role</NavLink>
+        </Menu.Item>
+        <Menu.Item key={Constants.optionMenuAdmin.ENDPOINT} icon={<BranchesOutlined />}><NavLink to={'/admin/admin_endpoint'}>Endpoint</NavLink></Menu.Item>
+        <Menu.Item key={Constants.optionMenuAdmin.EXAM} icon={<FileOutlined />}><NavLink to={'/admin/admin_exam'}>Exam</NavLink></Menu.Item>
+        <Menu.Item key={Constants.optionMenuAdmin.CONTEST} icon={<BookOutlined />}><NavLink to={'/admin/admin_contest'}>Contest</NavLink></Menu.Item>
         <Menu.Item key="logout" icon={<LogoutOutlined />}>
           <NavLink to={'/login'}>Logout</NavLink>
         </Menu.Item>

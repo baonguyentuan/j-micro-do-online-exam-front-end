@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IUser } from '../../_core/AdminUser';
+import { IUser } from '../../../_core/AdminUser';
 import { EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import PopupEditUser from './ModelEditUser';
 import PopupDeleteUser from './ModalDeleteUser';

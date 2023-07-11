@@ -1,33 +1,26 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {PropsDrawerModifierModel} from '../../../_core/DrawerModel';
-import {ReactElement} from 'react';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { PropsDrawerModifierModel } from '../../../_core/DrawerModel';
+import { ReactElement } from 'react';
 
 const initialState: PropsDrawerModifierModel = {
   isOpen: false,
-  title: '',
-  component: <p>123</p>,
-  submit: () => console.log(1)
+  typeContent: 'createCategory'
 }
 
 const drawerSlice = createSlice({
   name: "drawerSlice",
   initialState,
   reducers: {
-    openDrawer: (state: PropsDrawerModifierModel) => {
-      state.isOpen = true
-    },
     closeDrawer: (state: PropsDrawerModifierModel) => {
       state.isOpen = false
     },
-    setDrawerInfo: (state: PropsDrawerModifierModel, action: PayloadAction<{ title: string, component: ReactElement, submit: () => void }>) => {
+    setDrawerInfo: (state: PropsDrawerModifierModel, action: PayloadAction<{ typeContent: string, }>) => {
       state.isOpen = true
-      state.title = action.payload.title
-      state.component = action.payload.component
-      state.submit = action.payload.submit
+      state.typeContent = action.payload.typeContent
     }
   }
 });
 
-export const {openDrawer, closeDrawer, setDrawerInfo} = drawerSlice.actions
+export const {closeDrawer, setDrawerInfo } = drawerSlice.actions
 
 export default drawerSlice.reducer

@@ -10,6 +10,7 @@ import adminUserSlice from './reducers/adminUser/adminUserSlice';
 import {default as examSlice} from "./reducers/exam";
 import categorySlice from "./reducers/category/categorySlice";
 import drawerSlice from "./reducers/drawer/drawerSlice";
+import menuSlice from "./reducers/menu/menuSlice";
 
 export const store = configureStore({
   reducer: {
@@ -23,7 +24,8 @@ export const store = configureStore({
     adminUserSlice,
     contestCommentSlice,
     categorySlice,
-    drawerSlice
+    drawerSlice,
+    menuSlice
   }
 })
 

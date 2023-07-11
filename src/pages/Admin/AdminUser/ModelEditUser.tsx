@@ -1,8 +1,8 @@
 import { Modal, Form, Input, Upload, Select, Button } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { IUser } from '../../_core/AdminUser';
+import { IUser } from '../../../_core/AdminUser';
 import { useEffect, useState } from 'react';
-import { updateUser } from '../../redux/reducers/adminUser/adminUserSlice';
+import { updateUser } from '../../../redux/reducers/adminUser/adminUserSlice';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
