@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Button, Pagination, Statistic } from "antd";
-import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
+import { Pagination, Statistic } from "antd";
+import { CheckCircleOutlined, ClockCircleOutlined, CloseCircleOutlined,TagsOutlined } from "@ant-design/icons";
 import { backToPosition } from "../../utils/operate";
 import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../redux/configStore";
-import dayjs from "dayjs";
 import { getContestingInfoApi, setAnswer } from "../../redux/reducers/contest/contestSlice";
 import { QuestionContestModel } from "../../_core/exam";
 import { useParams } from "react-router-dom";
@@ -12,8 +11,9 @@ import { useTranslation } from "react-i18next";
 import AppConfigs from "../../config/AppConfigs";
 
 const { Countdown } = Statistic;
-type Props = {}
-export default function Contesting({}: Props) {
+
+
+export default function Contesting() {
   let { contestId } = useParams();
   let [currentPage, setCurrentPage] = useState(1);
   let { contestingInfo, lstAnswer } = useSelector((state: RootState) => state.contestSlice);
@@ -22,42 +22,56 @@ export default function Contesting({}: Props) {
   useEffect(() => {
     dispatch(getContestingInfoApi(Number(contestId)));
   }, []);
-  let timecount = contestingInfo?.duration ? contestingInfo.duration : 0;
   
+
+  const deadline = Date.now() + 3600000;
+
   return (
     <div className="size__component grid grid-cols-6 gap-4 py-8">
       <div className="col-span-2 ">
-        <div className="sticky right-0 top-0">
-          <div className="px-2 m-2 border-2 border-solid rounded-2xl ">
-            <h1 className="font-bold text-center text-xl">{contestingInfo?.name}</h1>
-            <h1 className="font-bold text-center text-xl">{dayjs().format("DD/MM/YYYY")}</h1>
-            <p><span>{t("detail.organize by")} : </span><span>{contestingInfo?.organization}</span></p>
-            <p><span>{t("detail.organize by")} : </span><span>{contestingInfo?.category.join(" / ")}</span></p>
-            <p><span>{t("detail.duration")} : </span><span>{contestingInfo?.duration}min</span></p>
-            <p><span>{t("detail.start at")} : </span><span>{dayjs(contestingInfo?.timeStart).format("HH:mm:ss")}</span>
-            </p>
-            <Countdown
-              title={<p>Time remain:</p>}
-              value={timecount * 60000 + Date.parse(String(contestingInfo?.timeStart))}
-              valueStyle={{ fontSize: 30 }}
-              format="HH:mm:ss"
-              onFinish={() => {
-                alert(1);
-              }} />
-            <Button className="my-2" onClick={() => {
+        <div className="sticky right-0 top-5 flex flex-col">
+
+          <div className="px-3 py-5 m-2 border-2 border-solid rounded-2xl ">
+            <h1 className="font-medium text-xl">Exam: {contestingInfo?.name}</h1>
+            <div>
+              <div className='my-2'>
+                <p className='flex items-center gap-2'>
+                  <span className='relative bottom-1'><TagsOutlined /></span>
+                  <span>Category : {contestingInfo?.category.join(" / ")}</span>
+                </p>
+                <div>
+                  <p className='flex items-center gap-2'>
+                    <span className='relative bottom-1'><ClockCircleOutlined /></span>
+                    <span>Duration :{contestingInfo?.duration}min</span></p>  
+                </div>
+              </div>
+              <Countdown
+                title="Exam end in"
+                value={deadline}
+                valueStyle={{ fontSize: 30 }}
+                format="HH:mm:ss"
+                onFinish={() => {
+                  alert(1);
+                }} />
+            </div>
+
+            <button className=" mt-4 text-white bg-red-500 w-full rounded py-1" onClick={() => {
               console.log(Date.now() - Date.parse(String(contestingInfo?.timeStart)));
-            }}>Finish</Button>
+            }}>Finish
+            </button>
           </div>
-          <div className="px-2 m-4 border-2 border-solid rounded-2xl overflow-y-scroll" style={{ height: 250 }}>
-            <h1 className="font-bold text-center text-xl my-2">{t("exam.manager answer")}</h1>
-            <div className="mb-2">
+
+          <div className="px-3 pt-3 pb-10 m-2 border-2 border-solid rounded-2xl overflow-y-auto" style={{height:'300px'}}>
+            <h1 className="font-medium text-xl my-2">Quản lý câu trả lời</h1>
+            <div className="mb-2 flex gap-5">
               <p><span><CheckCircleOutlined
-                className="-translate-y-1 text-green-600 text-xl" /></span> : <span>{t("exam.manager answer")}</span>
+                className="-translate-y-1 text-green-600"/></span> : <span className='font-medium'>Đã trả lời</span>
               </p>
               <p><span><CloseCircleOutlined
-                className="-translate-y-1 text-red-600 text-xl" /></span> : <span>{t("exam.manager answer")}</span></p>
+                className="-translate-y-1 text-red-600"/></span> : <span className='font-medium'>Chưa trả lời</span></p>
             </div>
-            <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-2 pb-2">
+            
+            <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-3 2 mt-4">
               {lstAnswer.map((answer, answerIndex) => {
                 return <div onClick={async () => {
                   await setCurrentPage(Math.floor((answerIndex) / AppConfigs.pagination.DEFAULT_PAGE_SIZE) + 1);
@@ -66,19 +80,24 @@ export default function Contesting({}: Props) {
                     backToPosition(topScroll);
                   }
                 }} key={`question-${answerIndex}`}
-                            className="flex justify-between items-center border-2 border-solid rounded-sm p-2 hover:bg-slate-100 cursor-pointer">
-                  <span className="text-center">{`${answerIndex + 1}`}</span>
-                  {answer.answerSelected.length > 0 ?
+                            className="flex justify-between items-center border-2 border-solid rounded py-1 px-3 hover:bg-neutral-50 cursor-pointer">
+                  <span className='font-medium'>{`${answerIndex + 1}`}</span>
+                  {
+                    answer.answerSelected.length > 0 ?
                     <span><CheckCircleOutlined className="-translate-y-1 text-green-600 text-xl" /></span> :
-                    <span><CloseCircleOutlined className="-translate-y-1 text-red-600 text-xl" /></span>}
+                    <span><CloseCircleOutlined className="-translate-y-1 text-red-600 text-xl" /></span>
+                  }
                 </div>;
               })}
             </div>
+            
           </div>
+          
           <Pagination defaultCurrent={1} total={lstAnswer.length} defaultPageSize={10} onChange={(page) => {
             setCurrentPage(page);
           }} />
         </div>
+        
       </div>
       {/* RIGHT CONTENT */}
       <div className="col-span-4 m-2 border-2 border-solid rounded-2xl overflow-hidden">
@@ -99,7 +118,7 @@ export default function Contesting({}: Props) {
                       return <div key={answerIndex} className="answerSelectionBox">
                         <input className="answerSelection" name={`answer-${questionIndex}`}
                                id={`answer-${questionIndex + 1}-${answerIndex}`} type="checkbox" onChange={(event) => {
-                          if (event.target.checked === true) {
+                          if (event.target.checked) {
                             dispatch(setAnswer({
                               questionIndex,
                               answerIndex,
