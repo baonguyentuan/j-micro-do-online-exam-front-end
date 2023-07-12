@@ -9,6 +9,7 @@ import {
   getCategoryByConditionApi,
   getCategoryDetailApi,
   getCurrentCategory,
+  setCurrentFilter,
 } from '../../redux/reducers/category/categorySlice';
 import { CategoryDetailModel, defaultCategoryDetail, defaultCategoryGet } from '../../_core/CategoryModel';
 import dayjs from 'dayjs';
@@ -16,17 +17,16 @@ import { setDrawerInfo } from '../../redux/reducers/drawer/drawerSlice';
 import { setOptionSidebarAdmin } from '../../redux/reducers/menu/menuSlice';
 import Constants from '../../constants/Constants';
 import { useTranslation } from 'react-i18next';
-const { Search } = Input;
 const AdminCategory = () => {
-  let { lstCategory, currentFilterCategory } = useSelector((state: RootState) => state.categorySlice)
+  let { lstCategory, currentFilterCategory, pagination } = useSelector((state: RootState) => state.categorySlice)
   let [nameFilter, setNameFilter] = useState(true)
   let [createAtFilter, setCreateAtFilter] = useState(true)
-  let {t}=useTranslation('admin')
+  let { t } = useTranslation('admin')
 
   const dispatch: DispatchType = useDispatch()
   useEffect(() => {
     dispatch(getCategoryByConditionApi(defaultCategoryGet))
-    dispatch(setOptionSidebarAdmin({option:Constants.optionMenuAdmin.CATEGORY}))
+    dispatch(setOptionSidebarAdmin({ option: Constants.optionMenuAdmin.CATEGORY }))
   }, [])
   const columns: ColumnsType<CategoryDetailModel> = [
     {
@@ -109,7 +109,7 @@ const AdminCategory = () => {
       <h1 className="text-2xl text-center font-bold text-gray-800 mb-2">{t('category management')}</h1>
       <div className='my-4 flex justify-between items-center'>
         <Button onClick={async () => {
-          await dispatch(getCurrentCategory({ categoryDetail: defaultCategoryDetail }))
+          await dispatch(getCurrentCategory({ categoryDetail: {...defaultCategoryDetail} }))
           await dispatch(setDrawerInfo({
             typeContent: 'createCategory',
           }))
@@ -122,9 +122,21 @@ const AdminCategory = () => {
               dispatch(getCategoryByConditionApi({ ...defaultCategoryGet, name: event.target.value }))
             }, 1000)
           }} style={{ maxWidth: 400 }} className='mx-4' />
-        <p className='mx-4 font-bold text-blue-600 text-base'><span>{t('total')}: </span><span>{lstCategory.length}</span></p>
+        <p className='mx-4 font-bold text-blue-600 text-base'><span>{t('total')}: </span><span>{pagination.totals}</span></p>
       </div>
-      <Table className='' rowKey={'id'} columns={columns} dataSource={lstCategory} />
+      <Table
+        rowKey={'id'}
+        columns={columns}
+        dataSource={lstCategory}
+        pagination={{
+          total: pagination.totals,
+          current:pagination.index,
+          onChange: (page) => {
+            let currentFilter = { ...currentFilterCategory, page_index: page }
+            dispatch(getCategoryByConditionApi(currentFilter))
+            dispatch(setCurrentFilter({ filterOption: currentFilter }))
+          }
+        }} />
     </div>
   )
 }

@@ -1,5 +1,6 @@
-import { Button, Form, Input } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { Button, Form, Input, Upload } from 'antd'
+import { UploadOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
 import { DispatchType, RootState } from '../../redux/configStore';
@@ -8,6 +9,7 @@ import { createCategoryApi, getCurrentCategory, updateCategoryNameApi, updateCat
 import Constants from '../../constants/Constants';
 import { closeDrawer } from '../../redux/reducers/drawer/drawerSlice';
 import { useTranslation } from 'react-i18next';
+import { log } from 'console';
 type Props = {
     formStatus: string
 }
@@ -16,11 +18,21 @@ const FormCategoryModifier = ({ formStatus }: Props) => {
     const dispatch: DispatchType = useDispatch()
     let { t } = useTranslation('admin')
     let { id, createAt, name, thumbnail } = currentCategoryDetail
-    let [file, setFile] = useState<File>()
+    let [nameEdit, setNameEdit] = useState<string>(name)
+    let [fileValue, setFileValue] = useState<string>('')
+    let [file, setFile] = useState<File | null>(null)
     let [img, setImg] = useState<any>(thumbnail)
-    let [isChangeName, setIsChangeName] = useState(false)
-    const validateForm = () => {
-        if (name !== '' || thumbnail !== Constants.defaultThumbnail || file) {
+    console.log(nameEdit);
+    
+    const validateButtonEdit = () => {
+        if (nameEdit !== '' || thumbnail !== Constants.defaultThumbnail || file) {
+            return true
+        } else {
+            return false
+        }
+    }
+    const validateButtonCreate = () => {
+        if (nameEdit !== '' && file) {
             return true
         } else {
             return false
@@ -51,11 +63,11 @@ const FormCategoryModifier = ({ formStatus }: Props) => {
     }
     const renderButtonSubmit = () => {
         if (formStatus === Constants.formStatus.EDIT) {
-            return <Button disabled={!validateForm()} className='btn__contest' onClick={async () => {
-                if (isChangeName) {
+            return <Button disabled={!validateButtonEdit()} className='btn__contest' onClick={async () => {
+                if (nameEdit !== name) {
                     await dispatch(updateCategoryNameApi({
                         id,
-                        name
+                        name: nameEdit
                     }))
                 }
                 if (file) {
@@ -67,11 +79,11 @@ const FormCategoryModifier = ({ formStatus }: Props) => {
                 await dispatch(closeDrawer())
             }}>{t('update')}</Button>
         } else if (formStatus === Constants.formStatus.CREATE) {
-            return <Button disabled={!validateForm()} className='btn__contest'
+            return <Button disabled={!validateButtonCreate()} className='btn__contest'
                 onClick={async () => {
                     let formData = new FormData()
                     if (file) {
-                        formData.append('categoryName', name)
+                        formData.append('categoryName', nameEdit)
                         formData.append('image', file, file.name)
                         await dispatch(createCategoryApi(formData))
                         setImg(Constants.defaultThumbnail)
@@ -80,19 +92,30 @@ const FormCategoryModifier = ({ formStatus }: Props) => {
             >{t('add')}</Button>
         }
     }
+    useEffect(() => {
+        const resetImg = async () => {
+            await setFile(null)
+            await setImg(thumbnail)
+            await setFileValue('')
+            await setNameEdit(name)
+        }
+        resetImg()
+    }, [currentCategoryDetail])
     return (
-        <Form labelAlign='left' labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
+        <Form id='form_category' labelAlign='left' labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
             <Form.Item wrapperCol={{ span: 24 }}>
                 {renderTitle()}
             </Form.Item>
             <Form.Item label="Thumbnail">
                 {renderImg()}
                 <Input
+                    value={fileValue}
                     multiple={false}
                     type='file'
                     accept='image/img, image/jpg, image/png, image/jpeg, image/gif'
                     onChange={async (event) => {
                         if (event.target.files) {
+                            setFileValue(event.target.value)
                             let file = event.target.files[0]
                             let reader = new FileReader()
                             reader.onload = (e) => {
@@ -107,11 +130,10 @@ const FormCategoryModifier = ({ formStatus }: Props) => {
                 <p className='text-xs text-red-500'>{thumbnail !== Constants.defaultThumbnail || file ? "" : t('thumbnail is required')}</p>
             </Form.Item>
             <Form.Item label="Name" >
-                <Input value={name} onChange={async (event) => {
-                    await dispatch(getCurrentCategory({ categoryDetail: { ...currentCategoryDetail, name: event.target.value } }))
-                    await setIsChangeName(true)
+                <Input value={nameEdit} onChange={async (event) => {
+                    await setNameEdit(event.target.value)
                 }} />
-                <p className='text-xs text-red-500'>{name === '' ? t('name is required') : ''}</p>
+                <p className='text-xs text-red-500'>{nameEdit === '' ? t('name is required') : ''}</p>
             </Form.Item>
             {renderCreateAt()}
             <Form.Item wrapperCol={{ span: 24 }}>

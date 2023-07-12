@@ -24,7 +24,7 @@ const initialState: CategoryStateModel = {
     id: -1,
     name: ''
   },
-  pagination:{index:1,pages:1,totals:10}
+  pagination: { index: 1, pages: 1, totals: 10 }
 }
 
 const categorySlice = createSlice({
@@ -40,15 +40,15 @@ const categorySlice = createSlice({
     getCurrentCategory: (state: CategoryStateModel, action: PayloadAction<{ categoryDetail: CategoryDetailModel }>) => {
       state.currentCategoryDetail = action.payload.categoryDetail
     },
-    setCurrentFilter:(state: CategoryStateModel, action: PayloadAction<{ filterOption: CategoryGetModel }>) => {
+    setCurrentFilter: (state: CategoryStateModel, action: PayloadAction<{ filterOption: CategoryGetModel }>) => {
       state.currentFilterCategory = action.payload.filterOption
     },
-    getCurrnetPagination:(state:CategoryStateModel,action:PayloadAction<{pagination:PaginationModel}>)=>{
-      state.pagination=action.payload.pagination
+    getCurrnetPagination: (state: CategoryStateModel, action: PayloadAction<{ pagination: PaginationModel }>) => {
+      state.pagination = action.payload.pagination
     }
   }
 });
-export const { getCategoryOption, getLstCategory, getCurrentCategory,setCurrentFilter } = categorySlice.actions
+export const { getCategoryOption, getLstCategory, getCurrentCategory, setCurrentFilter, getCurrnetPagination } = categorySlice.actions
 export default categorySlice.reducer
 
 export const getCategoryOptionApi = () => {
@@ -74,8 +74,8 @@ export const getCategoryByConditionApi = (condition: CategoryGetModel) => {
     try {
       const result = await categoryService.getCategoryByCondition(condition)
       if (result.status === Constants.httpStatusCode.SUCCESS) {
-        console.log(result.data);
-        await dispatch(setCurrentFilter({filterOption:condition}))
+        await dispatch(getCurrnetPagination({ pagination: result.data.pagination }))
+        await dispatch(setCurrentFilter({ filterOption: condition }))
         await dispatch(getLstCategory({ lstCategory: result.data.data }))
       } else {
         console.log(result);
