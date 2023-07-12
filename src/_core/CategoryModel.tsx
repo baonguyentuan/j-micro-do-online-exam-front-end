@@ -1,3 +1,6 @@
+import Constants from "../constants/Constants"
+import { PaginationModel } from "./common/Common"
+
 export interface CategoryOptionModel {
     id: number,
     name: string
@@ -15,26 +18,27 @@ export interface CategoryDetailModel {
     id: number,
     name: string,
     createAt: string,
-    thumbnail: string | File
+    thumbnail: string
 }
 export interface CategoryStateModel {
     lstCategoryOption: CategoryOptionModel[],
     lstCategory: CategoryDetailModel[],
     currentFilterCategory: CategoryGetModel,
-    currentCategoryDetail: CategoryDetailModel
+    currentCategoryDetail: CategoryDetailModel,
+    pagination:PaginationModel
 }
 
 export let defaultCategoryGet: CategoryGetModel = {
   name: null,
   from_date: null,
   to_date: null,
-  page_size: 10,
+  page_size: -1,
   page_index: 1,
   order_by: -1
 }
 export const defaultCategoryDetail: CategoryDetailModel = {
   createAt: '',
-  thumbnail: '',
+  thumbnail: Constants.defaultThumbnail,
   id: -1,
   name: ''
 }

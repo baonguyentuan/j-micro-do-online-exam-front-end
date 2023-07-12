@@ -50,3 +50,6 @@ code {
   background-color: yellow;
   border-color: yellow ;
 }
+.ant-table-thead .ant-table-cell{
+  background-color: rgb(204, 249, 255) !important; 
+}

@@ -11,6 +11,7 @@ import { default as examSlice } from "./reducers/exam";
 import { default as feedBackSlice } from "./reducers/feedback";
 import categorySlice from "./reducers/category/categorySlice";
 import drawerSlice from "./reducers/drawer/drawerSlice";
+import menuSlice from "./reducers/menu/menuSlice";
 import roleSlice from "./reducers/role/roleSlice";
 import endpointSlice from "./reducers/endpoint/endpointSlice";
 
@@ -28,6 +29,7 @@ export const store = configureStore({
     contestCommentSlice,
     categorySlice,
     drawerSlice,
+    menuSlice,
     roleSlice,
     endpointSlice,
   }

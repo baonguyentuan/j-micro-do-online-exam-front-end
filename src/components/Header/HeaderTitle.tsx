@@ -98,10 +98,6 @@ export default function HeaderTitle({}: Props) {
   const handleChange = (value: string) => {
     i18n.changeLanguage(value)
   };
-  window.addEventListener("beforeunload", function (e) {
-    console.log(e);
-
-  })
   useEffect(() => {
     let checkNewNotify = arrNotify.findIndex(noti => noti.readStatus === false)
     if (checkNewNotify !== -1) {

@@ -19,8 +19,8 @@ class CategoryService extends BaseService {
   createCategory = (model: FormData) => {
     return this.post(ApiEndpoint.category.CREATE, model)
   }
-  updateCategoryName = (model: FormData) => {
-    return this.put(ApiEndpoint.category.UPDATE_CATEGORY_INFO, model)
+  updateCategoryName = (model: Object) => {
+    return this.putByParam(ApiEndpoint.category.UPDATE_CATEGORY_INFO, model)
   }
   updateCategoryThumbnail = (model: FormData) => {
     return this.put(ApiEndpoint.category.UPDATE_CATEGORY_THUMBNAIL, model)

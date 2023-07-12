@@ -1,7 +1,7 @@
 import { Button, Modal } from 'antd';
 import { useDispatch } from 'react-redux';
-import { deleteUser } from '../../redux/reducers/adminUser/adminUserSlice';
 import { useTranslation } from 'react-i18next';
+import { deleteUser } from '../../redux/reducers/adminUser/adminUserSlice';
 
 interface PopupDeleteUserProps {
     deletingUserId: number | null;
