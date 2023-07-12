@@ -1,6 +1,4 @@
-import { EndpointDetailModel } from "../_core/EndpointModel"
 import { BaseService } from "./BaseService"
-
 class EndpointService extends BaseService {
     constructor() {
         super()
@@ -10,6 +8,9 @@ class EndpointService extends BaseService {
     }
     getEndpointsOrderBy = (order_by: any) => {
         return this.getOrderBy('auth/endpoints', order_by)
+    }
+    getEndpointsByName = (name: string) => {
+        return this.getOrderBy('auth/endpoints', name)
     }
     getEndpointOption = () => {
         return this.get('auth/endpoints/options')

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button, Table, Input, Modal, Form } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { createEndpointApi, getEndpointOderBy, updateEndpointApi } from '../../../redux/reducers/endpoint/endpointSlice';
+import { createEndpointApi, getEndpointByName, getEndpointOderBy, updateEndpointApi } from '../../../redux/reducers/endpoint/endpointSlice';
 import { EndpointDetailModel } from '../../../_core/EndpointModel';
 import { useDispatch } from 'react-redux';
 import { DispatchType } from '../../../redux/configStore';
@@ -15,6 +15,7 @@ const Endpoints = ({ endpoints }: any) => {
         currentPage: 1,
         isModalVisible: false,
     })
+    const [searchTerm, setSearchTerm] = useState("");
     const [selectedRecord, setSelectedRecord] = useState<EndpointDetailModel>();
     const [deletingId, setDeletingId] = useState<any>(null);
     const showModal = () => {
@@ -55,6 +56,12 @@ const Endpoints = ({ endpoints }: any) => {
 
     const handleCloseDeletePopup = () => {
         setDeletingId(null);
+    };
+
+    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const term = event.target.value;
+        setSearchTerm(term);
+        dispatch(getEndpointByName(term));
     };
 
     const columns = [
@@ -105,7 +112,11 @@ const Endpoints = ({ endpoints }: any) => {
     return (
         <div className='role'>
             <div style={{ display: 'flex', marginBottom: '16px' }}>
-                <Input.Search placeholder="Search Role" />
+                <Input
+                    placeholder="Search Role"
+                    value={searchTerm}
+                    onChange={handleSearch}
+                />
                 <Button type="default" style={{ marginLeft: '8px', display: 'flex', alignItems: 'center' }} onClick={showModal}>
                     <PlusOutlined />
                     Add Endpoint

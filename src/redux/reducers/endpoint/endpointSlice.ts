@@ -74,6 +74,18 @@ export const getEndpointOptionApi = () => {
     await dispatch(setLoading({ isLoading: false }))
   }
 }
+export const getEndpointByName = (name: string) => {
+  return async (dispatch: DispatchType) => {
+    dispatch(setLoading({ isLoading: true }))
+    try {
+      const result = await endpointService.getEndpointsByName(name)
+      dispatch(getEndpoints(result.data));
+    } catch (err) {
+      console.log(err);
+    }
+    await dispatch(setLoading({ isLoading: false }))
+  }
+}
 export const getEndpointOderBy = (order_by: number) => {
   return async (dispatch: DispatchType) => {
     dispatch(setLoading({ isLoading: true }))

@@ -1,8 +1,14 @@
 {
-    "home":"Trang chủ",
     "contactUs":"Liên hệ",
-    "getInTouch":"Vui lòng liên hệ với chúng tôi tại",
-    "emailUs":"support@exam-destroyer.com",
-    "companyName":"Exam-Destroyer.com được sở hữu bởi Team 1 Ltd",
-    "companyAddress":"Số 8A Tôn Thất Thuyết, Mỹ Đình, Nam Từ Liêm, Hà Nội"
+    "press":"Điểm chạm",
+    "help":"Giúp đỡ và hỗ trợ",
+    "sale":"Kinh doanh",
+    "content_1":"Bạn đang cảm thấy hứng thú với những bài viết và công việc của chúng tôi và muốn liên hệ ?",
+    "content_2":"Đội ngũ hỗ trợ của chúng tôi sẽ liên hệ với bạn sớm nhất có thể",
+    "content_3":"Liên hệ với đội kinh doanh về công việc",
+    "button_1":"Điểm chạm",
+    "button_2":"Hỗ trợ",
+    "button_3":"Liên hệ kinh doanh",
+    "title":"Gửi email để nhận sự hỗ trợ",
+    "submit":"Gửi"
 }
