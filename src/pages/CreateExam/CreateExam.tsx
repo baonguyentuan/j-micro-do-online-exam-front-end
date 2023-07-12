@@ -4,7 +4,7 @@ import {Button, Col, Form, Input, InputNumber, Row, Select, Upload} from 'antd'
 import {UploadOutlined} from '@ant-design/icons';
 import {useFormik} from 'formik';
 import * as Yup from 'yup'
-import CreateQuestion from '../../components/Exam/CreateQuestion';
+import CreateQuestion from '../../components/exams/private/CreateQuestion';
 import {DispatchType, RootState} from '../../redux/configStore';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';

@@ -35,18 +35,45 @@ export class BaseService {
         params: model,
       })
     }
-  }
-  
-  putByCondition(url:string,model:Object,params:Object){
-    return axios({
-      url:`${ApiEndpoint.domain}/${url}`,
-      method:'PUT',
-      data:model,
-      params:params,
-      headers: {"Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken)}
-    })
+
   }
 
+  putAdmin(url: string, model: any) {
+    if (localStorage.getItem(Constants.localStorageKey.accessToken)) {
+      return axios({
+        url: `${ApiEndpoint.domain}/${url}`,
+        method: 'PUT',
+        params: model,
+        headers: { "Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken) }
+      })
+    } else {
+      return axios({
+        url: `${ApiEndpoint.domain}/${url}`,
+        method: 'PUT',
+        params: model,
+      })
+    }
+
+  }
+
+  putByCondition(url: string, model: Object, params: Object) {
+    if (localStorage.getItem(Constants.localStorageKey.accessToken)) {
+      return axios({
+        url: `${ApiEndpoint.domain}/${url}`,
+        method: 'PUT',
+        data: model,
+        params: params,
+        headers: { "Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken) }
+      })
+    } else {
+      return axios({
+        url: `${ApiEndpoint.domain}/${url}`,
+        method: 'PUT',
+        data: model,
+        params: params,
+      })
+    }
+  }
   post(url: string, model: any) {
     if (localStorage.getItem(Constants.localStorageKey.accessToken)) {
       return axios({
@@ -63,7 +90,23 @@ export class BaseService {
       })
     }
   }
+  postAdmin(url: string, model: any) {
+    if (localStorage.getItem(Constants.localStorageKey.accessToken)) {
+      return axios({
+        url: `${ApiEndpoint.domain}/${url}`,
+        method: 'POST',
+        params: model,
+        headers: { "Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken) }
+      })
+    } else {
+      return axios({
+        url: `${ApiEndpoint.domain}/${url}`,
+        method: 'POST',
+        params: model,
+      })
+    }
 
+  }
   get(url: string) {
     if (localStorage.getItem(Constants.localStorageKey.accessToken)) {
       return axios({
@@ -95,7 +138,6 @@ export class BaseService {
         params: model,
       })
     }
-
   }
 
   getByParams(url: string, model: any) {
@@ -115,7 +157,22 @@ export class BaseService {
     }
 
   }
-
+  getOrderBy(url: string, model: string) {
+    if (localStorage.getItem(Constants.localStorageKey.accessToken)) {
+      return axios({
+        url: `${ApiEndpoint.domain}/${url}`,
+        method: 'GET',
+        params: model,
+        headers: { "Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken) }
+      })
+    } else {
+      return axios({
+        url: `${ApiEndpoint.domain}/${url}`,
+        method: 'GET',
+        params: model,
+      })
+    }
+  }
   delete(url: string, id: number) {
     if (localStorage.getItem(Constants.localStorageKey.accessToken)) {
       return axios({
@@ -130,4 +187,8 @@ export class BaseService {
       })
     }
   }
+
+
+
+
 }

@@ -1,4 +1,5 @@
 import Constants from "../constants/Constants"
+import { PaginationModel } from "./common/Common"
 
 export interface CategoryOptionModel {
     id: number,
@@ -23,7 +24,8 @@ export interface CategoryStateModel {
     lstCategoryOption: CategoryOptionModel[],
     lstCategory: CategoryDetailModel[],
     currentFilterCategory: CategoryGetModel,
-    currentCategoryDetail: CategoryDetailModel
+    currentCategoryDetail: CategoryDetailModel,
+    pagination:PaginationModel
 }
 
 export let defaultCategoryGet: CategoryGetModel = {

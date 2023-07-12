@@ -12,6 +12,7 @@ import { openNotificationWithIcon } from '../../../utils/operate';
 import { categoryService } from '../../../services/CategoryService';
 import Constants from "../../../constants/Constants";
 import { closeDrawer } from '../drawer/drawerSlice';
+import { PaginationModel } from '../../../_core/common/Common';
 
 const initialState: CategoryStateModel = {
   lstCategoryOption: [],
@@ -22,7 +23,8 @@ const initialState: CategoryStateModel = {
     thumbnail: '',
     id: -1,
     name: ''
-  }
+  },
+  pagination:{index:1,pages:1,totals:10}
 }
 
 const categorySlice = createSlice({
@@ -40,6 +42,9 @@ const categorySlice = createSlice({
     },
     setCurrentFilter:(state: CategoryStateModel, action: PayloadAction<{ filterOption: CategoryGetModel }>) => {
       state.currentFilterCategory = action.payload.filterOption
+    },
+    getCurrnetPagination:(state:CategoryStateModel,action:PayloadAction<{pagination:PaginationModel}>)=>{
+      state.pagination=action.payload.pagination
     }
   }
 });
@@ -69,6 +74,7 @@ export const getCategoryByConditionApi = (condition: CategoryGetModel) => {
     try {
       const result = await categoryService.getCategoryByCondition(condition)
       if (result.status === Constants.httpStatusCode.SUCCESS) {
+        console.log(result.data);
         await dispatch(setCurrentFilter({filterOption:condition}))
         await dispatch(getLstCategory({ lstCategory: result.data.data }))
       } else {

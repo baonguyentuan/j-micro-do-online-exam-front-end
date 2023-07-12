@@ -1,11 +1,10 @@
 import React from 'react'
-import { Button, Drawer } from 'antd'
+import { Drawer } from 'antd'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/configStore'
 import { useDispatch } from 'react-redux'
 import { closeDrawer } from '../../redux/reducers/drawer/drawerSlice'
 import FormCategoryModifier from '../Form/FormCategoryModifier'
-import Login from '../../pages/Registration/Login'
 import Constants from '../../constants/Constants'
 const DrawerModifier = () => {
     let { isOpen, typeContent } = useSelector((state: RootState) => state.drawerSlice)
