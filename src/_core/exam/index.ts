@@ -16,7 +16,7 @@ export interface ExamDetailFormModel {
   description: string,
   duration: number,
   question: QuestionRowModel[],
-  file: File | null
+  file: File |string | null
 }
 
 export interface QuestionContestModel {
@@ -92,7 +92,7 @@ export interface QuestionExamSubmitModel {
 
 export interface examSliceInitState {
   examType: string;
-
+  examModifyDetail:ExamDetailFormModel
   lstOptionExam: ExamOptionModel[];
 
   hotExamsByCategory: ExamCategory;

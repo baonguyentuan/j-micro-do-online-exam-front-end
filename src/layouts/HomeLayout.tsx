@@ -14,7 +14,7 @@ type Props = {}
 export default function HomeLayout({}: Props) {
   const dispatch: DispatchType = useDispatch()
   useEffect(() => {
-    //dispatch(getUserInfoApi())
+    dispatch(getUserInfoApi())
   }, [])
   return (
     <div className='relative'>

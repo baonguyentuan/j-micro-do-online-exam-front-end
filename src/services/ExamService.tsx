@@ -42,5 +42,8 @@ class ExamService extends BaseService {
     fetchExamDetail = (name: string)=>{
         return this.getByParams(ApiEndpoint.exam.FETCH_DETAIL,name)
     }
+    getExamModifyDetail=(param:{id:number})=>{
+        return this.getByParams(ApiEndpoint.exam.GET_MODIFY_DETAIL,param)
+    }
 }
 export const examService = new ExamService()

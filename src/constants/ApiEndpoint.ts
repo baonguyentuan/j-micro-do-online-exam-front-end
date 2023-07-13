@@ -34,6 +34,7 @@ export default {
     "CREATE": 'exams/create',
     "DELETE": 'exams/delete',
     "GET_DETAIL": 'exams/name',
+    "GET_MODIFY_DETAIL": 'exams/detail',
     "GET_RANDOM": 'exams/random',
     "FETCH_DETAIL": 'exams/fetch',
     "GET_DURATIONS": 'exams/durations',

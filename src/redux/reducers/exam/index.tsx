@@ -1,15 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { setLoading } from '../loading/loadingSlice';
 import { openNotificationWithIcon } from '../../../utils/operate';
-import { ExamOptionModel, ExamSearchParams, examSliceInitState } from '../../../_core/exam';
+import { ExamDetailFormModel, ExamOptionModel, ExamSearchParams, examSliceInitState } from '../../../_core/exam';
 import { DispatchType } from '../../configStore';
 import { examService } from '../../../services/ExamService';
 import Constants from "../../../constants/Constants";
-
 const initialState = {
   hotExamsByCategory: {},
-  examType: 'PRIVATE',
-  lstOptionExam: [{}]
+  lstOptionExam: [{}],
+  examModifyDetail: {}
 } as examSliceInitState
 
 const examSlice = createSlice({
@@ -19,8 +18,8 @@ const examSlice = createSlice({
     getOptionExam: (state: examSliceInitState, action: PayloadAction<{ lstOptionExam: ExamOptionModel[] }>) => {
       state.lstOptionExam = action.payload.lstOptionExam
     },
-    getExamType: (state: examSliceInitState, action: PayloadAction<{ examType: string }>) => {
-      state.examType = action.payload.examType
+    getExamModifyDetail: (state: examSliceInitState, action: PayloadAction<{ examDetail: ExamDetailFormModel }>) => {
+      state.examModifyDetail = action.payload.examDetail
     },
     hotExamsReceived(state, action) {
       state.hotExamsByCategory = action.payload
@@ -47,8 +46,8 @@ const examSlice = createSlice({
 });
 
 export const {
-  getExamType,
   getOptionExam,
+  getExamModifyDetail,
   hotExamsReceived,
   examsRandomReceived,
   examsCategoryReceived,
@@ -203,6 +202,23 @@ export const deleteExamApi = (examID: number) => {
     } catch (err) {
       console.log(err);
       openNotificationWithIcon('error', 'Delete exam failed', '', 1)
+    }
+  }
+}
+
+export const getExamModifyDetailApi = (examID: number) => {
+  return async (dispatch: DispatchType) => {
+    try {
+      const result = await examService.getExamModifyDetail({id:examID})
+      if (result.status === Constants.httpStatusCode.SUCCESS) {
+        console.log(result.data.data);
+        
+        dispatch(getExamModifyDetail(result.data.data))
+      } else {
+        console.log(result);
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 }
