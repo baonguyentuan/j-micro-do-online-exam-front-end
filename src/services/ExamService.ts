@@ -39,7 +39,7 @@ class ExamService extends BaseService {
     getExamDetail = (name: object) =>{
         return this.getByParams(ApiEndpoint.exam.GET_DETAIL,name)
     }
-    fetchExamDetail = (name: string)=>{
+    fetchExamDetail = (name: object)=>{
         return this.getByParams(ApiEndpoint.exam.FETCH_DETAIL,name)
     }
 }

@@ -1,7 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { setLoading } from '../loading/loadingSlice';
 import { openNotificationWithIcon } from '../../../utils/operate';
-import { ExamOptionModel, ExamSearchParams, examSliceInitState } from '../../../_core/exam';
+import {
+  ExamOptionModel,
+  ExamSearchParams,
+  examSliceInitState,
+  QuestionResult,
+  QuestionType
+} from "../../../_core/exam";
 import { DispatchType } from '../../configStore';
 import { examService } from '../../../services/ExamService';
 import Constants from "../../../constants/Constants";
@@ -9,7 +15,7 @@ import Constants from "../../../constants/Constants";
 const initialState = {
   hotExamsByCategory: {},
   examType: 'PRIVATE',
-  lstOptionExam: [{}]
+  lstOptionExam: [{}],
 } as examSliceInitState
 
 const examSlice = createSlice({
@@ -42,6 +48,23 @@ const examSlice = createSlice({
     },
     examsRandomReceived(state, action) {
       state.randomExams = action.payload
+    },
+    chooseExamAnswer(state,action: PayloadAction<{ questionIndex: number, answerIndex: number, type: QuestionType, checked: boolean }>){
+      let examResult : QuestionResult[];
+      state.examResult !== undefined ? examResult = [...state.examResult] : examResult = [];
+      
+      switch (action.payload.type){
+        case "MULTI":
+          console.log("run multi");
+          break;
+        case "SINGLE":
+          
+          
+          console.log("run single");
+          break;
+        default:
+          return state;
+      }
     }
   }
 });
@@ -56,6 +79,7 @@ export const {
   examFetchDetailReceived,
   examOrderByOptionsReceived,
   examDurationOptionsReceived,
+  chooseExamAnswer
 } = examSlice.actions
 
 export default examSlice.reducer
@@ -147,13 +171,13 @@ export const getExamDetail = (name: object) => {
   }
 }
 
-export const fetchExamDetail = (name: string) => {
+export const fetchExamDetail = (name: object) => {
   return async (dispatch: DispatchType) => {
     await dispatch(setLoading({ isLoading: true }))
     try {
       const result = await examService.fetchExamDetail(name);
-      dispatch(examFetchDetailReceived(result.data))
-      console.log(result);
+      dispatch(examFetchDetailReceived(result.data.data))
+      console.log(result.data.data);
     } catch (err) {
       openNotificationWithIcon('error', 'Fetch exam detail failed', '', 1)
     }
