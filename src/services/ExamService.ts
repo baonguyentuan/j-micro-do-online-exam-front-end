@@ -42,5 +42,8 @@ class ExamService extends BaseService {
     fetchExamDetail = (name: object)=>{
         return this.getByParams(ApiEndpoint.exam.FETCH_DETAIL,name)
     }
+    submitExamData = (data: object)=>{
+      return this.post(ApiEndpoint.exam.SUBMIT_EXAM,data)
+    }
 }
 export const examService = new ExamService()

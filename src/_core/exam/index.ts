@@ -64,6 +64,7 @@ export type QuestionType = 'SINGLE' | 'MULTI';
 
 export interface QuestionExamModel {
   id: number,
+  checked: number,
   question: string,
   answers: string[],
   questionPoint: number,
@@ -122,10 +123,27 @@ export interface examSliceInitState {
 
   randomExams: ExamCardInfoModel[];
   
-  examResult: QuestionResult[]
+  examResult: ExamResultType
+  
+  examStartTime: number
+
+  loading: boolean
+  
+  checkExamResult: ExamResultStatus
 }
 
 export interface QuestionResult{
+  id: number
   questionIndex: number,
-  answerSelected: string[]
+  answerSelected: number[]
+}
+
+export interface ExamResultType{
+  id: number,
+  answers: QuestionResult[]
+}
+
+export interface ExamResultStatus{
+  flag: boolean,
+  message: string
 }

@@ -754,6 +754,7 @@ const contestSlice = createSlice({
       });
     },
     
+    
     setAnswer: (state: ContestState, action: PayloadAction<{ questionIndex: number, answerIndex: number, type: QuestionType, checked: boolean }>) => {
       let newLstAnswer = [...state.lstAnswer];
       if (action.payload.type === "MULTI") {
