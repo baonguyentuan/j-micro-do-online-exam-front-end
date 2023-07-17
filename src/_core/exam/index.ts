@@ -10,6 +10,7 @@ export interface QuestionRowModel {
 }
 
 export interface ExamDetailFormModel {
+  id:number,
   title: string,
   categoryId: number | null,
   examType: string,
@@ -92,7 +93,7 @@ export interface QuestionExamSubmitModel {
 
 export interface examSliceInitState {
   examType: string;
-  examModifyDetail:ExamDetailFormModel
+  fullExamDetail:ExamDetailFormModel
   lstOptionExam: ExamOptionModel[];
 
   hotExamsByCategory: ExamCategory;

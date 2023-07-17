@@ -6,6 +6,7 @@ import ListExamUser from '../../../components/exams/private/ListExamUser';
 import ListContestUser from '../../../components/Contest/ListContestUser';
 import PaymentUser from "../../../components/exams/private/PaymentUser";
 import styled from "styled-components";
+import DrawerModifier from '../../../components/Drawer/DrawerModifier';
 
 type Props = {}
 let itemsTab: TabsProps['items'] = [
@@ -23,7 +24,7 @@ let itemsTab: TabsProps['items'] = [
     label: 'Contest',
     key: 'contest',
     children: <ListContestUser />
-  },  {
+  }, {
     label: 'Payment',
     key: 'payment',
     children: <PaymentUser />
@@ -31,16 +32,21 @@ let itemsTab: TabsProps['items'] = [
 ]
 
 function Account({ }: Props) {
-    return (
-        <AccountWrapper className='size__component rounded py-4 mb-20 bg-slate-50' style={{ minHeight: '90vh' }}>
-            <h1 className='font-medium text-2xl mt-4 mb-8'>Your Account Information</h1>
-            <Tabs
-              type='card'
-              tabPosition='left'
-              items={itemsTab}
-            />
-        </AccountWrapper>
-    )
+
+  return (
+    <div>
+      <AccountWrapper className='size__component rounded py-4 mb-20 bg-slate-50' style={{ minHeight: '90vh' }}>
+        <h1 className='font-medium text-2xl mt-4 mb-8'>Your Account Information</h1>
+        <Tabs
+          type='card'
+          tabPosition='left'
+          items={itemsTab}
+        />
+      </AccountWrapper>
+      <DrawerModifier />
+    </div>
+
+  )
 }
 
 const AccountWrapper = styled.section`

@@ -15,7 +15,7 @@ import { Provider } from 'react-redux';
 import { store } from './redux/configStore';
 import HomeLayout from './layouts/HomeLayout';
 import CreateContest from './pages/CreateContest/CreateContest';
-import CreateExam from './pages/CreateExam/CreateExam';
+import CreateExam from './pages/Exam/CreateExam';
 import Contesting from './pages/Contesting/Contesting';
 import Account from './pages/user/account/Account';
 import TrainingCoursesByCategory from "./pages/public/course/TrainingCoursesByCategory";
@@ -24,6 +24,8 @@ import AdminLayout from './layouts/AdminLayout';
 import AdminCategory from './Admin/AdminCategory/AdminCategory';
 import Course from "./pages/public/course/Course";
 import { createBrowserHistory } from "history";
+import Constants from './constants/Constants';
+import AdminExam from './Admin/AdminExam/AdminExam';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -41,8 +43,7 @@ root.render(
           <Route path={AppRoutes.public.courses} element={<TrainingCourses />} />
           <Route path={AppRoutes.public.courses_sort_category} element={<TrainingCoursesByCategory />} />
           <Route path={AppRoutes.public.courses_detail} element={<Course />} />
-          <Route path='create_exam' element={<CreateExam />} />
-          <Route path='edit_exam/:examId' element={<CreateExam />} />
+          <Route path='create_exam' element={<CreateExam status={Constants.formStatus.CREATE} />} />
           <Route path='account' element={<Account />} />
           <Route path={AppRoutes.public.blog} element={<BlogList />} />
           <Route path={AppRoutes.public.contact} element={<Contact />} />
@@ -51,8 +52,9 @@ root.render(
           <Route path='*' element={<Home />} />
         </Route>
         <Route path='admin' element={<AdminLayout />}>
-          <Route path='admin_user' element={<AdminUser />} />
-          <Route path='admin_category' element={<AdminCategory />} />
+          <Route path='user' element={<AdminUser />} />
+          <Route path='category' element={<AdminCategory />} />
+          <Route path='exam' element={<AdminExam />} />
           <Route index element={<AdminUser />} />
         </Route>
       </Routes>

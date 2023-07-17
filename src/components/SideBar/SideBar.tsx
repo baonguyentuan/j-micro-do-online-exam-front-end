@@ -18,15 +18,15 @@ const SideBar: React.FC = () => {
       <Menu selectedKeys={[optionSidebarAdmin]}  theme="dark" mode="inline" >
         <Menu.Item key="report" icon={<AreaChartOutlined />}>Analytics</Menu.Item>
         <Menu.Item key={Constants.optionMenuAdmin.USER} icon={<TeamOutlined />}>
-          <NavLink to={'/admin/admin_user'}>User Management</NavLink></Menu.Item>
+          <NavLink to={'/admin/user'}>User Management</NavLink></Menu.Item>
         <Menu.Item key={Constants.optionMenuAdmin.CATEGORY} icon={<AppstoreOutlined />}>
-          <NavLink to={'/admin/admin_category'}>Category</NavLink></Menu.Item>
+          <NavLink to={'/admin/category'}>Category</NavLink></Menu.Item>
         <Menu.Item key={Constants.optionMenuAdmin.ROLE} icon={<GoldenFilled />}>
-          <NavLink to={'/admin/admin_role'}>Role</NavLink>
+          <NavLink to={'/admin/role'}>Role</NavLink>
         </Menu.Item>
-        <Menu.Item key={Constants.optionMenuAdmin.ENDPOINT} icon={<ApiFilled />}><NavLink to={'/admin/admin_endpoint'}>Endpoint</NavLink></Menu.Item>
-        <Menu.Item key={Constants.optionMenuAdmin.EXAM} icon={<FileOutlined />}><NavLink to={'/admin/admin_exam'}>Exam</NavLink></Menu.Item>
-        <Menu.Item key={Constants.optionMenuAdmin.CONTEST} icon={<BookOutlined />}><NavLink to={'/admin/admin_contest'}>Contest</NavLink></Menu.Item>
+        <Menu.Item key={Constants.optionMenuAdmin.ENDPOINT} icon={<ApiFilled />}><NavLink to={'/admin/endpoint'}>Endpoint</NavLink></Menu.Item>
+        <Menu.Item key={Constants.optionMenuAdmin.EXAM} icon={<FileOutlined />}><NavLink to={'/admin/exam'}>Exam</NavLink></Menu.Item>
+        <Menu.Item key={Constants.optionMenuAdmin.CONTEST} icon={<BookOutlined />}><NavLink to={'/admin/contest'}>Contest</NavLink></Menu.Item>
         <Menu.Item key="logout" icon={<LogoutOutlined />}>
           <NavLink to={'/login'}>Logout</NavLink>
         </Menu.Item>

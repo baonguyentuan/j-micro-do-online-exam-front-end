@@ -60,8 +60,7 @@
         "note": "Note",
         "Question": "Question",
         "Action": "Action",
-        "Each exam have at least {{number}} question": "Each exam have at least {{number}} question",
-        "Each exam have at max {{number}} question": "Each exam have at max {{number}} question",
+        "Each exam have at least {{min}} question and max {{max}} question": "Each exam have at least {{min}} question and max {{max}} question",
         "Each question have at least 2 answers": "Each question have at least 2 answers",
         "You must choose correct answers": "You must choose correct answers",
         "Question is required": "Question is required",
@@ -73,6 +72,8 @@
         "action":"action",
         "manager answer":"manager answer",
         "Question answered":"Question answered",
-        "Question unanswered":"Question unanswered"
+        "Question unanswered":"Question unanswered",
+        "Update exam":"Update Exam",
+        "Update thumbnail":"Update Thumbnail"
     }
 }

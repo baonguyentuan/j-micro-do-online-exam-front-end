@@ -4,7 +4,8 @@ import Constants from '../../../constants/Constants';
 
 const initialState: PropsDrawerModifierModel = {
   isOpen: false,
-  typeContent: Constants.typeDrawer.CREAT_CATEGORY
+  typeContent: Constants.typeDrawer.CREAT_CATEGORY,
+  sizeDrawer: '30%'
 }
 
 const drawerSlice = createSlice({
@@ -14,9 +15,11 @@ const drawerSlice = createSlice({
     closeDrawer: (state: PropsDrawerModifierModel) => {
       state.isOpen = false
     },
-    setDrawerInfo: (state: PropsDrawerModifierModel, action: PayloadAction<{ typeContent: string, }>) => {
+    setDrawerInfo: (state: PropsDrawerModifierModel, action: PayloadAction<{ typeContent: string, sizeDrawer: string }>) => {
+      console.log(1);
       state.isOpen = true
       state.typeContent = action.payload.typeContent
+      state.sizeDrawer=action.payload.sizeDrawer
     }
   }
 });

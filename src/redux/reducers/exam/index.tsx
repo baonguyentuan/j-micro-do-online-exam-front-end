@@ -5,10 +5,12 @@ import { ExamDetailFormModel, ExamOptionModel, ExamSearchParams, examSliceInitSt
 import { DispatchType } from '../../configStore';
 import { examService } from '../../../services/ExamService';
 import Constants from "../../../constants/Constants";
+import { closeDrawer } from '../drawer/drawerSlice';
+import AppConfigs from '../../../config/AppConfigs';
 const initialState = {
   hotExamsByCategory: {},
   lstOptionExam: [{}],
-  examModifyDetail: {}
+  fullExamDetail: {}
 } as examSliceInitState
 
 const examSlice = createSlice({
@@ -18,8 +20,8 @@ const examSlice = createSlice({
     getOptionExam: (state: examSliceInitState, action: PayloadAction<{ lstOptionExam: ExamOptionModel[] }>) => {
       state.lstOptionExam = action.payload.lstOptionExam
     },
-    getExamModifyDetail: (state: examSliceInitState, action: PayloadAction<{ examDetail: ExamDetailFormModel }>) => {
-      state.examModifyDetail = action.payload.examDetail
+    getFullExamDetail: (state: examSliceInitState, action: PayloadAction<{ examDetail: ExamDetailFormModel }>) => {
+      state.fullExamDetail = action.payload.examDetail
     },
     hotExamsReceived(state, action) {
       state.hotExamsByCategory = action.payload
@@ -47,7 +49,7 @@ const examSlice = createSlice({
 
 export const {
   getOptionExam,
-  getExamModifyDetail,
+  getFullExamDetail,
   hotExamsReceived,
   examsRandomReceived,
   examsCategoryReceived,
@@ -65,6 +67,30 @@ export const createExamApi = (examDetail: FormData) => {
     try {
       const result = await examService.creatExam(examDetail)
       if (result.status === Constants.httpStatusCode.SUCCESS) {
+        dispatch(closeDrawer())
+        dispatch(getFullExamDetail({
+          examDetail: {
+            id: -1,
+            title: '',
+            categoryId: null,
+            examType: "PRIVATE",
+            description: '',
+            duration: AppConfigs.exam.MIN_DURATION_EXAM,
+            question: [
+            ],
+            file: null
+          }
+        }))
+        dispatch(getExamsApi({
+          name: '',
+          category_ids: Constants.EmptyString,
+          durations: Constants.EmptyString,
+          from_date: Constants.EmptyString,
+          to_date: Constants.EmptyString,
+          page_index: 1,
+          page_size: 10,
+          order_by: -1
+        }))
         openNotificationWithIcon('success', 'Create exam successful', '', 1)
       } else {
         console.log(result);
@@ -193,6 +219,16 @@ export const deleteExamApi = (examID: number) => {
     try {
       const result = await examService.deleteExam(examID)
       if (result.status === Constants.httpStatusCode.SUCCESS) {
+        dispatch(getExamsApi({
+          name: '',
+          category_ids: Constants.EmptyString,
+          durations: Constants.EmptyString,
+          from_date: Constants.EmptyString,
+          to_date: Constants.EmptyString,
+          page_index: 1,
+          page_size: 10,
+          order_by: -1
+        }))
         dispatch(getExamOptionApi())
         openNotificationWithIcon('success', 'Delete exam successful', '', 1)
       } else {
@@ -206,19 +242,92 @@ export const deleteExamApi = (examID: number) => {
   }
 }
 
-export const getExamModifyDetailApi = (examID: number) => {
+export const getFullExamDetailApi = (examID: number) => {
   return async (dispatch: DispatchType) => {
     try {
-      const result = await examService.getExamModifyDetail({id:examID})
+      const result = await examService.getFullExamDetail({ id: examID })
       if (result.status === Constants.httpStatusCode.SUCCESS) {
-        console.log(result.data.data);
-        
-        dispatch(getExamModifyDetail(result.data.data))
+        let { id, title, categoryID, description, duration, questions } = result.data.data
+        dispatch(getFullExamDetail({
+          examDetail: {
+            id,
+            title,
+            categoryId: categoryID,
+            examType:'',
+            description,
+            duration,
+            question: questions,
+            file: ''
+          }
+        }))
       } else {
         console.log(result);
+        openNotificationWithIcon('error', 'Get exam detail failed', '', 1)
       }
     } catch (err) {
       console.log(err);
+      openNotificationWithIcon('error', 'Get exam detail failed', '', 1)
     }
+  }
+}
+
+export const editExamApi = (examDetail: object) => {
+  return async (dispatch: DispatchType) => {
+    await dispatch(setLoading({ isLoading: true }))
+    try {
+      const result = await examService.editExam(examDetail)
+      if (result.status === Constants.httpStatusCode.SUCCESS) {
+        dispatch(closeDrawer())
+        dispatch(getExamsApi({
+          name: '',
+          category_ids: Constants.EmptyString,
+          durations: Constants.EmptyString,
+          from_date: Constants.EmptyString,
+          to_date: Constants.EmptyString,
+          page_index: 1,
+          page_size: 10,
+          order_by: -1
+        }))
+
+        openNotificationWithIcon('success', 'Edit exam successful', '', 1)
+      } else {
+        console.log(result);
+        openNotificationWithIcon('error', 'Edit exam failed', '', 1)
+      }
+    } catch (err) {
+      console.log(err);
+      openNotificationWithIcon('error', 'Edit exam failed', '', 1)
+    }
+    await dispatch(setLoading({ isLoading: false }))
+  }
+}
+
+export const updateThumbnailExamApi = (thumbnail: FormData) => {
+  return async (dispatch: DispatchType) => {
+    await dispatch(setLoading({ isLoading: true }))
+    try {
+      const result = await examService.updateThumbnailExam(thumbnail)
+      if (result.status === Constants.httpStatusCode.SUCCESS) {
+        dispatch(getExamsApi({
+          name: '',
+          category_ids: Constants.EmptyString,
+          durations: Constants.EmptyString,
+          from_date: Constants.EmptyString,
+          to_date: Constants.EmptyString,
+          page_index: 1,
+          page_size: 10,
+          order_by: -1
+        }))
+        dispatch(closeDrawer())
+        openNotificationWithIcon('success', 'Edit exam successful', '', 1)
+      } else {
+        console.log(result);
+        openNotificationWithIcon('error', 'Edit exam failed', '', 1)
+      }
+    } catch (err) {
+      console.log(err);
+      openNotificationWithIcon('error', 'Edit exam failed', '', 1)
+    }
+    await dispatch(setLoading({ isLoading: false }))
   }
 }

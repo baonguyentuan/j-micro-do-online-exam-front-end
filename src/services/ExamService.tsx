@@ -15,8 +15,11 @@ class ExamService extends BaseService {
     getExamOption=()=>{
         return this.get(ApiEndpoint.exam.GET_EXAM_OPTIONS)
     }
-    editExam = (examDetail: FormData) => {
+    editExam = (examDetail: Object) => {
         return this.post(ApiEndpoint.exam.EDIT, examDetail)
+    }
+    updateThumbnailExam = (thumbnail: FormData) => {
+        return this.put(ApiEndpoint.exam.UPDATE_THUMBNAIL, thumbnail)
     }
     deleteExam=(examID:number)=>{
         return this.delete(ApiEndpoint.exam.DELETE,examID)
@@ -42,8 +45,8 @@ class ExamService extends BaseService {
     fetchExamDetail = (name: string)=>{
         return this.getByParams(ApiEndpoint.exam.FETCH_DETAIL,name)
     }
-    getExamModifyDetail=(param:{id:number})=>{
-        return this.getByParams(ApiEndpoint.exam.GET_MODIFY_DETAIL,param)
+    getFullExamDetail=(param:{id:number})=>{
+        return this.getByParams(ApiEndpoint.exam.GET_FULL_DETAIL,param)
     }
 }
 export const examService = new ExamService()

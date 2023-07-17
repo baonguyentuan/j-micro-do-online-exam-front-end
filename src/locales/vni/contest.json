@@ -11,7 +11,7 @@
         "download now":"Tải đề thi",
         "name":"Tên",
         "category":"Thể loại",
-        "thumbnail":"Ảnh đại diện",
+        "thumbnail":"Ảnh",
         "choose exam":"Chọn bài thi",
         "start time":"Bắt đầu",
         "contestant list":"DS thí sinh",
@@ -29,7 +29,7 @@
         "time start must be timestamp":"Thời gian bắt đầu phải là định dạng thời gian",
         "time start is required":"Thời gian bắt đầu không thể bỏ trống",
         "the contest must start at least {{duration}} days from the date of creation":"Kỳ thi phải được tạo trước {{duration}} ngày",
-        "file is required":"Tệp tin danh sách thì sinh không thể bỏ trống",
+        "file is required":"Banj phải chọn tệp tin ",
         "exam is required":"Bài thi không thể bỏ trống",
         "category is required":"Thể loại không thể bỏ trống",
         "click to Upload thumbnail":"Tải ảnh",
@@ -60,8 +60,7 @@
         "note":"Ghi chú",
         "Question":"Câu hỏi",
         "Action":"Tác vụ",
-        "Each exam have at least {{number}} question":"Mỗi bài thi có ít nhất {{number}} câu hỏi",
-        "Each exam have at max {{number}} question":"Mỗi bài thi có nhiều nhất {{number}} câu hỏi",
+        "Each exam have at least {{min}} question and max {{max}} question":"Mỗi bài thi có ít nhất {{min}} câu hỏi và nhiều nhất {{max}} câu hỏi",
         "Each question have at least 2 answers":"Mỗi câu hỏi có ít nhất 2 đáp án",
         "You must choose correct answers":"Bạn Phải chọn đáp án đúng",
         "Question is required":"Câu hỏi không thể bỏ trống",
@@ -72,6 +71,8 @@
         "numerical order":"STT",
         "manager answer":"Quản lý câu trả lười",
         "Question answered":"Câu hỏi đã làm",
-        "Question unanswered":"Câu hỏi chưa làm"
+        "Question unanswered":"Câu hỏi chưa làm",
+        "Update exam":"Cập nhật bài thi",
+        "Update thumbnail":"Cập nhật ảnh"
     }
 }
