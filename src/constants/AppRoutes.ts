@@ -1,5 +1,5 @@
 const courseRootRoute = '/courses'
-
+const adminRoute = '/admin'
 export default {
   "public": {
     "home": '/',
@@ -16,7 +16,14 @@ export default {
       "home": '/user/dashboard'
     },
     "admin": {
-      "home": 'admin/dashboard'
+      "admin": adminRoute,
+      "home": adminRoute + 'dashboard',
+      "category": adminRoute + 'category',
+      "exam": adminRoute + 'exam',
+      "user": adminRoute + 'user',
+      "contest": adminRoute + 'contest',
+      "role": adminRoute + 'role',
+      "endpoint": adminRoute + 'endpoint'
     }
   }
 }

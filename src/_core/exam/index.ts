@@ -28,6 +28,17 @@ export interface QuestionContestModel {
   point: number,
 }
 
+export interface ExamQuestionModel{
+  id: number,
+  answer: string[],
+  
+  question: string,
+  
+  questionPoint: number,
+  
+  questionType: 'SINGLE' | 'MULTI'
+}
+
 export interface ExamCardInfoModel {
   id: number
   image: string,
@@ -50,12 +61,15 @@ export interface ExamFetchModel {
   questionsExam: QuestionExamModel[],
 }
 
+export type QuestionType = 'SINGLE' | 'MULTI';
+
 export interface QuestionExamModel {
   id: number,
+  checked: number,
   question: string,
   answers: string[],
   questionPoint: number,
-  questionType: string,
+  questionType: QuestionType,
 }
 
 export interface ExamSearchParams {
@@ -92,7 +106,6 @@ export interface QuestionExamSubmitModel {
 }
 
 export interface examSliceInitState {
-  examType: string;
   fullExamDetail:ExamDetailFormModel
   lstOptionExam: ExamOptionModel[];
 
@@ -109,4 +122,28 @@ export interface examSliceInitState {
   examFetchDetail: ExamFetchModel;
 
   randomExams: ExamCardInfoModel[];
+  
+  examResult: ExamResultType
+  
+  examStartTime: number
+
+  loading: boolean
+  
+  checkExamResult: ExamResultStatus
+}
+
+export interface QuestionResult{
+  id: number
+  questionIndex: number,
+  answerSelected: number[]
+}
+
+export interface ExamResultType{
+  id: number,
+  answers: QuestionResult[]
+}
+
+export interface ExamResultStatus{
+  flag: boolean,
+  message: string
 }

@@ -23,7 +23,7 @@ export default function HeaderTitle({}: Props) {
     {
       key: '1',
       label: (
-        <NavLink to={'/account:id'}>{t('account')}</NavLink>
+        <NavLink to={'/account'}>{t('account')}</NavLink>
       ),
     },
     {
@@ -92,7 +92,7 @@ export default function HeaderTitle({}: Props) {
 
 
     } else {
-      return <NavLink to={'/login'}>{t('signin')}</NavLink>
+      return <NavLink to={AppRoutes.public.login}>{t('signin')}</NavLink>
     }
   }
   const handleChange = (value: string) => {

@@ -41,7 +41,8 @@ export default {
     "GET_DURATIONS": 'exams/durations',
     "GET_EXAM_OPTIONS": 'exams/options',
     "GET_ORDER_BY": 'exams/orderByOptions',
-    "GET_HOT_EXAMS_CATEGORY": 'exams/hot/category'
+    "GET_HOT_EXAMS_CATEGORY": 'exams/hot/category',
+    "SUBMIT_EXAM":'exams/submit',
   },
   contest:{
     "DELETE":'exams/contests/',

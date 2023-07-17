@@ -20,26 +20,25 @@ import Contesting from './pages/Contesting/Contesting';
 import Account from './pages/user/account/Account';
 import TrainingCoursesByCategory from "./pages/public/course/TrainingCoursesByCategory";
 import AppRoutes from "./constants/AppRoutes";
-import AdminLayout from './layouts/AdminLayout';
-import AdminCategory from './Admin/AdminCategory/AdminCategory';
+import AdminLayout from "./layouts/AdminLayout";
+import AdminCategory from "./Admin/AdminCategory/AdminCategory";
 import Course from "./pages/public/course/Course";
 import { createBrowserHistory } from "history";
 import Constants from './constants/Constants';
 import AdminExam from './Admin/AdminExam/AdminExam';
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
-export const history = createBrowserHistory(window)
+export const history = createBrowserHistory(window);
 root.render(
   <Provider store={store}>
     <HistoryRouter history={history}>
       <Routes>
-        <Route path='' element={<HomeLayout />}>
+        <Route path="" element={<HomeLayout />}>
           <Route index element={<Home />} />
           <Route path={AppRoutes.public.login} element={<Login />} />
           <Route path={AppRoutes.public.register} element={<Register />} />
-          <Route path='contesting/:contestId' element={<Contesting />} />
-          <Route path='create_contest' element={<CreateContest />} />
+          <Route path="create_contest" element={<CreateContest />} />
           <Route path={AppRoutes.public.courses} element={<TrainingCourses />} />
           <Route path={AppRoutes.public.courses_sort_category} element={<TrainingCoursesByCategory />} />
           <Route path={AppRoutes.public.courses_detail} element={<Course />} />
@@ -49,12 +48,12 @@ root.render(
           <Route path={AppRoutes.public.contact} element={<Contact />} />
           <Route path={AppRoutes.public.login} element={<Login />} />
           <Route path={AppRoutes.public.register} element={<Register />} />
-          <Route path='*' element={<Home />} />
+          <Route path="*" element={<Home />} />
         </Route>
-        <Route path='admin' element={<AdminLayout />}>
-          <Route path='user' element={<AdminUser />} />
-          <Route path='category' element={<AdminCategory />} />
-          <Route path='exam' element={<AdminExam />} />
+        <Route path={AppRoutes.private.admin.admin} element={<AdminLayout />}>
+          <Route path={AppRoutes.public.login} element={<AdminUser />} />
+          <Route path={AppRoutes.private.admin.category} element={<AdminCategory />} />
+          <Route path={AppRoutes.private.admin.exam}  element={<AdminExam />} />
           <Route index element={<AdminUser />} />
         </Route>
       </Routes>
