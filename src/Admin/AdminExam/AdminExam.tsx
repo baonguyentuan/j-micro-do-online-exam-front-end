@@ -132,12 +132,12 @@ const AdminExam = (props: Props) => {
           <Button className='btn_view' onClick={async () => {
             await dispatch(getExamDetail({ name: record.examName }))
             await dispatch(getFullExamDetailApi(record.id))
-            await dispatch(setDrawerInfo({ typeContent: Constants.typeDrawer.VIEW_EXAM, sizeDrawer: '70%' }))
+            await dispatch(setDrawerInfo({ typeContent: Constants.typeDrawer.VIEW_EXAM, sizeDrawer: Constants.sizeDrawer.LARGE }))
           }}><EyeOutlined className='text-base -translate-y-1 ' /></Button>
           <Button disabled={record.examType === "PRIVATE" ? true : false} className='btn_edit' onClick={async () => {
             await dispatch(getExamDetail({ name: record.examName }))
             await dispatch(getFullExamDetailApi(record.id))
-            await dispatch(setDrawerInfo({ typeContent: Constants.typeDrawer.EDIT_EXAM, sizeDrawer: '70%' }))
+            await dispatch(setDrawerInfo({ typeContent: Constants.typeDrawer.EDIT_EXAM, sizeDrawer: Constants.sizeDrawer.LARGE }))
           }}><EditOutlined className='text-base -translate-y-1 ' /></Button>
           <Popconfirm
             title="Delete the category"
@@ -312,7 +312,7 @@ const AdminExam = (props: Props) => {
               file: null
             }
           }))
-          await dispatch(setDrawerInfo({ typeContent: Constants.typeDrawer.CREAT_EXAM, sizeDrawer: '70%' }))
+          await dispatch(setDrawerInfo({ typeContent: Constants.typeDrawer.CREAT_EXAM, sizeDrawer: Constants.sizeDrawer.LARGE }))
         }}>Create Exam</Button>
         <Input
           placeholder={t('search')}

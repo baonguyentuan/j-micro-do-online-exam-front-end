@@ -86,7 +86,7 @@ const AdminCategory = () => {
             await dispatch(getCategoryDetailApi(record.id))
             await dispatch(setDrawerInfo({
               typeContent: 'updateCategory',
-              sizeDrawer: '30%'
+              sizeDrawer: Constants.sizeDrawer.SMALL
             }))
           }}><EditOutlined className='text-base -translate-y-1 ' /></Button>
           <Popconfirm
@@ -112,7 +112,7 @@ const AdminCategory = () => {
         <Button onClick={async () => {
           await dispatch(getCurrentCategory({ categoryDetail: { ...defaultCategoryDetail } }))
           await dispatch(setDrawerInfo({
-            typeContent: 'createCategory', sizeDrawer: '30%'
+            typeContent: 'createCategory', sizeDrawer: Constants.sizeDrawer.SMALL
           }))
         }}>{t('add category')}</Button>
         <Input

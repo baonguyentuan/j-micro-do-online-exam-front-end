@@ -34,5 +34,10 @@ export default {
     VIEW_EXAM:'viewExam',
     CREAT_CONTEST:'createContest',
     VIEW_CONTEST:'viewContest',
+  },
+  sizeDrawer:{
+    SMALL:'30%',
+    NORMAL:'50%',
+    LARGE:'70%'
   }
 }
