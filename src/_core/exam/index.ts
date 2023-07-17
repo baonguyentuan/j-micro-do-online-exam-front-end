@@ -10,13 +10,14 @@ export interface QuestionRowModel {
 }
 
 export interface ExamDetailFormModel {
+  id:number,
   title: string,
   categoryId: number | null,
   examType: string,
   description: string,
   duration: number,
   question: QuestionRowModel[],
-  file: File | null
+  file: File |string | null
 }
 
 export interface QuestionContestModel {
@@ -105,8 +106,7 @@ export interface QuestionExamSubmitModel {
 }
 
 export interface examSliceInitState {
-  examType: string;
-
+  fullExamDetail:ExamDetailFormModel
   lstOptionExam: ExamOptionModel[];
 
   hotExamsByCategory: ExamCategory;

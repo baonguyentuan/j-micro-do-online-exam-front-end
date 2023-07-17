@@ -86,6 +86,7 @@ const AdminCategory = () => {
             await dispatch(getCategoryDetailApi(record.id))
             await dispatch(setDrawerInfo({
               typeContent: 'updateCategory',
+              sizeDrawer: '30%'
             }))
           }}><EditOutlined className='text-base -translate-y-1 ' /></Button>
           <Popconfirm
@@ -109,9 +110,9 @@ const AdminCategory = () => {
       <h1 className="text-2xl text-center font-bold text-gray-800 mb-2">{t('category management')}</h1>
       <div className='my-4 flex justify-between items-center'>
         <Button onClick={async () => {
-          await dispatch(getCurrentCategory({ categoryDetail: {...defaultCategoryDetail} }))
+          await dispatch(getCurrentCategory({ categoryDetail: { ...defaultCategoryDetail } }))
           await dispatch(setDrawerInfo({
-            typeContent: 'createCategory',
+            typeContent: 'createCategory', sizeDrawer: '30%'
           }))
         }}>{t('add category')}</Button>
         <Input
@@ -130,7 +131,7 @@ const AdminCategory = () => {
         dataSource={lstCategory}
         pagination={{
           total: pagination.totals,
-          current:pagination.index,
+          current: pagination.index,
           onChange: (page) => {
             let currentFilter = { ...currentFilterCategory, page_index: page }
             dispatch(getCategoryByConditionApi(currentFilter))
