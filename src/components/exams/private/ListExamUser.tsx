@@ -19,7 +19,7 @@ const ListExamUser = (props: Props) => {
   const getDetail = async (id: number, name: string, typeDrawer: string) => {
     await dispatch(getExamDetail({ name }))
     await dispatch(getFullExamDetailApi(id))
-    await dispatch(setDrawerInfo({ typeContent: typeDrawer, sizeDrawer: '70%' }))
+    await dispatch(setDrawerInfo({ typeContent: typeDrawer, sizeDrawer: Constants.sizeDrawer.LARGE }))
   }
   const columns = [
     {
@@ -37,10 +37,10 @@ const ListExamUser = (props: Props) => {
       render: (text: string, record: ExamOptionModel, index: number) => (
         <Space size="middle">
           <Button onClick={() => {
-            getDetail(record.id,record.name,Constants.typeDrawer.VIEW_EXAM)
+            getDetail(record.id, record.name, Constants.typeDrawer.VIEW_EXAM)
           }}>View</Button>
           <Button onClick={async () => {
-            getDetail(record.id,record.name,Constants.typeDrawer.EDIT_EXAM)
+            getDetail(record.id, record.name, Constants.typeDrawer.EDIT_EXAM)
           }}>Edit</Button>
           <Popconfirm
             placement="topRight"
