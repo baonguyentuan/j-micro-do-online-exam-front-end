@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Constants from '../../constants/Constants';
 import { DispatchType, RootState } from '../../redux/configStore';
+import { setOptionSidebarAdmin } from '../../redux/reducers/menu/menuSlice';
 import { getRolesApi } from '../../redux/reducers/role/roleSlice';
 import Roles from './components/Roles';
 
@@ -9,6 +11,7 @@ function Role() {
     let dispatch: DispatchType = useDispatch()
     useEffect(() => {
         dispatch(getRolesApi());
+        dispatch(setOptionSidebarAdmin({ option: Constants.optionMenuAdmin.AUTH.ROLE }))
     }, []);
 
     return (

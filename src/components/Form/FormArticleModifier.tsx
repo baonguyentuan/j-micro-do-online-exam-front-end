@@ -1,28 +1,24 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Button, Form, Input, Upload } from 'antd'
-import { UploadOutlined } from '@ant-design/icons';
-import dayjs from 'dayjs';
+import React, { useEffect, useState } from 'react'
+import { Button, Form, Input } from 'antd'
 import { useSelector } from 'react-redux';
 import { DispatchType, RootState } from '../../redux/configStore';
 import { useDispatch } from 'react-redux';
-import { createCategoryApi, getCurrentCategory, updateCategoryNameApi, updateCategoryThumbnailApi } from '../../redux/reducers/category/categorySlice';
+import { createCategoryApi, updateCategoryNameApi, updateCategoryThumbnailApi } from '../../redux/reducers/category/categorySlice';
 import Constants from '../../constants/Constants';
 import { closeDrawer } from '../../redux/reducers/drawer/drawerSlice';
 import { useTranslation } from 'react-i18next';
-import { log } from 'console';
 type Props = {
     formStatus: string
 }
-const FormCategoryModifier = ({ formStatus }: Props) => {
+const FormArticleModifier = ({ formStatus }: Props) => {
     let { currentCategoryDetail } = useSelector((state: RootState) => state.categorySlice)
     const dispatch: DispatchType = useDispatch()
     let { t } = useTranslation('admin')
-    let { id, createAt, name, thumbnail } = currentCategoryDetail
+    let { id, name, thumbnail } = currentCategoryDetail
     let [nameEdit, setNameEdit] = useState<string>(name)
     let [fileValue, setFileValue] = useState<string>('')
     let [file, setFile] = useState<File | null>(null)
     let [img, setImg] = useState<any>(thumbnail)
-    console.log(nameEdit);
 
     const validateButtonEdit = () => {
         if (nameEdit !== '' || thumbnail !== Constants.defaultThumbnail || file) {
@@ -43,15 +39,6 @@ const FormCategoryModifier = ({ formStatus }: Props) => {
             return <img className='mb-4 mx-auto' height={150} width={150} src={img} alt='img' />
         } else {
             return <img className='mb-4 mx-auto' height={150} width={150} src={thumbnail} alt='' />
-        }
-    }
-    const renderCreateAt = () => {
-        if (formStatus === Constants.formStatus.EDIT) {
-            return <Form.Item label={t('create at')}>
-                <Input value={dayjs(createAt).format('YYYY-MM-DD hh:mm:ss')} disabled />
-            </Form.Item>
-        } else if (formStatus === Constants.formStatus.CREATE) {
-            return ''
         }
     }
     const renderTitle = () => {
@@ -129,13 +116,24 @@ const FormCategoryModifier = ({ formStatus }: Props) => {
                     }} />
                 <p className='text-xs text-red-500'>{thumbnail !== Constants.defaultThumbnail || file ? "" : t('thumbnail is required')}</p>
             </Form.Item>
-            <Form.Item label="Name" >
+            <Form.Item label="Title" >
                 <Input value={nameEdit} onChange={async (event) => {
                     await setNameEdit(event.target.value)
                 }} />
                 <p className='text-xs text-red-500'>{nameEdit === '' ? t('name is required') : ''}</p>
             </Form.Item>
-            {renderCreateAt()}
+            <Form.Item label="Author" >
+                <Input value={nameEdit} onChange={async (event) => {
+                    await setNameEdit(event.target.value)
+                }} />
+                <p className='text-xs text-red-500'>{nameEdit === '' ? t('name is required') : ''}</p>
+            </Form.Item>
+            <Form.Item label="Content" >
+                <Input value={nameEdit} onChange={async (event) => {
+                    await setNameEdit(event.target.value)
+                }} />
+                <p className='text-xs text-red-500'>{nameEdit === '' ? t('name is required') : ''}</p>
+            </Form.Item>
             <Form.Item wrapperCol={{ span: 24 }}>
                 {renderButtonSubmit()}
             </Form.Item>
@@ -143,4 +141,4 @@ const FormCategoryModifier = ({ formStatus }: Props) => {
     )
 }
 
-export default FormCategoryModifier
+export default FormArticleModifier

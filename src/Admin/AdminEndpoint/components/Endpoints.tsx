@@ -1,53 +1,24 @@
 import { useState } from 'react';
-import { Button, Table, Input, Modal, Form } from 'antd';
+import { Button, Table, Input } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { createEndpointApi, getEndpointByName, getEndpointOderBy, updateEndpointApi } from '../../../redux/reducers/endpoint/endpointSlice';
-import { EndpointDetailModel } from '../../../_core/EndpointModel';
+import { getEndpointByName, handleInputEndpoint } from '../../../redux/reducers/endpoint/endpointSlice';
 import { useDispatch } from 'react-redux';
 import { DispatchType } from '../../../redux/configStore';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import ModalDeleteEndpoint from './ModalDeleteEndpoint';
+import { setDrawerInfo } from '../../../redux/reducers/drawer/drawerSlice';
+import Constants from '../../../constants/Constants';
 
 const Endpoints = ({ endpoints }: any) => {
     let dispatch = useDispatch<DispatchType>()
-    const [form] = Form.useForm();
     const [state, setState] = useState({
         currentPage: 1,
         isModalVisible: false,
     })
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedRecord, setSelectedRecord] = useState<EndpointDetailModel>();
     const [deletingId, setDeletingId] = useState<any>(null);
-    const showModal = () => {
-        setState({ ...state, isModalVisible: true })
-    };
-
-    const handleCancel = () => {
-        setState({ ...state, isModalVisible: false })
-    };
-
     const handleChangePage = (page: number) => {
         setState({ ...state, currentPage: page });
-    };
-
-    const handleCreateEndpoint = async () => {
-        await form.validateFields();
-        const values = form.getFieldsValue();
-        const { endpointPath } = values;
-        const orderBy = 1;
-        dispatch(createEndpointApi(endpointPath));
-        dispatch(getEndpointOderBy(orderBy));
-        setState({ ...state, isModalVisible: false })
-    };
-    const handleUpdateEndpoint = async () => {
-        await form.validateFields();
-        const values = form.getFieldsValue();
-        if (selectedRecord) {
-            dispatch(updateEndpointApi(selectedRecord.id, values.endpointPath));
-        }
-        setState({ ...state, isModalVisible: false })
-        form.resetFields();
-        setSelectedRecord(undefined);
     };
 
     const handleOpenDeletePopup = (id: number) => {
@@ -92,9 +63,12 @@ const Endpoints = ({ endpoints }: any) => {
             render: (_: any, record: any) => (
                 <div className='flex'>
                     <Button
-                        onClick={() => {
-                            setSelectedRecord(record);
-                            showModal();
+                        onClick={async () => {
+                            await dispatch(setDrawerInfo({
+                                typeContent: 'updateEndpoint',
+                                sizeDrawer: Constants.sizeDrawer.SMALL
+                            }))
+                            dispatch(handleInputEndpoint(record))
                         }}
                         style={{ marginRight: '8px', background: '#f5cc2a' }}
                         icon={<EditOutlined style={{ color: '#fff' }} />}
@@ -112,15 +86,23 @@ const Endpoints = ({ endpoints }: any) => {
     return (
         <div className='role'>
             <div style={{ display: 'flex', marginBottom: '16px' }}>
+                <Button
+                    onClick={async () => {
+                        await dispatch(setDrawerInfo({
+                            typeContent: 'createEndpoint',
+                            sizeDrawer: Constants.sizeDrawer.SMALL
+                        }))
+                    }}
+                    style={{ marginLeft: '8px', display: 'flex', alignItems: 'center' }}
+                >
+                    <PlusOutlined />
+                    Add Endpoint
+                </Button>
                 <Input
                     placeholder="Search Role"
                     value={searchTerm}
                     onChange={handleSearch}
                 />
-                <Button type="default" style={{ marginLeft: '8px', display: 'flex', alignItems: 'center' }} onClick={showModal}>
-                    <PlusOutlined />
-                    Add Endpoint
-                </Button>
             </div>
             <Table
                 dataSource={endpoints?.data || []}
@@ -133,19 +115,6 @@ const Endpoints = ({ endpoints }: any) => {
                     onChange: handleChangePage,
                 }}
             />
-
-            <Modal
-                title={selectedRecord?.id ? 'Edit Endpoint' : 'Add Endpoint'}
-                open={state.isModalVisible}
-                onOk={selectedRecord?.id ? handleUpdateEndpoint : handleCreateEndpoint}
-                onCancel={handleCancel}
-            >
-                <Form form={form} layout="vertical">
-                    <Form.Item name="endpointPath" label="Endpoint" rules={[{ required: true, message: 'Please enter value of endpoint' }]}>
-                        <Input placeholder="Enter endpoint" />
-                    </Form.Item>
-                </Form>
-            </Modal>
             <ModalDeleteEndpoint deletingId={deletingId} onClose={handleCloseDeletePopup} />
         </div>
     );

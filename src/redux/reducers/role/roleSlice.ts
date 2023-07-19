@@ -9,6 +9,11 @@ const initialState = {
         roleName: '',
         createdAt: '',
     }],
+    inputRole: {
+        id: 1,
+        roleName: '',
+        selectedEndpoint: '',
+      },
 };
 
 const rolesSlice = createSlice({
@@ -30,10 +35,13 @@ const rolesSlice = createSlice({
                 return role;
             });
         },
+        handleInputRole: (state, action) => {
+            state.inputRole = action.payload;
+          },
     },
 });
 
-export const { getRoles, addRoleSuccess, updateRoleSuccess } = rolesSlice.actions;
+export const { getRoles, addRoleSuccess, updateRoleSuccess, handleInputRole } = rolesSlice.actions;
 
 export default rolesSlice.reducer;
 

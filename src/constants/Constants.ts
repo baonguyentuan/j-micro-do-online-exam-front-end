@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 export default {
   EmptyString: '',
   httpStatusCode: {
@@ -20,10 +21,13 @@ export default {
   optionMenuAdmin: {
     USER: 'user-management',
     CATEGORY: "category-management",
-    ROLE: "role-management",
-    ENDPOINT: "endpoint-management",
+    AUTH: {
+      ROLE: "role-management",
+      ENDPOINT: "endpoint-management",
+    },
     EXAM: "exam-management",
     CONTEST: "contest-management",
+    ARTICLES: 'articles-management',
     LOGOUT: "logout"
   },
   typeDrawer:{
@@ -34,6 +38,12 @@ export default {
     VIEW_EXAM:'viewExam',
     CREAT_CONTEST:'createContest',
     VIEW_CONTEST:'viewContest',
+    CREATE_ENDPOINT:'createEndpoint',
+    CREATE_ROLE:'createRole',
+    CREATE_ARTICLE:'createArticle',
+    EDIT_ENDPOINT:'updateEndpoint',
+    EDIT_ROLE:'updateRole',
+    EDIT_ARTICLE:'updateArticle',
   },
   sizeDrawer:{
     SMALL:'30%',

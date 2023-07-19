@@ -1,3 +1,4 @@
+import ApiEndpoint from "../constants/ApiEndpoint"
 import { BaseService } from "./BaseService"
 class EndpointService extends BaseService {
     constructor() {
@@ -9,8 +10,8 @@ class EndpointService extends BaseService {
     getEndpointsOrderBy = (order_by: any) => {
         return this.getOrderBy('auth/endpoints', order_by)
     }
-    getEndpointsByName = (name: string) => {
-        return this.getOrderBy('auth/endpoints', name)
+    getEndpointsByName = (condition: {endPointPath: string}) => {
+        return this.getOrderBy('auth/endpoints', condition)
     }
     getEndpointOption = () => {
         return this.get('auth/endpoints/options')

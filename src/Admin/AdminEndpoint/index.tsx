@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Constants from '../../constants/Constants';
 import { DispatchType, RootState } from '../../redux/configStore';
 import { getEndpointApi } from '../../redux/reducers/endpoint/endpointSlice';
+import { setOptionSidebarAdmin } from '../../redux/reducers/menu/menuSlice';
 import Endpoints from './components/Endpoints';
 
 function AdminEndpoint() {
@@ -9,6 +11,7 @@ function AdminEndpoint() {
     let dispatch: DispatchType = useDispatch()
     useEffect(() => {
         dispatch(getEndpointApi());
+        dispatch(setOptionSidebarAdmin({ option: Constants.optionMenuAdmin.AUTH.ENDPOINT }))
     }, []);
 
     return (

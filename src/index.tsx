@@ -26,6 +26,10 @@ import Course from "./pages/public/course/Course";
 import { createBrowserHistory } from "history";
 import Constants from './constants/Constants';
 import AdminExam from './Admin/AdminExam/AdminExam';
+import Role from "./Admin/AdminRole";
+import AdminEndpoint from "./Admin/AdminEndpoint";
+import AdminArticles from "./Admin/AdminArticles";
+
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
@@ -53,8 +57,12 @@ root.render(
         <Route path={AppRoutes.private.admin.admin} element={<AdminLayout />}>
           <Route path={AppRoutes.public.login} element={<AdminUser />} />
           <Route path={AppRoutes.private.admin.category} element={<AdminCategory />} />
-          <Route path={AppRoutes.private.admin.exam}  element={<AdminExam />} />
-          <Route index element={<AdminUser />} />
+          <Route path={AppRoutes.private.admin.exam} element={<AdminExam />} />
+          <Route path={AppRoutes.private.admin.role} element={<Role />} />
+          <Route path={AppRoutes.private.admin.endpoint} element={<AdminEndpoint />} />
+          <Route path={AppRoutes.private.admin.article} element={<AdminArticles />} />
+          {/*TODO: change route*/}
+          <Route path="contesting/:contestId" element={<Contesting />} />
         </Route>
       </Routes>
     </HistoryRouter>

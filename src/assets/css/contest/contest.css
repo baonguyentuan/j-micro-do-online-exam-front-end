@@ -1,6 +1,8 @@
 .btn__contest {
   @apply text-lg font-semibold py-2 px-5 h-auto text-white ;
   background-color: #1bb460;
+  display: flex;
+  margin: 0 auto;
 }
 
 .btn__contest:hover {
