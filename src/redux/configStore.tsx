@@ -14,7 +14,7 @@ import drawerSlice from "./reducers/drawer/drawerSlice";
 import menuSlice from "./reducers/menu/menuSlice";
 import roleSlice from "./reducers/role/roleSlice";
 import endpointSlice from "./reducers/endpoint/endpointSlice";
-import globalSlice from "./reducers/globalSlide";
+import globalSlice from "./reducers/global-slice";
 
 export const store = configureStore({
   reducer: {

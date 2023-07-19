@@ -1,48 +1,47 @@
 import React from "react";
-import { useFormik } from "formik";
-import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux";
-import { loginFail, loginSuccess } from "../../../redux/reducers/userTest/userSlice";
-import { LoginFormValues } from "../../../_core/Login";
-import { useTranslation } from "react-i18next";
-import AppRoutes from "../../../constants/AppRoutes";
-import { AuthFormWrapper } from "../../../assets/styles/authStyles";
-import { CloseCircleOutlined } from "@ant-design/icons";
 import { Button } from "antd";
+import { useFormik } from "formik";
+import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
+import { Link, useNavigate } from "react-router-dom";
+import AppRoutes from "../../../constants/AppRoutes";
+import { LoginFormValues } from "../../../_core/Login";
+import { CloseCircleOutlined } from "@ant-design/icons";
+import { AuthFormWrapper } from "../../../assets/styles/authStyles";
 
 const initialValues: LoginFormValues = {
   email: "",
   password: ""
 };
 export default function Login() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { t } = useTranslation("login");
   const validationSchema = Yup.object({
     email: Yup.string().email(t("login.invalid_email_address")).required(t("login.required")),
     password: Yup.string().min(6, t("login.minimum_character")).required(t("login.required"))
   });
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  ;
+
 
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
-      if (values.email === "admin@gmail.com" && values.password === "adminadmin") {
-        dispatch(loginSuccess({ username: values.email, password: values.password, role: "admin", accountType: "" }));
-        navigate("/admin");
-      } else if (values.email && values.password) {
-        dispatch(loginSuccess({
-          username: values.email,
-          password: values.password,
-          role: "user",
-          accountType: "Free"
-        }));
-        navigate(AppRoutes.public.home);
-      } else {
-        dispatch(loginFail());
-      }
+      // if (values.email === "admin@gmail.com" && values.password === "adminadmin") {
+      //   dispatch(loginSuccess({ username: values.email, password: values.password, role: "admin", accountType: "" }));
+      //   navigate("/admin");
+      // } else if (values.email && values.password) {
+      //   dispatch(loginSuccess({
+      //     username: values.email,
+      //     password: values.password,
+      //     role: "user",
+      //     accountType: "Free"
+      //   }));
+      //   navigate(AppRoutes.public.home);
+      // } else {
+      //   dispatch(loginFail());
+      // }
     }
   });
 

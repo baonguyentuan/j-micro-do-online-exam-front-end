@@ -1,9 +1,10 @@
 export interface ChatMessageModel {
-    isUser: boolean;
-    message: string
+  isUser: boolean;
+  message: string;
 }
+
 export interface ChatState {
-    chatboxShow: boolean,
-    arrMessage: ChatMessageModel[],
-    unReadMessage: number
+  chatBoxShow: boolean,
+  arrMessage: ChatMessageModel[],
+  unReadMessage: number
 }

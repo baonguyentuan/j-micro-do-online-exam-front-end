@@ -16,14 +16,13 @@ const initialState = {
   globalLoading: false,
 };
 
-const globalSlide = createSlice({
+const globalSlice = createSlice({
   name: "globalSlice",
   initialState,
   reducers: {
     triggerGlobalAccountModal(state, action) {
       switch (action.payload.type){
         case GlobalAccountModalActionType.OPEN:
-          
           state.globalAccountModalOpen = true;
           break;
         case GlobalAccountModalActionType.CLOSE:
@@ -49,6 +48,6 @@ const globalSlide = createSlice({
 });
 
 
-export const { triggerGlobalAccountModal,triggerGlobalLoading } = globalSlide.actions;
+export const { triggerGlobalAccountModal,triggerGlobalLoading } = globalSlice.actions;
 
-export default globalSlide.reducer;
+export default globalSlice.reducer;

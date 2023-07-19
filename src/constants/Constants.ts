@@ -13,7 +13,8 @@ export default {
   },
   formStatus: {
     EDIT: 'edit',
-    CREATE: 'create'
+    CREATE: 'create',
+    VIEW:'view'
   },
   defaultThumbnail: "http://placehold.it/150",
   optionMenuAdmin: {
@@ -27,6 +28,16 @@ export default {
   },
   typeDrawer:{
     CREAT_CATEGORY:'createCategory',
-    EDIT_CATEGORY:'updateCategory'
+    EDIT_CATEGORY:'updateCategory',
+    CREAT_EXAM:'createExam',
+    EDIT_EXAM:'updateExam',
+    VIEW_EXAM:'viewExam',
+    CREAT_CONTEST:'createContest',
+    VIEW_CONTEST:'viewContest',
+  },
+  sizeDrawer:{
+    SMALL:'30%',
+    NORMAL:'50%',
+    LARGE:'70%'
   }
 }

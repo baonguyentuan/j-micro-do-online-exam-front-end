@@ -3,7 +3,6 @@ import {UserInfoModel, UserStateModel} from '../../../_core/UserModel';
 import {DispatchType} from '../../configStore';
 import {authService} from '../../../services/AuthService';
 import {setLoading} from '../loading/loadingSlice';
-import {getExamType} from "../exam";
 import Constants from "../../../constants/Constants";
 
 
@@ -32,8 +31,6 @@ export const getUserInfoApi = () => {
       if (result.status === Constants.httpStatusCode.SUCCESS) {
         let useInfoGet: UserInfoModel = result.data.data
         await dispatch(getUserInfo({userInfo: useInfoGet}))
-        let examType = useInfoGet.roles.find(roleItem => roleItem === "ADMIN") ? 'FREE' : 'PRIVATE'
-        await dispatch(getExamType({examType}))
       } else {
         console.log(result);
       }

@@ -55,3 +55,8 @@ input[type='checkbox'].answerSelection:checked + .answerLabel {
   background-color: rgba(246, 195, 145, 0.62);
   color: #777777;
 }
+
+.prop__title{
+  @apply text-base font-bold my-1 inline-block;
+  width: 100px;
+}

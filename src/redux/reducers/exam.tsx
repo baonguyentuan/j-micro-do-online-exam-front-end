@@ -1,20 +1,28 @@
 import { createAsyncThunk, createSlice, current, isAnyOf, PayloadAction } from "@reduxjs/toolkit";
-import { setLoading } from "../loading/loadingSlice";
-import { openNotificationWithIcon } from "../../../utils/operate";
-import { ExamOptionModel, examSliceInitState, QuestionResult, QuestionType } from "../../../_core/exam";
-import { DispatchType } from "../../configStore";
-import { examService } from "../../../services/ExamService";
-import Constants from "../../../constants/Constants";
-import { thunkAction } from "../../../utils/redux-helpers";
-import clientService from "../../../utils/client";
-import ApiEndpoint from "../../../constants/ApiEndpoint";
+import { setLoading } from "./loading/loadingSlice";
+import { openNotificationWithIcon } from "../../utils/operate";
+import {
+  ExamDetailFormModel,
+  ExamOptionModel,
+  examSliceInitState,
+  QuestionResult,
+  QuestionType
+} from "../../_core/exam";
+import { DispatchType } from "../configStore";
+import { examService } from "../../services/ExamService";
+import Constants from "../../constants/Constants";
+import { closeDrawer } from "./drawer/drawerSlice";
+import AppConfigs from "../../config/AppConfigs";
+import { thunkAction } from "../../utils/redux-helpers";
+import clientService from "../../utils/client";
+import ApiEndpoint from "../../constants/ApiEndpoint";
 
 const initialState = {
   hotExamsByCategory: {},
-  examType: "PRIVATE",
   lstOptionExam: [{}],
   checkExamResult: {},
-  loading: false
+  loading: false,
+  fullExamDetail: {}
 } as examSliceInitState;
 
 const examSlice = createSlice({
@@ -24,8 +32,8 @@ const examSlice = createSlice({
     getOptionExam: (state: examSliceInitState, action: PayloadAction<{ lstOptionExam: ExamOptionModel[] }>) => {
       state.lstOptionExam = action.payload.lstOptionExam;
     },
-    getExamType: (state: examSliceInitState, action: PayloadAction<{ examType: string }>) => {
-      state.examType = action.payload.examType;
+    getFullExamDetail: (state: examSliceInitState, action: PayloadAction<{ examDetail: ExamDetailFormModel }>) => {
+      state.fullExamDetail = action.payload.examDetail;
     },
 
     checkExamStatus(state) {
@@ -75,10 +83,9 @@ const examSlice = createSlice({
       });
 
       let newQuestionsExam = [...state.examFetchDetail.questionsExam];
-      let data = newQuestionsExam.map(ques => {
+      state.examFetchDetail.questionsExam = newQuestionsExam.map(ques => {
         return { ...ques, checked: -1 };
       });
-      state.examFetchDetail.questionsExam = data;
 
       //create init answer store
       state.examResult = {
@@ -175,7 +182,7 @@ const examSlice = createSlice({
         postSubmitExam.fulfilled,
         deleteExam.fulfilled), (state) => {
         state.loading = false;
-        
+
         return state;
       });
     builder.addMatcher(
@@ -203,15 +210,15 @@ const examSlice = createSlice({
         postSubmitExam.rejected,
         deleteExam.rejected), (state) => {
         state.loading = false;
-        
+
         return state;
       });
   }
 });
 
 export const {
-  getExamType,
   getOptionExam,
+  getFullExamDetail,
   chooseExamAnswer,
   checkExamStatus,
   createAnswersStore
@@ -294,6 +301,29 @@ export const createExamApi = (examDetail: FormData) => {
     try {
       const result = await examService.creatExam(examDetail);
       if (result.status === Constants.httpStatusCode.SUCCESS) {
+        dispatch(closeDrawer());
+        dispatch(getFullExamDetail({
+          examDetail: {
+            id: -1,
+            title: "",
+            categoryId: null,
+            examType: "PRIVATE",
+            description: "",
+            duration: AppConfigs.exam.MIN_DURATION_EXAM,
+            question: [],
+            file: null
+          }
+        }));
+        dispatch(getListExam({
+          name: "",
+          category_ids: Constants.EmptyString,
+          durations: Constants.EmptyString,
+          from_date: Constants.EmptyString,
+          to_date: Constants.EmptyString,
+          page_index: 1,
+          page_size: 10,
+          order_by: -1
+        }));
         openNotificationWithIcon("success", "Create exam successful", "", 1);
       } else {
         console.log(result);
@@ -327,6 +357,16 @@ export const deleteExamApi = (examID: number) => {
     try {
       const result = await examService.deleteExam(examID);
       if (result.status === Constants.httpStatusCode.SUCCESS) {
+        dispatch(getListExam({
+          name: "",
+          category_ids: Constants.EmptyString,
+          durations: Constants.EmptyString,
+          from_date: Constants.EmptyString,
+          to_date: Constants.EmptyString,
+          page_index: 1,
+          page_size: 10,
+          order_by: -1
+        }));
         dispatch(getExamOptionApi());
         openNotificationWithIcon("success", "Delete exam successful", "", 1);
       } else {
@@ -340,5 +380,94 @@ export const deleteExamApi = (examID: number) => {
   };
 };
 
+export const getFullExamDetailApi = (examID: number) => {
+  return async (dispatch: DispatchType) => {
+    try {
+      const result = await examService.getFullExamDetail({ id: examID });
+      if (result.status === Constants.httpStatusCode.SUCCESS) {
+        let { id, title, categoryID, description, duration, questions } = result.data.data;
+        dispatch(getFullExamDetail({
+          examDetail: {
+            id,
+            title,
+            categoryId: categoryID,
+            examType: "",
+            description,
+            duration,
+            question: questions,
+            file: ""
+          }
+        }));
+      } else {
+        console.log(result);
+        openNotificationWithIcon("error", "Get exam detail failed", "", 1);
+      }
+    } catch (err) {
+      console.log(err);
+      openNotificationWithIcon("error", "Get exam detail failed", "", 1);
+    }
+  };
+};
+
+export const editExamApi = (examDetail: object) => {
+  return async (dispatch: DispatchType) => {
+    await dispatch(setLoading({ isLoading: true }));
+    try {
+      const result = await examService.editExam(examDetail);
+      if (result.status === Constants.httpStatusCode.SUCCESS) {
+        dispatch(closeDrawer());
+        dispatch(getListExam({
+          name: "",
+          category_ids: Constants.EmptyString,
+          durations: Constants.EmptyString,
+          from_date: Constants.EmptyString,
+          to_date: Constants.EmptyString,
+          page_index: 1,
+          page_size: 10,
+          order_by: -1
+        }));
+
+        openNotificationWithIcon("success", "Edit exam successful", "", 1);
+      } else {
+        console.log(result);
+        openNotificationWithIcon("error", "Edit exam failed", "", 1);
+      }
+    } catch (err) {
+      console.log(err);
+      openNotificationWithIcon("error", "Edit exam failed", "", 1);
+    }
+    await dispatch(setLoading({ isLoading: false }));
+  };
+};
+
+export const updateThumbnailExamApi = (thumbnail: FormData) => {
+  return async (dispatch: DispatchType) => {
+    await dispatch(setLoading({ isLoading: true }));
+    try {
+      const result = await examService.updateThumbnailExam(thumbnail);
+      if (result.status === Constants.httpStatusCode.SUCCESS) {
+        dispatch(getListExam({
+          name: "",
+          category_ids: Constants.EmptyString,
+          durations: Constants.EmptyString,
+          from_date: Constants.EmptyString,
+          to_date: Constants.EmptyString,
+          page_index: 1,
+          page_size: 10,
+          order_by: -1
+        }));
+        dispatch(closeDrawer());
+        openNotificationWithIcon("success", "Edit exam successful", "", 1);
+      } else {
+        console.log(result);
+        openNotificationWithIcon("error", "Edit exam failed", "", 1);
+      }
+    } catch (err) {
+      console.log(err);
+      openNotificationWithIcon("error", "Edit exam failed", "", 1);
+    }
+    await dispatch(setLoading({ isLoading: false }));
+  };
+};
 
 export default examSlice.reducer;

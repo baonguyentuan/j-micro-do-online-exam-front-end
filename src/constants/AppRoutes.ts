@@ -1,4 +1,5 @@
 const courseRootRoute = '/courses'
+const adminRoute = '/admin'
 
 export default {
   "public": {
@@ -19,7 +20,14 @@ export default {
       "doContest":'/takeContest/:name',
     },
     "admin": {
-      "home": 'admin/dashboard'
+      "admin": adminRoute,
+      "home": adminRoute + 'dashboard',
+      "category": adminRoute + 'category',
+      "exam": adminRoute + 'exam',
+      "user": adminRoute + 'user',
+      "contest": adminRoute + 'contest',
+      "role": adminRoute + 'role',
+      "endpoint": adminRoute + 'endpoint'
     }
   }
 }

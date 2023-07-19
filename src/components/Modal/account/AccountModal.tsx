@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { CheckOutlined } from "@ant-design/icons";
 import { DispatchType, RootState } from "../../../redux/configStore";
 import { useDispatch, useSelector } from "react-redux";
-import { GlobalAccountModalActionType, triggerGlobalAccountModal } from "../../../redux/reducers/globalSlide";
+import { GlobalAccountModalActionType, triggerGlobalAccountModal } from "../../../redux/reducers/global-slice";
 
 const data = [
   {

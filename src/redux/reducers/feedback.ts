@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit";
-import { thunkAction } from "../../../utils/redux-helpers";
-import clientService from "../../../utils/client";
-import ApiEndpoint from "../../../constants/ApiEndpoint";
-import { feedBackSliceInitState } from "../../../_core/feedback";
+import { thunkAction } from "../../utils/redux-helpers";
+import clientService from "../../utils/client";
+import ApiEndpoint from "../../constants/ApiEndpoint";
+import { feedBackSliceInitState } from "../../_core/feedback";
 
 const initialState = {} as feedBackSliceInitState;
 

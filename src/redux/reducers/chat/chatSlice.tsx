@@ -2,7 +2,7 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {ChatState} from '../../../_core/ChatModel';
 
 const initialState: ChatState = {
-  chatboxShow: false,
+  chatBoxShow: false,
   arrMessage: [
     {
       isUser: true,
@@ -37,7 +37,7 @@ const chatSlice = createSlice({
   initialState,
   reducers: {
     setChatBoxShow: (state: ChatState, action: PayloadAction<{ chatboxShow: boolean, }>) => {
-      state.chatboxShow = action.payload.chatboxShow
+      state.chatBoxShow = action.payload.chatboxShow
     },
     setReadMessageStatus: (state: ChatState) => {
       state.unReadMessage = 0

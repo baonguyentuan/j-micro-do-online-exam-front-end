@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup'
 import { QuestionRowModel } from '../../../_core/exam';
 import { useTranslation } from 'react-i18next';
+import AppConfigs from '../../../config/AppConfigs';
 const { TextArea } = Input
 type Props = {
     questionList: QuestionRowModel[],
@@ -365,10 +366,10 @@ function CreateQuestion({ questionList, setLstQuestion, questionError, isNewQues
                         {renderErrorQuestion(questionError)}
                     </div>
                     <div >
-                        <h1 className='font-bold'>Note:</h1>
-                        <p>* Each exam have at least 10 question</p>
-                        <p>* Each question have at least 2 answers</p>
-                        <p>* You must choose correct answers</p>
+                        <h1 className='font-bold'>{t('exam.note')} :</h1>
+                        <p>* {t('exam.Each exam have at least {{min}} question and max {{max}} question',{min:AppConfigs.exam.MIN_QUESTION_EXAM,max:AppConfigs.exam.MAX_QUESTION_EXAM})}</p>
+                        <p>* {t('exam.Each question have at least 2 answers')}</p>
+                        <p>* {t('exam.You must choose correct answers')}</p>
                     </div>
                     <div>
                         <Button
@@ -395,7 +396,7 @@ function CreateQuestion({ questionList, setLstQuestion, questionError, isNewQues
                                 await setEditId(newID)
                             }}
                             disabled={disableAddQuestion}
-                        >Add question</Button>
+                        >{t('exam.add question')}</Button>
 
                     </div>
 

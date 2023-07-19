@@ -1,40 +1,50 @@
-import { Button, Popconfirm, Space, Table } from "antd";
 import React, { useEffect } from "react";
-import { DispatchType, RootState } from "../../../redux/configStore";
-import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { ExamOptionModel } from "../../../_core/exam";
-import { deleteExamApi, getExamOptionApi } from "../../../redux/reducers/exam";
 import AppRoutes from "../../../constants/AppRoutes";
+import Constants from "../../../constants/Constants";
+import { useDispatch, useSelector } from "react-redux";
+import { Button, Popconfirm, Space, Table } from "antd";
+import { DispatchType, RootState } from "../../../redux/configStore";
+import { setDrawerInfo } from "../../../redux/reducers/drawer/drawerSlice";
 import { UserAdminContainer } from "../../../assets/styles/userAdminStyles";
+import { deleteExamApi, getExamDetailShow, getExamOptionApi, getFullExamDetailApi } from "../../../redux/reducers/exam";
 
-type Props = {}
-
-const ListExamUser = (props: Props) => {
+const ListExamUser = () => {
   let { lstOptionExam } = useSelector((state: RootState) => state.examSlice);
   let navigate = useNavigate();
   let dispatch: DispatchType = useDispatch();
-
+  const getDetail = async (id: number, name: string, typeDrawer: string) => {
+    dispatch(getExamDetailShow({ name: name }));
+    await dispatch(getFullExamDetailApi(id));
+    await dispatch(setDrawerInfo({ typeContent: typeDrawer, sizeDrawer: Constants.sizeDrawer.LARGE }));
+  };
   const columns = [
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      width: "85%",
+      width: "80%",
+      sorter: (a: any, b: any) => a.name.localeCompare(b.name),
       render: (text: string) => <Link to={`${AppRoutes.public.home}`}>{text}</Link>
     },
     {
       title: "Action",
       key: "action",
-      width: "10%",
-      render: (text: string, record: ExamOptionModel, index: number) => (
+      width: "20%",
+      render: (text: string, record: ExamOptionModel) => (
         <Space size="middle">
-          <Button>Edit</Button>
+          <Button onClick={async () => {
+            await getDetail(record.id, record.name, Constants.typeDrawer.VIEW_EXAM);
+          }}>View</Button>
+          <Button onClick={async () => {
+            await getDetail(record.id, record.name, Constants.typeDrawer.EDIT_EXAM);
+          }}>Edit</Button>
           <Popconfirm
             placement="topRight"
             title={"Are you sure to delete this exam"}
-            onConfirm={() => {
-              dispatch(deleteExamApi(record.id));
+            onConfirm={async () => {
+              await dispatch(deleteExamApi(record.id));
             }}
             okType="danger"
             okText="Yes"
