@@ -13,7 +13,6 @@ type Props = {
 }
 const FormRoleModifier = ({ formStatus }: Props) => {
     const data = useSelector((state: RootState) => state.endpointSlice?.options);
-    console.log('endpointOption', data)
     const { inputRole } = useSelector((state: RootState) => state.roleSlice)
     const dispatch: DispatchType = useDispatch()
     const { t } = useTranslation('admin')
