@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react'
 import { Button, Input, Popconfirm, Space, Table } from 'antd'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
