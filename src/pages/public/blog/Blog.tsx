@@ -1,10 +1,9 @@
 import React from "react";
+import { Blog } from "../../../_core/Blog";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/configStore";
-import { Blog } from "../../../_core/Blog";
-import { selectAllBlogs } from "../../../redux/reducers/blog/blogSlice";
-
 import CardBlog from "../../../components/CardBlog/CardBlog";
+import { selectAllBlogs } from "../../../redux/reducers/blog/blogSlice";
 
 const BlogList = () => {
   const dispatch = useDispatch();
@@ -52,7 +51,7 @@ const BlogList = () => {
   ];
 
   return (
-    <div>
+    <div className='size__component'>
       {blogData.map((blog: Blog) => (
         <CardBlog key={blog.id} blog={blog} />
       ))}

@@ -50,6 +50,7 @@ export interface ExamCardInfoModel {
   description: string,
   categoryName: string,
   downloadNumber: number,
+  ownerID:number
 }
 
 export interface ExamFetchModel {
@@ -65,6 +66,7 @@ export type QuestionType = 'SINGLE' | 'MULTI';
 export interface QuestionExamModel {
   id: number,
   checked: number,
+  multi_checked: number[],
   question: string,
   answers: string[],
   questionPoint: number,

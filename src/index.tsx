@@ -1,29 +1,29 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import reportWebVitals from "./reportWebVitals";
-import { Route, Routes, unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 import "./i18n";
 import Home from "./pages/public/home/Home";
 import Login from "./pages/public/auth/Login";
 import Register from "./pages/public/auth/Register";
 import TrainingCourses from "./pages/public/course/TrainingCourses";
 import BlogList from "./pages/public/blog/Blog";
-import Contact from "./pages/Contact/Contact";
+import Contact from "./pages/public/contact/Contact";
 import AdminUser from "./Admin/AdminUser/AdminUser";
 import { Provider } from "react-redux";
 import { store } from "./redux/configStore";
 import HomeLayout from "./layouts/HomeLayout";
-import CreateContest from "./pages/CreateContest/CreateContest";
 import CreateExam from "./pages/CreateExam/CreateExam";
-import Contesting from "./pages/Contesting/Contesting";
 import Account from "./pages/user/account/Account";
-import TrainingCoursesByCategory from "./pages/public/course/TrainingCoursesByCategory";
 import AppRoutes from "./constants/AppRoutes";
 import AdminLayout from "./layouts/AdminLayout";
-import AdminCategory from "./Admin/AdminCategory/AdminCategory";
-import Course from "./pages/public/course/Course";
 import { createBrowserHistory } from "history";
+import DoExam from "./pages/private/exam/DoExam";
+import Course from "./pages/public/course/Course";
+import FeedBack from "./pages/private/feedback/FeedBack";
+import AdminCategory from "./Admin/AdminCategory/AdminCategory";
+import CreateContest from "./pages/CreateContest/CreateContest";
+import TrainingCoursesByCategory from "./pages/public/course/TrainingCoursesByCategory";
+import { Route, Routes, unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -49,8 +49,9 @@ root.render(
           <Route path={AppRoutes.public.register} element={<Register />} />
           <Route path="*" element={<Home />} />
         </Route>
-        {/*TODO: change route*/}
-        <Route path="contesting/:contestId" element={<Contesting />} />
+        <Route path={AppRoutes.private.user.feedback} element={<FeedBack />} />
+        <Route path={AppRoutes.private.user.doExam} element={<DoExam />} />
+        <Route path={AppRoutes.private.user.doContest} element={<DoExam />} />
 
         <Route path="admin" element={<AdminLayout />}>
           <Route path="admin_user" element={<AdminUser />} />
@@ -61,5 +62,3 @@ root.render(
     </HistoryRouter>
   </Provider>
 );
-
-reportWebVitals();

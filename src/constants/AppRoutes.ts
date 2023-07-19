@@ -13,7 +13,10 @@ export default {
   },
   "private": {
     "user": {
-      "home": '/user/dashboard'
+      "feedback":'/feedback',
+      "home": '/user/dashboard',
+      "doExam":'/takeExam/:name',
+      "doContest":'/takeContest/:name',
     },
     "admin": {
       "home": 'admin/dashboard'

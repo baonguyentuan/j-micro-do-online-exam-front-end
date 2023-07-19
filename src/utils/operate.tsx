@@ -17,6 +17,7 @@ export const backToPosition=(position:number)=>{
     });
 }
 type NotificationType = 'success' | 'info' | 'warning' | 'error';
+
 export const openNotificationWithIcon = (type:NotificationType,title:string,content:string,duration:number) => {
     notification[type]({
       message: title,

@@ -1,19 +1,32 @@
-import React, { useEffect, useState } from "react";
-import { Modal, Pagination, Statistic } from "antd";
-import { backToPosition } from "../../utils/operate";
+import { DispatchType, RootState } from "../../../redux/configStore";
 import { useDispatch, useSelector } from "react-redux";
-import { QuestionExamModel } from "../../_core/exam";
-import AppConfigs from "../../config/AppConfigs";
-import Constants from "../../constants/Constants";
-import { checkExamStatus, chooseExamAnswer, fetchExamDetail,submitExam } from "../../redux/reducers/exam";
-import { DispatchType, RootState } from "../../redux/configStore";
+import React, { useEffect, useState } from "react";
+import {
+  checkExamStatus,
+  chooseExamAnswer,
+  createAnswersStore,
+  getExamDetailDo,
+  postSubmitExam
+} from "../../../redux/reducers/exam";
+import AppConfigs from "../../../config/AppConfigs";
+import { backToPosition, openNotificationWithIcon } from "../../../utils/operate";
+import { Modal, Pagination, Statistic } from "antd";
+import Constants from "../../../constants/Constants";
+import { QuestionExamModel, QuestionResult } from "../../../_core/exam";
+import { getStatusIsUserDoFeedBack } from "../../../redux/reducers/feedback";
+import { useNavigate, useParams } from "react-router-dom";
 import { CheckCircleOutlined, ClockCircleOutlined, CloseCircleOutlined, TagsOutlined } from "@ant-design/icons";
+import {TOKEN} from "../../../utils/client";
+import AppRoutes from "../../../constants/AppRoutes";
 
 const { Countdown } = Statistic;
 
-export default function Contesting() {
-  let dispatch: DispatchType = useDispatch();
-  let [currentPage, setCurrentPage] = useState(1);
+const DoExam = () => {
+  const { name } = useParams();
+  const navigate = useNavigate();
+  const dispatch: DispatchType = useDispatch();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isSubmitModalOpen, setSubmitModalOpen] = useState(false);
 
   const {
     examFetchDetail,
@@ -22,15 +35,43 @@ export default function Contesting() {
   } = useSelector((state: RootState) => state.examSlice);
 
   useEffect(() => {
-    dispatch(fetchExamDetail({ name: "Introduction to Python" }));
-  }, []);
+    const fetchExamDetail = async () => {
+      await dispatch(getExamDetailDo({ name: name }));
+      await dispatch(createAnswersStore());
+    };
+    fetchExamDetail();
+  }, [name]);
 
-  const handleExamCountFinish = () => {
+  const handleExamCountFinish = () => {};
 
-  };
+  const handleExamSubmit = async () => {
+    const pureAnswers = examResult.answers.reduce((result: any, ans: QuestionResult) => {
+      const { id, answerSelected } = ans;
+      result.push({ id, answers: answerSelected });
+      return result;
+    }, []);
 
-  const handleExamSubmit = () => {
-    dispatch(submitExam(examResult))
+    const resultSubmitExam: any = await dispatch(postSubmitExam({ ...examResult, answers: pureAnswers }));
+
+    if (postSubmitExam.rejected.match(resultSubmitExam)) {
+      //TODO: handle error
+      return;
+    }
+    setSubmitModalOpen(true);
+    openNotificationWithIcon("success", resultSubmitExam?.payload?.message, "", 2);
+
+    const resultCheckFeedback: any = await dispatch(getStatusIsUserDoFeedBack({ id: examResult.id }));
+    if (getStatusIsUserDoFeedBack.rejected.match(resultCheckFeedback)) {
+      //TODO: handle error
+      return;
+    }
+    setTimeout(()=>{
+      if(!resultCheckFeedback?.payload?.data){
+        navigate(`${AppRoutes.private.user.feedback}?token=${TOKEN}&examID=${examResult.id}`)
+      }else{
+        navigate(AppRoutes.public.home)  
+      }
+    },500)
   };
 
   return (
@@ -63,7 +104,7 @@ export default function Contesting() {
                   onFinish={handleExamCountFinish} />
               </div>
               <div className="mt-4">
-                <ExamSubmitModal submit={handleExamSubmit} />
+                <ExamSubmitModal flag={isSubmitModalOpen} submit={handleExamSubmit} />
               </div>
             </div>
 
@@ -172,21 +213,29 @@ export default function Contesting() {
       </div>
     </>
   );
-}
+};
 
 interface ExamSubmitModalProps {
   submit: any,
+
+  flag: boolean
 }
 
 const ExamSubmitModal = (props: ExamSubmitModalProps) => {
   const [open, setOpen] = useState(false);
   let dispatch: DispatchType = useDispatch();
-  const { checkExamResult } = useSelector((state: RootState) => state.examSlice);
+  const { checkExamResult, loading } = useSelector((state: RootState) => state.examSlice);
 
   const showModal = async () => {
     await dispatch(checkExamStatus());
     setOpen(true);
   };
+
+  useEffect(() => {
+    if (props.flag) {
+      setOpen(false);
+    }
+  }, [props.flag]);
 
   const hideModal = () => {
     setOpen(false);
@@ -202,7 +251,11 @@ const ExamSubmitModal = (props: ExamSubmitModalProps) => {
         open={open}
         onOk={props.submit}
         onCancel={hideModal}
+        cancelButtonProps={{
+          disabled: loading
+        }}
         okButtonProps={{
+          loading,
           type: "primary",
           style: {
             backgroundColor: "#1D5D9B"
@@ -216,3 +269,5 @@ const ExamSubmitModal = (props: ExamSubmitModalProps) => {
     </>
   );
 };
+
+export default DoExam;

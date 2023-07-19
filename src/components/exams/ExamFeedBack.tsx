@@ -14,7 +14,7 @@ const ExamFeedBack = (props: RatingExamStatisticModel) => {
         <div className="col-span-3 lg:col-span-1 text-center">
           <p className="text-6xl font-bold text-green-400">{totalRating.toFixed(2)}</p>
           <p className="text-2xl font-semibold text-green-400">{ranking}</p>
-          <Rate value={0} disabled />
+          <Rate value={totalRating} disabled />
         </div>
         <div className="col-span-3 lg:col-span-2">
           {
@@ -46,7 +46,7 @@ const FeedBackProgress = (props: FeedBackProgressProps) => {
                               </span>
       <p className="bg-green-400 h-full rounded-2xl" style={{ width: `${startValue}%` }} />
       <span
-        className="absolute top-0 font-medium right-0 translate-x-12 -translate-y-1/4">{startValue}%</span>
+        className="absolute top-0 font-medium right-0 translate-x-12 -translate-y-1/4">{startValue.toFixed(0)}%</span>
     </FeedBackProgressWrapper>
   );
 };

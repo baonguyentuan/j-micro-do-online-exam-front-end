@@ -1,6 +1,6 @@
 
 export interface FeedBackExamCommand{
-  examID: number,
+  examID: number | null | string,
   vote: number,
   comment: string,
 }
@@ -23,17 +23,32 @@ export type RatingDataModel={
   values:number[]
 }
 
+export interface RatingExamPagination{
+  index: number,
+  pages: number,
+  totals: number
+}
+
 export interface RatingExamModel{
+  pagination: RatingExamPagination,
+  
+  data: RatingExamFeedBackModel[]
+}
+
+export interface RatingExamFeedBackModel{
   id: number,
   vote: number,
   comment: string,
   createdAt: string,
   username:string
+  userID: number
 }
 
 
 export interface feedBackSliceInitState {
   examRating: RatingExamStatisticModel,
   
-  examRatingList:RatingExamModel[]
+  examRatingList:RatingExamModel,
+  
+  loading: boolean
 }

@@ -2,39 +2,34 @@ import { useNavigate, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { DispatchType, RootState } from "../../../redux/configStore";
 import { useDispatch, useSelector } from "react-redux";
-import { getExamDetail, getExamsRandom } from "../../../redux/reducers/exam";
 import Constants from "../../../constants/Constants";
 import styled from "styled-components";
-import { Button, Divider, Form, Rate } from "antd";
+import { Button, Divider, Modal, Pagination, Rate } from "antd";
 import { useTranslation } from "react-i18next";
 import AppRoutes from "../../../constants/AppRoutes";
 import Breadcrumb from "../../../components/breadcrumb/Breadcrumb";
-import { CommentFormValue } from "../../../_core/CommentModel";
 import CardContest from "../../../components/Card/CardContest";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { InboxOutlined, StarFilled } from "@ant-design/icons";
 import ExamFeedBack from "../../../components/exams/ExamFeedBack";
-import { backToPosition } from "../../../utils/operate";
+import { backToPosition, openNotificationWithIcon } from "../../../utils/operate";
 import "../../../assets/css/feedback/feedback.css";
-import { calculateExamRating, getFeedBackByExam } from "../../../redux/reducers/feedback";
+import { getExamDetailShow, getExamsRandom } from "../../../redux/reducers/exam";
+import { deleteFeedBack, getExamRating, getFeedbacksByExam } from "../../../redux/reducers/feedback";
 import { FeedBackSearchParams } from "../../../_core/feedback";
+import AppConfigs from "../../../config/AppConfigs";
+import { DeleteOutlined, ExclamationCircleOutlined, InboxOutlined, StarFilled,UserOutlined } from "@ant-design/icons";
+import FeedbackModal from "../../../components/Feedbacks/FeedbackModal";
 
-const initialFormValue: CommentFormValue = {
-  comment: "",
-  vote: 0
-};
 
 function Course() {
   let { name } = useParams();
   const navigate = useNavigate();
   const { t } = useTranslation("contest");
   const dispatch: DispatchType = useDispatch();
-  const [isFeedBackModalOpen, SetIsFeedBackModalOpen] = useState(false);
-  let { examRating, examRatingList } = useSelector((state: RootState) => state.feedBackSlice);
+  const [modal, contextHolder] = Modal.useModal();
+  const [feedbackChoose, setFeedBackChoose] = useState(0);
   const { examGetDetail, randomExams } = useSelector((state: RootState) => state.examSlice);
+  const { examRating, examRatingList, loading } = useSelector((state: RootState) => state.feedBackSlice);
 
   const [feedBackSearch, setFeedBackSearch] = useState({
     name: name,
@@ -51,15 +46,15 @@ function Course() {
   ];
 
   useEffect(() => {
-    dispatch(getExamDetail({ name: name }));
+    dispatch(getExamRating({ name: name }));
+    dispatch(getExamDetailShow({ name: name }));
     dispatch(getExamsRandom({ name: name }));
-    dispatch(calculateExamRating({ name: name }));
     backToPosition(0);
   }, [name]);
 
   useEffect(() => {
-    dispatch(getFeedBackByExam(feedBackSearch));
-  }, [feedBackSearch.vote]);
+    dispatch(getFeedbacksByExam(feedBackSearch));
+  }, [feedBackSearch]);
 
   const onHandleChangeFeedBackFilter = (star: number) => {
     setFeedBackSearch({ ...feedBackSearch, vote: star });
@@ -68,74 +63,67 @@ function Course() {
   const generateConditionExamButton = () => {
     if (examGetDetail && examGetDetail.examType === "FREE") {
       return <div className="flex justify-start items-center gap-3">
-        <Button size="large" className="font-semibold">{t("detail.go to contest")}</Button>
+        <Button onClick={() => navigate(`/takeExam/${examGetDetail?.examName}`)} size="large"
+                className="font-semibold">{t("detail.go to contest")}</Button>
         <span className="font-medium">{t("detail.or")}</span>
         <Button size="large" className="font-semibold">{t("detail.download now")}</Button>
       </div>;
     } else {
       return <div className="flex justify-start items-center">
-        <Button size="large" className="font-semibold" onClick={() => {
-          navigate(AppRoutes.public.home);
-        }}>{t("detail.become a premium")}</Button>
+        <Button size="large" className="font-semibold">{t("detail.become a premium")}</Button>
       </div>;
     }
   };
 
-  //TODO: move to conducting exam component
-  const formik = useFormik({
-    initialValues: initialFormValue,
-    validationSchema: Yup.object({
-      vote: Yup.number().min(1, t("feedback.you must be vote")),
-      comment: Yup.string().required("Your review is required!")
-    }),
-    onSubmit: async (formValue) => {
-      if (false) {
-        // await dispatch(sendContestComment({
-        //   userId: userInfo?.userId,
-        //   comment: formValue.comment,
-        //   vote: formValue.vote
-        // }))
-        // formik.values.vote = 0
-        // formik.values.comment = ''
-      }
-    }
-  });
+  const confirm = (number: number) => {
+    modal.confirm({
+      title: "Confirm delete",
+      icon: <ExclamationCircleOutlined />,
+      content: "Are you sure to delete the feedback?",
+      okText: "OK",
+      onOk: (id) => {
+        const executeLogic = async () => {
+          const result = await dispatch(deleteFeedBack({ id: number }));
 
-  const feedBackModal = () => {
-    return <Form className="pb-2">
-      <Form.Item label={`${t("feedback.vote")}:`} className="mb-1">
-        <Rate
-          className="-translate-y-1"
-          value={formik.values.vote}
-          onChange={(voteValue) => {
-            formik.setFieldValue("vote", voteValue);
-          }} />
-        <span
-          className="inline-block px-2 text-red-400 translate-x-4 -translate-y-1">{formik.errors.vote ? formik.errors.vote : ""}</span>
-      </Form.Item>
-      <Form.Item>
-        <ReactQuill
-          value={formik.values.comment}
-          theme="snow"
-          onChange={(commentValue) => {
-            formik.setFieldValue("comment", commentValue);
-          }}
-        />
-        <span className="inline-block text-red-400 mt-2">{formik.errors.comment ? formik.errors.comment : ""}</span>
-      </Form.Item>
-      <Form.Item>
-        <Button size="large" htmlType="submit" onClick={() => {
-          formik.handleSubmit();
-        }}>{t("feedback.send feedback")}</Button>
-      </Form.Item>
-    </Form>;
+          if (deleteFeedBack.rejected.match(result)) {
+            //TODO: handle error
+            return true;
+          }
+          openNotificationWithIcon("success", result?.payload?.message, "", 2);
+
+          await dispatch(getFeedbacksByExam(feedBackSearch));
+          await dispatch(getExamRating({ name: name }));
+          await dispatch(getExamDetailShow({ name: name }));
+
+          return true;
+        };
+
+        return executeLogic();
+      },
+      okButtonProps: {
+        loading,
+        type: "primary",
+        style: {
+          backgroundColor: "#1D5D9B"
+        }
+      },
+      cancelButtonProps: {
+        disabled: loading
+      },
+      cancelText: "Cancel"
+    });
+  };
+
+  const handleOnMouseEnter = (id: number) => {
+    setFeedBackChoose(id);
+  };
+
+  const handleOnMouseLeave = () => {
+    setFeedBackChoose(0);
   };
 
   return (<CourseWrapper className="size__component mb-14">
-    <div>
-      {isFeedBackModalOpen && feedBackModal()}
-    </div>
-
+    {contextHolder}
     <div className="course__container">
       <Breadcrumb items={items} />
       <div className="top mb-14 mt-10 md:mt-12">
@@ -185,7 +173,7 @@ function Course() {
       </div>
 
       <h1 className="font-semibold text-2xl mb-5">{t("feedback.customer feedback")}</h1>
-      <div id="feedbackArea" className="bottom grid grid-cols-6 gap-10">
+      <div id="feedbackArea" className="bottom grid grid-cols-6 gap-16">
 
         <div className="xl:col-span-4 col-span-6">
           {
@@ -206,27 +194,63 @@ function Course() {
               </div>
             </div>
             {
-              examRatingList !== undefined && examRatingList.length > 0 ? (
-                <div className="py-2 border-b-2">
-                  <div className="flex justify-start items-center">
-                    <div className="ml-4">
-                      {/* TODO: fill ui for feedback data */}
+              examRatingList !== undefined && examRatingList?.data?.length > 0 ? (
+                <div>
+                  <div className="py-2 border-b-2 mt-5">
+                    <div className="flex flex-col gap-3">
+                      {
+                        examRatingList.data.map((feed, index) => {
+                          return (<div onMouseEnter={() => handleOnMouseEnter(feed.id)}
+                                       onMouseLeave={handleOnMouseLeave} key={index}
+                                       className="relative border border-indigo-200 p-3 rounded">
+                            {feed.userID === examGetDetail?.ownerID && <OwnerTag>Owner</OwnerTag>}
+                            <div className="flex justify-between items-center mb-2">
+                              <p className="font-medium text-slate-500">{feed.createdAt}</p>
+                              <Rate value={feed.vote} disabled />
+                            </div>
+                            <p className="flex items-center gap-2">
+                              <UserOutlined className="text-red-500" />
+                              <span className="text-lg font-medium italic">{feed.username}</span>
+                            </p>
+                            <p className="text-gray-600 text-base" dangerouslySetInnerHTML={{ __html: feed.comment }} />
+                            <div className={`absolute h-full w-full top-0 left-0 cursor-pointer rounded
+                              ${feedbackChoose === feed.id && feed.userID === examGetDetail?.ownerID ? "flex items-center justify-center gap-3" : "hidden"}`}
+                                 style={{ backgroundColor: "rgba(0,0,0,0.3)" }}>
+                              <button onClick={() => {
+                                confirm(feed.id);
+                              }}
+                                      className="text-white text-medium bg-red-500 hover:bg-red-400 rounded py-1 px-2 flex items-center gap-3"
+                                      style={{ minWidth: "5rem" }}><DeleteOutlined /><span>Delete</span>
+                              </button>
+                              <FeedbackModal searchData={feedBackSearch} examID={examGetDetail?.id} feedID={feed.id}
+                                             buttonName="Edit" comment={feed.comment} vote={feed.vote} />
+                            </div>
+                          </div>);
+                        })
+                      }
+
                     </div>
                   </div>
+                  {
+                    examRatingList?.pagination?.pages > 1 ? (
+                      <Pagination className="text-center mt-4" defaultCurrent={1}
+                                  total={examRatingList?.pagination?.totals}
+                                  defaultPageSize={AppConfigs.pagination.DEFAULT_PAGE_SIZE} onChange={(page) => {
+                        let topScroll = document.getElementById("feedbackArea")?.offsetTop;
+                        if (topScroll) {
+                          backToPosition(topScroll);
+                        }
+                        setFeedBackSearch({ ...feedBackSearch, page_index: page });
+                      }} />
+                    ) : ""
+                  }
                 </div>
               ) : <div className="flex flex-col items-center justify-center py-16">
                 <InboxOutlined className="text-3xl mb-2" />
                 <p className="text-2xl">No data found</p>
               </div>
             }
-            {/*<Pagination className='text-center mt-4' defaultCurrent={1} total={currentCommentList.length}*/}
-            {/*            defaultPageSize={AppConfigs.pagination.DEFAULT_PAGE_SIZE} onChange={(page, pageSize) => {*/}
-            {/*  let topScroll = document.getElementById('feedbackArea')?.offsetTop*/}
-            {/*  if (topScroll) {*/}
-            {/*    backToPosition(topScroll)*/}
-            {/*  }*/}
-            {/*  setCurrentPage(page)*/}
-            {/*}}/>*/}
+
           </div>
         </div>
 
@@ -270,6 +294,18 @@ const ExamFeedBackFilterButton = (props: ExamFeedBackFilterButtonProps) => {
     }
   </ExamFeedBackFilterButtonWrapper>);
 };
+
+const OwnerTag = styled.div`
+  top: -15px;
+  left: -6px;
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 2px;
+  padding: 5px;
+  position: absolute;
+  background-color: #1D5D9B;
+`
 
 const CourseWrapper = styled.div`
   .course__container .top .thumbnail {

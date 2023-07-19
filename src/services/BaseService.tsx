@@ -124,20 +124,20 @@ export class BaseService {
   }
 
   getByCondition(url: string, model: Object) {
-    if (localStorage.getItem(Constants.localStorageKey.accessToken)) {
+   // if (localStorage.getItem(Constants.localStorageKey.accessToken)) {
       return axios({
         url: `${ApiEndpoint.domain}/${url}`,
         method: 'GET',
         params: model,
-        headers: { "Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken) }
+        headers: { "Authorization": "Bearer " + "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Imh1eW5ndXllbiIsImp0aSI6Imh1eW5ndXllbkBnbWFpbC5jb20iLCJzdWIiOiJVU0VSIiwiYXVkIjoiMiIsImlhdCI6MTY4OTMyODcyNCwiZXhwIjoxNjg5MzMwNTI0fQ.tRIwTc6ayS-FfqoXehKWjNxz2qDg6wURQcE7Wh972yY" }
       })
-    } else {
-      return axios({
-        url: `${ApiEndpoint.domain}/${url}`,
-        method: 'GET',
-        params: model,
-      })
-    }
+    // } else {
+    //   return axios({
+    //     url: `${ApiEndpoint.domain}/${url}`,
+    //     method: 'GET',
+    //     params: model,
+    //   })
+    // }
   }
 
   getByParams(url: string, model: any) {

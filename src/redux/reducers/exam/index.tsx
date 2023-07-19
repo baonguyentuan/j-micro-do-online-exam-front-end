@@ -1,24 +1,20 @@
-import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, current, isAnyOf, PayloadAction } from "@reduxjs/toolkit";
 import { setLoading } from "../loading/loadingSlice";
 import { openNotificationWithIcon } from "../../../utils/operate";
-import {
-  ExamOptionModel,
-  ExamResultType,
-  ExamSearchParams,
-  examSliceInitState,
-  QuestionResult,
-  QuestionType
-} from "../../../_core/exam";
+import { ExamOptionModel, examSliceInitState, QuestionResult, QuestionType } from "../../../_core/exam";
 import { DispatchType } from "../../configStore";
 import { examService } from "../../../services/ExamService";
 import Constants from "../../../constants/Constants";
+import { thunkAction } from "../../../utils/redux-helpers";
+import clientService from "../../../utils/client";
+import ApiEndpoint from "../../../constants/ApiEndpoint";
 
 const initialState = {
   hotExamsByCategory: {},
   examType: "PRIVATE",
   lstOptionExam: [{}],
-  checkExamResult:{},
-  loading: false,
+  checkExamResult: {},
+  loading: false
 } as examSliceInitState;
 
 const examSlice = createSlice({
@@ -31,63 +27,44 @@ const examSlice = createSlice({
     getExamType: (state: examSliceInitState, action: PayloadAction<{ examType: string }>) => {
       state.examType = action.payload.examType;
     },
-    hotExamsReceived(state, action) {
-      state.hotExamsByCategory = action.payload;
-    },
-    examsCategoryReceived(state, action) {
-      state.examsByCategory = action.payload;
-    },
-    examDurationOptionsReceived(state, action) {
-      state.examDurationOptions = action.payload;
-    },
-    examOrderByOptionsReceived(state, action) {
-      state.examOrderByOptions = action.payload;
-    },
-    examGetDetailReceived(state, action) {
-      state.examGetDetail = action.payload;
-    },
-    examFetchDetailReceived(state, action) {
-      state.examFetchDetail = action.payload;
-    },
-    examsRandomReceived(state, action) {
-      state.randomExams = action.payload;
-    },
+
     checkExamStatus(state) {
       let flagCheck = "";
       let count = 0;
-      if (state.examStartTime + state.examFetchDetail.duration*60000){
-        flagCheck = "STILL_HAVE_TIME"
+      if (state.examStartTime + state.examFetchDetail.duration * 60000) {
+        flagCheck = "STILL_HAVE_TIME";
       }
-      
+
       for (let i = 0; i < state.examResult.answers.length; i++) {
         if (state.examResult.answers[i].answerSelected.length === 0) {
           count++;
         }
       }
-      
-      if (count ===  state.examResult.answers.length){
-        flagCheck = "ALL_QUESTION_NOT_ANSWER"
-      }else if(count > 0){
-        flagCheck = "HAVE_QUESTION_NOT_ANSWER"
+
+      if (count === state.examResult.answers.length) {
+        flagCheck = "ALL_QUESTION_NOT_ANSWER";
+      } else if (count > 0) {
+        flagCheck = "HAVE_QUESTION_NOT_ANSWER";
       }
-  
-      switch (flagCheck){
+
+      switch (flagCheck) {
         case "HAVE_QUESTION_NOT_ANSWER":
-          state.checkExamResult.flag = false
+          state.checkExamResult.flag = false;
           state.checkExamResult.message = "Some question aren't fill answer! Are you sure to continue submit";
           break;
         case "ALL_QUESTION_NOT_ANSWER":
-          state.checkExamResult.flag = true
+          state.checkExamResult.flag = true;
           state.checkExamResult.message = "All questions aren't fill answer! Can not submit the exam.";
           break;
         case "STILL_HAVE_TIME":
-          state.checkExamResult.flag = false
+          state.checkExamResult.flag = false;
           state.checkExamResult.message = "You still have time! Are you sure to submit the exam.";
           break;
         default:
           return state;
       }
     },
+
     createAnswersStore(state) {
       if (state.examFetchDetail === undefined) {
         return state;
@@ -96,13 +73,13 @@ const examSlice = createSlice({
       current(state.examFetchDetail).questionsExam.forEach((question, index) => {
         examResult.push({ id: question.id, questionIndex: index, answerSelected: [] });
       });
-      
+
       let newQuestionsExam = [...state.examFetchDetail.questionsExam];
-       let data = newQuestionsExam.map(ques =>{
-         return {...ques,checked: -1}
-       });
-      state.examFetchDetail.questionsExam = data
-      
+      let data = newQuestionsExam.map(ques => {
+        return { ...ques, checked: -1 };
+      });
+      state.examFetchDetail.questionsExam = data;
+
       //create init answer store
       state.examResult = {
         id: state.examFetchDetail.id,
@@ -111,21 +88,26 @@ const examSlice = createSlice({
       //save time exam start
       state.examStartTime = Date.now();
     },
+
     chooseExamAnswer(state, action: PayloadAction<{ questionIndex: number, answerIndex: number, type: QuestionType, checked: boolean }>) {
       let newAnswers = [...state.examResult.answers];
       let answerGetIndex = action.payload.answerIndex;
       let questionGetIndex = action.payload.questionIndex;
       let findAnswerIndex = state.examResult.answers[questionGetIndex].answerSelected
         .findIndex(answer => answer === answerGetIndex);
-      
+
+      let newExamFetchDetail = [...state.examFetchDetail.questionsExam];
       switch (action.payload.type) {
         case "MULTI":
+          let questionMultiChange = newExamFetchDetail[questionGetIndex];
           if (action.payload.checked) {
             newAnswers[questionGetIndex].answerSelected.push(answerGetIndex);
+
           } else {
             findAnswerIndex !== -1 && newAnswers[questionGetIndex].answerSelected.splice(findAnswerIndex, 1);
           }
-
+          questionMultiChange.multi_checked = newAnswers[questionGetIndex].answerSelected;
+          state.examFetchDetail.questionsExam = newExamFetchDetail;
           state.examResult.answers = newAnswers;
           break;
         case "SINGLE":
@@ -134,10 +116,9 @@ const examSlice = createSlice({
           } else {
             newAnswers[action.payload.questionIndex].answerSelected[0] = action.payload.answerIndex;
           }
-          let newExamFetchDetail = [...state.examFetchDetail.questionsExam]
-          let questionChange = newExamFetchDetail[questionGetIndex]
-          questionChange.checked = action.payload.answerIndex
-          state.examFetchDetail.questionsExam = newExamFetchDetail
+          let questionSingleChange = newExamFetchDetail[questionGetIndex];
+          questionSingleChange.checked = action.payload.answerIndex;
+          state.examFetchDetail.questionsExam = newExamFetchDetail;
 
           state.examResult.answers = newAnswers;
           break;
@@ -145,26 +126,167 @@ const examSlice = createSlice({
           return state;
       }
     }
-    
+  },
+  extraReducers: (builder) => {
+    builder.addCase(getListExam.fulfilled, (state, action) => {
+      state.loading = false;
+      state.examsByCategory = action.payload;
+
+      return state;
+    });
+    builder.addCase(getListExamByCategory.fulfilled, (state, action) => {
+      state.loading = false;
+      state.hotExamsByCategory = action.payload.data;
+
+      return state;
+    });
+    builder.addCase(getExamDurationOptions.fulfilled, (state, action) => {
+      state.examDurationOptions = action.payload.data;
+
+      return state;
+    });
+    builder.addCase(getExamOrderByOptions.fulfilled, (state, action) => {
+      state.loading = false;
+      state.examOrderByOptions = action.payload.data;
+
+      return state;
+    });
+    builder.addCase(getExamDetailShow.fulfilled, (state, action) => {
+      state.loading = false;
+      state.examGetDetail = action.payload.data;
+
+      return state;
+    });
+    builder.addCase(getExamDetailDo.fulfilled, (state, action) => {
+      state.loading = false;
+      state.examFetchDetail = action.payload.data;
+
+      return state;
+    });
+    builder.addCase(getExamsRandom.fulfilled, (state, action) => {
+      state.loading = false;
+      state.randomExams = action.payload.data;
+
+      return state;
+    });
+    builder.addMatcher(
+      isAnyOf(
+        postCreateExam.fulfilled,
+        postSubmitExam.fulfilled,
+        deleteExam.fulfilled), (state) => {
+        state.loading = false;
+        
+        return state;
+      });
+    builder.addMatcher(
+      isAnyOf(
+        getListExam.pending,
+        getListExamByCategory.pending,
+        getExamOrderByOptions.pending,
+        getExamDurationOptions.pending,
+        getExamsRandom.pending,
+        postCreateExam.pending,
+        postSubmitExam.pending,
+        deleteExam.pending), (state) => {
+        state.loading = true;
+
+        return state;
+      });
+    builder.addMatcher(
+      isAnyOf(
+        getListExam.rejected,
+        getListExamByCategory.rejected,
+        getExamOrderByOptions.rejected,
+        getExamDurationOptions.rejected,
+        getExamsRandom.rejected,
+        postCreateExam.rejected,
+        postSubmitExam.rejected,
+        deleteExam.rejected), (state) => {
+        state.loading = false;
+        
+        return state;
+      });
   }
 });
 
 export const {
   getExamType,
   getOptionExam,
-  hotExamsReceived,
-  examsRandomReceived,
-  examsCategoryReceived,
-  examGetDetailReceived,
-  examFetchDetailReceived,
-  examOrderByOptionsReceived,
-  examDurationOptionsReceived,
   chooseExamAnswer,
-  createAnswersStore,
   checkExamStatus,
+  createAnswersStore
 } = examSlice.actions;
 
-export default examSlice.reducer;
+export const postCreateExam = createAsyncThunk(
+  "exam/createExam",
+  thunkAction(async (payload: any) => {
+    return clientService.post(ApiEndpoint.exam.CREATE, payload);
+  })
+);
+
+export const getListExam = createAsyncThunk(
+  "exam/getListExam",
+  thunkAction(async (params: any) => {
+    return clientService.get(ApiEndpoint.exam.GET, { params });
+  })
+);
+
+export const getListExamByCategory = createAsyncThunk(
+  "exam/getListExamByCategory",
+  thunkAction(async () => {
+    return clientService.get(ApiEndpoint.exam.GET_HOT_EXAMS_CATEGORY);
+  })
+);
+
+export const getExamDurationOptions = createAsyncThunk(
+  "exam/getListExamDurationOptions",
+  thunkAction(async () => {
+    return clientService.get(ApiEndpoint.exam.GET_DURATIONS);
+  })
+);
+
+export const getExamOrderByOptions = createAsyncThunk(
+  "exam/getListExamOrderByOptions",
+  thunkAction(async () => {
+    return clientService.get(ApiEndpoint.exam.GET_ORDER_BY);
+  })
+);
+
+export const getExamDetailShow = createAsyncThunk(
+  "exam/getExamDetailShow",
+  thunkAction(async (params: any) => {
+    return clientService.get(ApiEndpoint.exam.GET_DETAIL, { params });
+  })
+);
+
+export const getExamDetailDo = createAsyncThunk(
+  "exam/getExamDetailDo",
+  thunkAction(async (params: any) => {
+    return clientService.get(ApiEndpoint.exam.FETCH_DETAIL, { params });
+  })
+);
+
+export const getExamsRandom = createAsyncThunk(
+  "exam/getExamsRandom",
+  thunkAction(async (params: any) => {
+    return clientService.get(ApiEndpoint.exam.GET_RANDOM, { params });
+  })
+);
+
+export const postSubmitExam = createAsyncThunk(
+  "exam/postSubmitExam",
+  thunkAction(async (payload: any) => {
+    return clientService.post(ApiEndpoint.exam.SUBMIT_EXAM, payload);
+  })
+);
+
+export const deleteExam = createAsyncThunk(
+  "exam/deleteExam",
+  thunkAction(async (params: any) => {
+    return clientService.delete(`${ApiEndpoint.exam.DELETE}?id=${params}`);
+  })
+);
+
 
 export const createExamApi = (examDetail: FormData) => {
   return async (dispatch: DispatchType) => {
@@ -180,102 +302,6 @@ export const createExamApi = (examDetail: FormData) => {
     } catch (err) {
       console.log(err);
       openNotificationWithIcon("error", "Create exam failed", "", 1);
-    }
-    await dispatch(setLoading({ isLoading: false }));
-  };
-};
-
-export const getExamsByCategoryApi = () => {
-  return async (dispatch: DispatchType) => {
-    await dispatch(setLoading({ isLoading: true }));
-    try {
-      const result = await examService.getExamByCategory();
-      dispatch(hotExamsReceived(result.data.data));
-    } catch (err) {
-      openNotificationWithIcon("error", "Get exams by category failed", "", 1);
-    }
-    await dispatch(setLoading({ isLoading: false }));
-  };
-};
-
-export const getExamsApi = (params: ExamSearchParams) => {
-  return async (dispatch: DispatchType) => {
-    await dispatch(setLoading({ isLoading: true }));
-    try {
-      const result = await examService.getExams(params);
-      dispatch(examsCategoryReceived(result.data));
-    } catch (err) {
-      console.log(err);
-      openNotificationWithIcon("error", "Get exams failed", "", 1);
-    }
-    await dispatch(setLoading({ isLoading: false }));
-  };
-};
-
-export const getExamDurationOptions = () => {
-  return async (dispatch: DispatchType) => {
-    await dispatch(setLoading({ isLoading: true }));
-    try {
-      const result = await examService.getExamDurationOptions();
-      dispatch(examDurationOptionsReceived(result.data.data));
-    } catch (err) {
-      console.log(err);
-      openNotificationWithIcon("error", "Get exam duration options failed", "", 1);
-    }
-    await dispatch(setLoading({ isLoading: false }));
-  };
-};
-
-export const getExamOrderByOptions = () => {
-  return async (dispatch: DispatchType) => {
-    await dispatch(setLoading({ isLoading: true }));
-    try {
-      const result = await examService.getExamOrderByOptions();
-      dispatch(examOrderByOptionsReceived(result.data.data));
-    } catch (err) {
-      console.log(err);
-      openNotificationWithIcon("error", "Get exam order by options failed", "", 1);
-    }
-    await dispatch(setLoading({ isLoading: false }));
-  };
-};
-
-export const getExamDetail = (name: object) => {
-  return async (dispatch: DispatchType) => {
-    await dispatch(setLoading({ isLoading: true }));
-    try {
-      const result = await examService.getExamDetail(name);
-      dispatch(examGetDetailReceived(result.data.data));
-    } catch (err) {
-      openNotificationWithIcon("error", "Get exam detail failed", "", 1);
-    }
-    await dispatch(setLoading({ isLoading: false }));
-  };
-};
-
-export const fetchExamDetail = (name: object) => {
-  return async (dispatch: DispatchType) => {
-    await dispatch(setLoading({ isLoading: true }));
-    try {
-      const result = await examService.fetchExamDetail(name);
-      dispatch(examFetchDetailReceived(result.data.data));
-      dispatch(createAnswersStore());
-    } catch (err) {
-      console.log(err);
-      openNotificationWithIcon("error", "Fetch exam detail failed", "", 1);
-    }
-    await dispatch(setLoading({ isLoading: false }));
-  };
-};
-
-export const getExamsRandom = (name: object) => {
-  return async (dispatch: DispatchType) => {
-    await dispatch(setLoading({ isLoading: true }));
-    try {
-      const result = await examService.getRandomExams(name);
-      dispatch(examsRandomReceived(result.data.data));
-    } catch (err) {
-      openNotificationWithIcon("error", "Get random exams failed", "", 1);
     }
     await dispatch(setLoading({ isLoading: false }));
   };
@@ -314,23 +340,5 @@ export const deleteExamApi = (examID: number) => {
   };
 };
 
-export const submitExam = (data: ExamResultType) => {
-  return async (dispatch: DispatchType) => {
-    await dispatch(setLoading({ isLoading: true }));
-    try {
-      const pureAnswers = data.answers.reduce((result: any, ans: QuestionResult) => {
-        const { id, answerSelected } = ans;
-        result.push({ id, answers: answerSelected });
-        return result;
-      }, []);
 
-      const result = await examService.submitExamData({...data,answers:pureAnswers});
-
-      openNotificationWithIcon("success", "Submit exam successfully", "", 1);
-    } catch (err) {
-      console.log(err);
-      openNotificationWithIcon("error", "Submit exam fail", "", 1);
-    }
-    //await dispatch(setLoading({ isLoading: false }));
-  };
-};
+export default examSlice.reducer;

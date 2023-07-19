@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Lumanosimo&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 body {
   margin: 0;
@@ -9,6 +11,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.account__type_font{
+  font-family: 'Lumanosimo', cursive;
 }
 
 code {
