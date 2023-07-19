@@ -21,8 +21,6 @@ const SideBar: React.FC = () => {
         <Menu.Item key={Constants.optionMenuAdmin.CATEGORY} icon={<AppstoreOutlined />}>
           <NavLink to={'/admin/category'}>Category</NavLink>
         </Menu.Item>
-        <Menu.Item key={Constants.optionMenuAdmin.EXAM} icon={<FileOutlined />}><NavLink to={'/admin/exam'}>Exam</NavLink></Menu.Item>
-        <Menu.Item key={Constants.optionMenuAdmin.CONTEST} icon={<BookOutlined />}><NavLink to={'/admin/contest'}>Contest</NavLink></Menu.Item>
         <Menu.SubMenu key="auth-submenu" title="Auth" icon={<GoldenFilled />}>
           <Menu.Item key={Constants.optionMenuAdmin.AUTH.ROLE}><NavLink to={'/admin/role'}>Role</NavLink></Menu.Item>
           <Menu.Item key={Constants.optionMenuAdmin.AUTH.ENDPOINT}><NavLink to={'/admin/endpoint'}>Endpoint</NavLink></Menu.Item>
