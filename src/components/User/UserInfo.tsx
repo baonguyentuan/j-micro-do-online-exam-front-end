@@ -8,13 +8,15 @@ import { useFormik } from "formik";
 import dayjs, { Dayjs } from 'dayjs';
 import { useDispatch } from "react-redux";
 import { getUserInfo, updateUserInfoApi, updateUserThumbnailApi } from "../../redux/reducers/user/userSlice";
-
+import * as Yup from "yup";
+import { useTranslation } from "react-i18next";
 type Props = {}
 
 function UserInfo({ }: Props) {
   let { userInfo } = useSelector((state: RootState) => state.userSlice)
   let dispatch: DispatchType = useDispatch()
   let [file, setFile] = useState<any>(null)
+  const { t } = useTranslation("user");
   let currentInfo
   if (userInfo) {
     currentInfo = { ...userInfo }
@@ -34,6 +36,10 @@ function UserInfo({ }: Props) {
   let formik = useFormik({
     enableReinitialize: true,
     initialValues: currentInfo,
+    // validationSchema:Yup.object({
+    //   email: Yup.string().email(t("invalid_email_address")).required(t("required")),
+    //   username: Yup.string().min(6, t("minimum_character")).required(t("required"))
+    // }),
     onSubmit: async (formValue) => {
       const result = await dispatch(updateUserInfoApi({
         userName: formValue.username,
