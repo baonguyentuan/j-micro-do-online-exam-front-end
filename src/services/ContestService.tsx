@@ -1,4 +1,4 @@
-import { ContestResultModel, CreateContestFormModel } from "../_core/ContestModel"
+import { ContestResultModel, CreateContestFormModel } from "../_core/contest"
 import { BaseService } from "./BaseService"
 
 class ContestService extends BaseService {

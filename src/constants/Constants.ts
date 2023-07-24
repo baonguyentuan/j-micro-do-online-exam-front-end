@@ -10,6 +10,9 @@ export default {
   },
   localStorageKey: {
     accessToken: 'access-token',
+    username:'user',
+    userID:'id',
+    account: 'account'
   },
   formStatus: {
     EDIT: 'edit',

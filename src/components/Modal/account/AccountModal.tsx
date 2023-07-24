@@ -42,26 +42,18 @@ const AccountModal = () => {
   const hideModal = () => {
     dispatch(triggerGlobalAccountModal({ type: GlobalAccountModalActionType.CLOSE }));
   };
+  
   return (
     <>
       <Modal
         title={<p className="text-xl">Pricing</p>}
         open={globalAccountModalOpen}
-        width={900}
+        width={1000}
         onOk={hideModal}
         onCancel={hideModal}
-        cancelButtonProps={{
-          style: {
-            display: "none"
-          }
-        }}
-        okButtonProps={{
-          style: {
-            display: "none"
-          }
-        }}
+        footer={null}
       >
-        <AccountModalWrapper className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
+        <AccountModalWrapper className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
           {
             data.map(item => {
               return <AccountType key={item.id} {...item} />;
@@ -69,7 +61,6 @@ const AccountModal = () => {
           }
         </AccountModalWrapper>
       </Modal>
-
     </>
   );
 };

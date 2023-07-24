@@ -73,7 +73,7 @@ function TrainingCoursesByCategory() {
               <div className="">
                 {/* SEARCH AREA*/}
                 <div className="search_area border-dashed border-2 border-indigo-200 rounded-sm p-5">
-                  <div className="flex flex-wrap xl:flex-nowrap justify-between gap-5 mb-5">
+                  <div className="flex flex-col justify-between gap-5 mb-5">
                     <div>
                       <Title level={4} className="mb-2">Select duration times</Title>
                       <Checkbox.Group className="font-medium" options={examDurationOptions}

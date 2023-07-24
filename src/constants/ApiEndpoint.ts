@@ -2,7 +2,8 @@ export default {
   domain:process.env.REACT_APP_SERVER_URL || "http://localhost:8763/api/v1",
   auth: {
     "LOGIN": 'auth/login',
-    "LOGOUT": 'auth/logou',
+    "LOGIN_WITH_EXAM_ACCOUNT":'',
+    "LOGOUT": 'auth/logout',
     "GET_USER": 'auth/users',
     "REGISTER": 'auth/register',
     "GET_USER_INFO": 'auth/user/info',

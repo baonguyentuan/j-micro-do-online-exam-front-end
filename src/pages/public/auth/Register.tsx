@@ -8,6 +8,9 @@ import { useTranslation } from "react-i18next";
 import { AuthFormWrapper } from "../../../assets/styles/authStyles";
 import { EscapeAuthButton } from "./Login";
 import AppRoutes from "../../../constants/AppRoutes";
+import { postRegisterUser } from "../../../redux/reducers/auth";
+import { DispatchType } from "../../../redux/configStore";
+import { useNavigate } from "react-router-dom";
 
 const initialValues: RegisterFormValues = {
   userName: "",
@@ -17,8 +20,10 @@ const initialValues: RegisterFormValues = {
 };
 
 export default function Register() {
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { t } = useTranslation("login");
+  const dispatch : DispatchType = useDispatch();
+  
   const validationSchema = Yup.object({
     userName: Yup.string().min(6, t("register.minimum_character")).required(t("register.required")),
     email: Yup.string().email(t("register.invalid_email_address")).required(t("register.required")),
@@ -31,8 +36,15 @@ export default function Register() {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values:any) => {
       console.log("Registered:", values);
+      //const result = await dispatch(postRegisterUser(values));
+      
+      //if(postRegisterUser.rejected.match(result)){
+        //TODO: handle register error
+        return;
+      //}
+      
     }
   });
 

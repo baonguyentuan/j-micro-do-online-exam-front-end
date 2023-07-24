@@ -26,6 +26,10 @@ import AdminCategory from "./Admin/AdminCategory/AdminCategory";
 import TrainingCourses from "./pages/public/course/TrainingCourses";
 import TrainingCoursesByCategory from "./pages/public/course/TrainingCoursesByCategory";
 import { Route, Routes, unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
+import LoginExamAccount from "./pages/public/auth/LoginExamAccount";
+import DoContest from "./pages/private/contest/DoContest";
+import ExamModalResult from "./components/Modal/exam-result/ExamModalResult";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -33,40 +37,51 @@ const root = ReactDOM.createRoot(
 export const history = createBrowserHistory(window);
 root.render(
   <Provider store={store}>
+    {/*<ExamModalResult flag={true}/>*/}
     <HistoryRouter history={history}>
       <Routes>
         <Route path="" element={<HomeLayout />}>
           <Route index element={<Home />} />
-          <Route path={AppRoutes.public.login} element={<Login />} />
-          <Route path={AppRoutes.public.register} element={<Register />} />
-          <Route path="create_contest" element={<CreateContest />} />
-          <Route path={AppRoutes.public.courses} element={<TrainingCourses />} />
-          <Route path={AppRoutes.public.courses_sort_category} element={<TrainingCoursesByCategory />} />
-          <Route path={AppRoutes.public.courses_detail} element={<Course />} />
-          <Route path="create_exam" element={<CreateExam status={Constants.formStatus.CREATE} />} />
-          <Route path="account" element={<Account />} />
+          {/* PUBLIC ROUTE */}
           <Route path={AppRoutes.public.blog} element={<BlogList />} />
           <Route path={AppRoutes.public.contact} element={<Contact />} />
-          <Route path={AppRoutes.public.login} element={<Login />} />
-          <Route path={AppRoutes.public.register} element={<Register />} />
+          <Route path={AppRoutes.public.courses_detail} element={<Course />} />
+          <Route path={AppRoutes.public.courses} element={<TrainingCourses />} />
+          {/* PRIVATE ROUTE*/}
+          <Route path="account" element={<Account />} />
+          <Route path="create_contest" element={<CreateContest />} />
+          <Route path="create_exam" element={<CreateExam status={Constants.formStatus.CREATE} />} />
+          <Route path={AppRoutes.public.courses_sort_category} element={<TrainingCoursesByCategory />} />
           <Route path="*" element={<Home />} />
         </Route>
 
-        <Route path={AppRoutes.private.admin.admin} element={<AdminLayout />}>
-          <Route path={AppRoutes.public.login} element={<AdminUser />} />
-          <Route path={AppRoutes.private.admin.category} element={<AdminCategory />} />
-          <Route path={AppRoutes.private.admin.exam} element={<AdminExam />} />
-        </Route>
-
-        <Route path={AppRoutes.private.user.feedback} element={<FeedBack />} />
-        <Route path={AppRoutes.private.user.doExam} element={<DoExam />} />
-        <Route path={AppRoutes.private.user.doContest} element={<DoExam />} />
+        {/* TODO: FIX */}
+        {/*<Route path={AppRoutes.private.admin.admin} element={<AdminLayout />}>*/}
+        {/*  <Route path={AppRoutes.public.login} element={<AdminUser />} />*/}
+        {/*  <Route path={AppRoutes.private.admin.category} element={<AdminCategory />} />*/}
+        {/*  <Route path={AppRoutes.private.admin.exam} element={<AdminExam />} />*/}
+        {/*</Route>*/}
 
         <Route path="admin" element={<AdminLayout />}>
           <Route path="admin_user" element={<AdminUser />} />
           <Route path="admin_category" element={<AdminCategory />} />
           <Route index element={<AdminUser />} />
         </Route>
+
+        {/* PRIVATE ROUTE */}
+        <Route path={AppRoutes.private.user.feedback}
+               element={<ProtectedRoute><FeedBack /></ProtectedRoute>} />
+        <Route path={AppRoutes.private.user.doExam}
+               element={<ProtectedRoute><DoExam /></ProtectedRoute>} />
+        <Route path={AppRoutes.private.user.doContest}
+               element={<ProtectedRoute><DoExam /></ProtectedRoute>} />
+        <Route path={AppRoutes.private.user.contest} 
+               element={<ProtectedRoute><DoContest /></ProtectedRoute>} />
+
+        {/* PUBLIC ROUTE */}
+        <Route path={AppRoutes.public.login} element={<Login />} />
+        <Route path={AppRoutes.public.register} element={<Register />} />
+        <Route path={AppRoutes.public.contest} element={<LoginExamAccount />} />
       </Routes>
     </HistoryRouter>
   </Provider>

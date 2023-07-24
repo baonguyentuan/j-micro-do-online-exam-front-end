@@ -35,7 +35,6 @@ const examSlice = createSlice({
     getFullExamDetail: (state: examSliceInitState, action: PayloadAction<{ examDetail: ExamDetailFormModel }>) => {
       state.fullExamDetail = action.payload.examDetail;
     },
-
     checkExamStatus(state) {
       let flagCheck = "";
       let count = 0;
@@ -72,7 +71,6 @@ const examSlice = createSlice({
           return state;
       }
     },
-
     createAnswersStore(state) {
       if (state.examFetchDetail === undefined) {
         return state;
@@ -95,7 +93,6 @@ const examSlice = createSlice({
       //save time exam start
       state.examStartTime = Date.now();
     },
-
     chooseExamAnswer(state, action: PayloadAction<{ questionIndex: number, answerIndex: number, type: QuestionType, checked: boolean }>) {
       let newAnswers = [...state.examResult.answers];
       let answerGetIndex = action.payload.answerIndex;
@@ -143,6 +140,7 @@ const examSlice = createSlice({
     });
     builder.addCase(getListExamByCategory.fulfilled, (state, action) => {
       state.loading = false;
+      console.log(action);
       state.hotExamsByCategory = action.payload.data;
 
       return state;

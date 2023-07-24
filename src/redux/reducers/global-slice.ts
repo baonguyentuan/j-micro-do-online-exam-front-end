@@ -1,19 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const GlobalAccountModalActionType={
-  OPEN:'OPEN_ACCOUNT_MODAL',
-  CLOSE:'CLOSE_ACCOUNT_MODAL'
-}
+export const GlobalAccountModalActionType = {
+  OPEN: "OPEN_ACCOUNT_MODAL",
+  CLOSE: "CLOSE_ACCOUNT_MODAL"
+};
 
-const GlobalLoadingActionType={
-  OPEN:'OPEN_LOADING',
-  CLOSE:'CLOSE_LOADING',
-}
+const GlobalLoadingActionType = {
+  OPEN: "OPEN_LOADING",
+  CLOSE: "CLOSE_LOADING"
+};
 
 const initialState = {
   globalAccountModalOpen: false,
-  
-  globalLoading: false,
+
+  globalLoading: false
 };
 
 const globalSlice = createSlice({
@@ -21,7 +21,7 @@ const globalSlice = createSlice({
   initialState,
   reducers: {
     triggerGlobalAccountModal(state, action) {
-      switch (action.payload.type){
+      switch (action.payload.type) {
         case GlobalAccountModalActionType.OPEN:
           state.globalAccountModalOpen = true;
           break;
@@ -32,8 +32,8 @@ const globalSlice = createSlice({
           return state;
       }
     },
-    triggerGlobalLoading(state,action){
-      switch (action.type){
+    triggerGlobalLoading(state, action) {
+      switch (action.type) {
         case GlobalLoadingActionType.OPEN:
           state.globalLoading = true;
           break;
@@ -47,7 +47,6 @@ const globalSlice = createSlice({
   }
 });
 
-
-export const { triggerGlobalAccountModal,triggerGlobalLoading } = globalSlice.actions;
+export const { triggerGlobalAccountModal, triggerGlobalLoading } = globalSlice.actions;
 
 export default globalSlice.reducer;

@@ -9,15 +9,19 @@ import AppRoutes from "../../../constants/AppRoutes";
 import { LoginFormValues } from "../../../_core/Login";
 import { CloseCircleOutlined } from "@ant-design/icons";
 import { AuthFormWrapper } from "../../../assets/styles/authStyles";
+import { DispatchType } from "../../../redux/configStore";
+import { getUserInfo } from "../../../redux/reducers/user/userSlice";
+import { forceLogout, postLogin } from "../../../redux/reducers/auth";
 
 const initialValues: LoginFormValues = {
   email: "",
   password: ""
 };
+
 export default function Login() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation("login");
+  const dispatch: DispatchType = useDispatch();
   const validationSchema = Yup.object({
     email: Yup.string().email(t("login.invalid_email_address")).required(t("login.required")),
     password: Yup.string().min(6, t("login.minimum_character")).required(t("login.required"))
@@ -28,20 +32,23 @@ export default function Login() {
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
-      // if (values.email === "admin@gmail.com" && values.password === "adminadmin") {
-      //   dispatch(loginSuccess({ username: values.email, password: values.password, role: "admin", accountType: "" }));
-      //   navigate("/admin");
-      // } else if (values.email && values.password) {
-      //   dispatch(loginSuccess({
-      //     username: values.email,
-      //     password: values.password,
-      //     role: "user",
-      //     accountType: "Free"
-      //   }));
-      //   navigate(AppRoutes.public.home);
-      // } else {
-      //   dispatch(loginFail());
-      // }
+      const result = await dispatch(postLogin(values));
+      if (postLogin.rejected.match(result)) {
+        //TODO handle login error
+        return;
+      }
+
+      const fetchUser = await dispatch(getUserInfo());
+
+      if (getUserInfo.rejected.match(fetchUser)) {
+        //TODO handler fetch user error
+        dispatch(forceLogout());
+        return;
+      }
+
+      const role: string = fetchUser.payload?.data?.roles[0];
+
+      role.includes("USER") ? navigate(AppRoutes.public.home) : navigate(AppRoutes.public.home);
     }
   });
 
@@ -100,7 +107,6 @@ export default function Login() {
                      className="inline-block w-4 h-4 mr-2" />
                 {t("login.sign_in_with_google")}
               </button>
-
               <a
                 href={AppRoutes.public.register}
                 className="w-2/3 flex justify-center py-2 px-4 border text-sm text-neutral-400 font-medium rounded-md mt-5 hover:bg-violet-100 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-indigo-100"

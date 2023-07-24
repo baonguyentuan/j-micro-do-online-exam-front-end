@@ -1,24 +1,26 @@
 import { useNavigate, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { DispatchType, RootState } from "../../../redux/configStore";
 import { useDispatch, useSelector } from "react-redux";
 import Constants from "../../../constants/Constants";
 import styled from "styled-components";
 import { Button, Divider, Modal, Pagination, Rate } from "antd";
 import { useTranslation } from "react-i18next";
 import AppRoutes from "../../../constants/AppRoutes";
+import "react-quill/dist/quill.snow.css";
 import Breadcrumb from "../../../components/breadcrumb/Breadcrumb";
 import CardContest from "../../../components/Card/CardContest";
-import "react-quill/dist/quill.snow.css";
 import ExamFeedBack from "../../../components/exams/ExamFeedBack";
-import { backToPosition, openNotificationWithIcon } from "../../../utils/operate";
 import "../../../assets/css/feedback/feedback.css";
-import { getExamDetailShow, getExamsRandom } from "../../../redux/reducers/exam";
-import { deleteFeedBack, getExamRating, getFeedbacksByExam } from "../../../redux/reducers/feedback";
 import { FeedBackSearchParams } from "../../../_core/feedback";
 import AppConfigs from "../../../config/AppConfigs";
-import { DeleteOutlined, ExclamationCircleOutlined, InboxOutlined, StarFilled,UserOutlined } from "@ant-design/icons";
+import { getLocalStorage } from "../../../utils/local-storage";
+import { DispatchType, RootState } from "../../../redux/configStore";
 import FeedbackModal from "../../../components/Feedbacks/FeedbackModal";
+import { getExamDetailShow, getExamsRandom } from "../../../redux/reducers/exam";
+import { backToPosition, openNotificationWithIcon } from "../../../utils/operate";
+import { deleteFeedBack, getExamRating, getFeedbacksByExam } from "../../../redux/reducers/feedback";
+import { GlobalAccountModalActionType, triggerGlobalAccountModal } from "../../../redux/reducers/global-slice";
+import { DeleteOutlined, ExclamationCircleOutlined, InboxOutlined, StarFilled, UserOutlined } from "@ant-design/icons";
 
 
 function Course() {
@@ -60,8 +62,14 @@ function Course() {
     setFeedBackSearch({ ...feedBackSearch, vote: star });
   };
 
+  const handleShowAccountModal = () => {
+    dispatch(triggerGlobalAccountModal({ type: GlobalAccountModalActionType.OPEN }));
+  };
+
   const generateConditionExamButton = () => {
-    if (examGetDetail && examGetDetail.examType === "FREE") {
+    if (examGetDetail
+      && examGetDetail.examType === "FREE"
+      && getLocalStorage(Constants.localStorageKey.accessToken) !== null) {
       return <div className="flex justify-start items-center gap-3">
         <Button onClick={() => navigate(`/takeExam/${examGetDetail?.examName}`)} size="large"
                 className="font-semibold">{t("detail.go to contest")}</Button>
@@ -70,7 +78,8 @@ function Course() {
       </div>;
     } else {
       return <div className="flex justify-start items-center">
-        <Button size="large" className="font-semibold">{t("detail.become a premium")}</Button>
+        <Button onClick={handleShowAccountModal} size="large"
+                className="font-semibold">{t("detail.become a premium")}</Button>
       </div>;
     }
   };
@@ -203,7 +212,8 @@ function Course() {
                           return (<div onMouseEnter={() => handleOnMouseEnter(feed.id)}
                                        onMouseLeave={handleOnMouseLeave} key={index}
                                        className="relative border border-indigo-200 p-3 rounded">
-                            {feed.userID === examGetDetail?.ownerID && <OwnerTag>Owner</OwnerTag>}
+                            {feed.userID === +getLocalStorage(Constants.localStorageKey.userID) &&
+                              <OwnerTag>Owner</OwnerTag>}
                             <div className="flex justify-between items-center mb-2">
                               <p className="font-medium text-slate-500">{feed.createdAt}</p>
                               <Rate value={feed.vote} disabled />
@@ -214,7 +224,7 @@ function Course() {
                             </p>
                             <p className="text-gray-600 text-base" dangerouslySetInnerHTML={{ __html: feed.comment }} />
                             <div className={`absolute h-full w-full top-0 left-0 cursor-pointer rounded
-                              ${feedbackChoose === feed.id && feed.userID === examGetDetail?.ownerID ? "flex items-center justify-center gap-3" : "hidden"}`}
+                              ${feedbackChoose === feed.id && feed.userID === +getLocalStorage(Constants.localStorageKey.userID) ? "flex items-center justify-center gap-3" : "hidden"}`}
                                  style={{ backgroundColor: "rgba(0,0,0,0.3)" }}>
                               <button onClick={() => {
                                 confirm(feed.id);
@@ -305,7 +315,7 @@ const OwnerTag = styled.div`
   padding: 5px;
   position: absolute;
   background-color: #1D5D9B;
-`
+`;
 
 const CourseWrapper = styled.div`
   .course__container .top .thumbnail {

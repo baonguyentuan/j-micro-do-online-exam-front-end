@@ -132,6 +132,8 @@ export interface examSliceInitState {
   loading: boolean
   
   checkExamResult: ExamResultStatus
+  
+  finalExamResult: any
 }
 
 export interface QuestionResult{

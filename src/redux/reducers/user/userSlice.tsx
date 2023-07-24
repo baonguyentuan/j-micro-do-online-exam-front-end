@@ -1,42 +1,47 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {UserInfoModel, UserStateModel} from '../../../_core/UserModel';
-import {DispatchType} from '../../configStore';
-import {authService} from '../../../services/AuthService';
-import {setLoading} from '../loading/loadingSlice';
+import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit";
+import { UserStateModel } from "../../../_core/UserModel";
+import { thunkAction } from "../../../utils/redux-helpers";
+import clientService from "../../../utils/client";
+import ApiEndpoint from "../../../constants/ApiEndpoint";
+import { setLocalStorage } from "../../../utils/local-storage";
 import Constants from "../../../constants/Constants";
 
 
 const initialState: UserStateModel = {
   userInfo: null
-}
+};
 
 const userSlice = createSlice({
-  name: 'userSlice',
+  name: "userSlice",
   initialState,
-  reducers: {
-    getUserInfo: (state: UserStateModel, action: PayloadAction<{ userInfo: UserInfoModel }>) => {
-      state.userInfo = action.payload.userInfo
-    }
-  }
+  reducers: {},
+  extraReducers: (builder => {
+    builder.addCase(getUserInfo.fulfilled, (state, action) => {
+      state.userInfo = action.payload;
+      setLocalStorage(Constants.localStorageKey.username,action.payload.data.username)
+      setLocalStorage(Constants.localStorageKey.userID,action.payload.data.id)
+      setLocalStorage(Constants.localStorageKey.account,action.payload.data.roles[0])
+
+      return state;
+    });
+    builder.addMatcher(
+      isAnyOf(getUserInfo.pending),
+      (state, action) => {
+
+      });
+    builder.addMatcher(
+      isAnyOf(getUserInfo.rejected),
+      (state, action) => {
+
+      });
+  })
 });
 
-export const {getUserInfo} = userSlice.actions
+export const getUserInfo = createAsyncThunk(
+  "user/getUserInfo",
+  thunkAction(() => {
+    return clientService.get(ApiEndpoint.auth.GET_USER_INFO);
+  })
+);
 
-export default userSlice.reducer
-export const getUserInfoApi = () => {
-  return async (dispatch: DispatchType) => {
-    dispatch(setLoading({isLoading: true}))
-    try {
-      const result = await authService.getUserInfo()
-      if (result.status === Constants.httpStatusCode.SUCCESS) {
-        let useInfoGet: UserInfoModel = result.data.data
-        await dispatch(getUserInfo({userInfo: useInfoGet}))
-      } else {
-        console.log(result);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-    dispatch(setLoading({isLoading: false}))
-  }
-}
+export default userSlice.reducer;

@@ -19,7 +19,6 @@ const feedBackSlice = createSlice({
     builder.addCase(getFeedbacksByExam.fulfilled, (state, action) => {
       state.loading = false;
       state.examRatingList = action.payload;
-      console.log(action.payload);
 
       return state;
     });

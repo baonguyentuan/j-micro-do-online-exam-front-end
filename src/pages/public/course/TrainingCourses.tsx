@@ -34,57 +34,60 @@ function TrainingCourses() {
       </div>
       <div>
         {
-          Object.keys(hotExamsByCategory).map((name, index) => {
-            return <div key={index} className="size__component py-6">
-              <h3 className="text-2xl font-bold">{name}</h3>
-              <div className="pt-4 relative">
-                <Swiper
-                  spaceBetween={30}
-                  slidesPerView={2}
-                  modules={[Navigation]}
-                  navigation={{
-                    prevEl: `.customPrevSlide${index}`,
-                    nextEl: `.customNextSlide${index}`
-                  }}
-                  breakpoints={{
-                    1280: {
-                      slidesPerView: 4
-                    },
-                    1084: {
-                      slidesPerView: 3
-                    },
-                    640: {
-                      slidesPerView: 2
+          hotExamsByCategory !== undefined ? (
+            Object.keys(hotExamsByCategory).map((name, index) => {
+              return <div key={index} className="size__component py-6">
+                <h3 className="text-2xl font-bold">{name}</h3>
+                <div className="pt-4 relative">
+                  <Swiper
+                    spaceBetween={30}
+                    slidesPerView={2}
+                    modules={[Navigation]}
+                    navigation={{
+                      prevEl: `.customPrevSlide${index}`,
+                      nextEl: `.customNextSlide${index}`
+                    }}
+                    breakpoints={{
+                      1280: {
+                        slidesPerView: 4
+                      },
+                      1084: {
+                        slidesPerView: 3
+                      },
+                      640: {
+                        slidesPerView: 2
+                      }
+                    }}
+                  >
+                    {
+                      hotExamsByCategory[name].map((exam, index: number) => {
+                        return <SwiperSlide key={index}>
+                          <CardCourse examCard={exam} />
+                        </SwiperSlide>;
+                      })
                     }
-                  }}
-                >
+                  </Swiper>
                   {
-                    hotExamsByCategory[name].map((exam, index: number) => {
-                      return <SwiperSlide key={index}>
-                        <CardCourse examCard={exam} />
-                      </SwiperSlide>;
-                    })
+                    hotExamsByCategory[`${name}`].length > 4 ? (<>
+                      <Button style={{ top: "45%", left: "0px", transform: "translateX(-40%)" }}
+                              className={`customNavigationSlide customPrevSlide${index}`}><LeftCircleOutlined
+                        style={{ transform: "translateY(-6px)" }} /></Button>
+                      <Button style={{ top: "45%", right: "0px", transform: "translateX(40%)" }}
+                              className={`customNavigationSlide customNextSlide${index}`}><RightCircleOutlined
+                        style={{ transform: "translateY(-6px)" }} /></Button>
+                    </>) : ""
                   }
-                </Swiper>
-                {
-                  hotExamsByCategory[`${name}`].length > 4 ? (<>
-                    <Button style={{ top: "45%", left: "0px", transform: "translateX(-40%)" }}
-                            className={`customNavigationSlide customPrevSlide${index}`}><LeftCircleOutlined
-                      style={{ transform: "translateY(-6px)" }} /></Button>
-                    <Button style={{ top: "45%", right: "0px", transform: "translateX(40%)" }}
-                            className={`customNavigationSlide customNextSlide${index}`}><RightCircleOutlined
-                      style={{ transform: "translateY(-6px)" }} /></Button>
-                  </>) : ""
-                }
-              </div>
-              <div className="w-full flex justify-center">
-                <Button className="mt-4 btn__banner">
-                  <Link
-                    to={{ pathname: `${AppRoutes.public.courses}/${name}` }}>{t("cardCourse.more courses")}</Link>
-                </Button>
-              </div>
-            </div>;
-          })
+                </div>
+                <div className="w-full flex justify-center">
+                  <Button className="mt-4 btn__banner">
+                    <Link
+                      to={{ pathname: `${AppRoutes.public.courses}/${name}` }}>{t("cardCourse.more courses")}</Link>
+                  </Button>
+                </div>
+              </div>;
+            })
+
+          ) : ""
         }
       </div>
     </div>

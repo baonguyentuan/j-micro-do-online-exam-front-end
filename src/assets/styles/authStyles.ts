@@ -20,7 +20,7 @@ export const AuthFormWrapper = styled.section`
   }
 
   //responsive
-  @media (min-width: 700px) {
+  @media (min-width: 800px) {
     .container {
       width: 60%;
     }
@@ -28,7 +28,7 @@ export const AuthFormWrapper = styled.section`
 
   @media (min-width: 1200px) {
     .container {
-      width: 36%;
+      width: 32%;
     }
   }
 `;

@@ -6,7 +6,6 @@ import DrawerModifier from '../components/Drawer/DrawerModifier';
 import { useSelector } from 'react-redux';
 import { DispatchType, RootState } from '../redux/configStore';
 import { useDispatch } from 'react-redux';
-import { getUserInfoApi } from '../redux/reducers/user/userSlice';
 import { Outlet } from 'react-router-dom';
 import '../assets/css/admin/admin.css'
 import { useTranslation } from 'react-i18next';
@@ -19,8 +18,9 @@ const AdminLayout: React.FC = () => {
     i18n.changeLanguage(value)
   };
   useEffect(() => {
-    dispatch(getUserInfoApi())
+    // dispatch(getUserInfoApi())
   }, [])
+  
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Header className='flex justify-end'>

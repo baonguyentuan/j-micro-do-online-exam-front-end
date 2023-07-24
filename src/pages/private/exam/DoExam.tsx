@@ -9,24 +9,27 @@ import {
   postSubmitExam
 } from "../../../redux/reducers/exam";
 import AppConfigs from "../../../config/AppConfigs";
-import { backToPosition, openNotificationWithIcon } from "../../../utils/operate";
 import { Modal, Pagination, Statistic } from "antd";
 import Constants from "../../../constants/Constants";
-import { QuestionExamModel, QuestionResult } from "../../../_core/exam";
-import { getStatusIsUserDoFeedBack } from "../../../redux/reducers/feedback";
-import { useNavigate, useParams } from "react-router-dom";
-import { CheckCircleOutlined, ClockCircleOutlined, CloseCircleOutlined, TagsOutlined } from "@ant-design/icons";
-import {TOKEN} from "../../../utils/client";
 import AppRoutes from "../../../constants/AppRoutes";
+import { backToPosition } from "../../../utils/operate";
+import { getLocalStorage } from "../../../utils/local-storage";
+import { QuestionExamModel, QuestionResult } from "../../../_core/exam";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { getStatusIsUserDoFeedBack } from "../../../redux/reducers/feedback";
+import ExamModalResult from "../../../components/Modal/exam-result/ExamModalResult";
+import { CheckCircleOutlined, ClockCircleOutlined, CloseCircleOutlined, TagsOutlined } from "@ant-design/icons";
 
 const { Countdown } = Statistic;
 
 const DoExam = () => {
   const { name } = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const dispatch: DispatchType = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const [isSubmitModalOpen, setSubmitModalOpen] = useState(false);
+  const [isExamResultModalOpen, setExamResultModalOpen] = useState(false);
 
   const {
     examFetchDetail,
@@ -42,40 +45,46 @@ const DoExam = () => {
     fetchExamDetail();
   }, [name]);
 
-  const handleExamCountFinish = () => {};
+  const handleExamCountFinish = () => {
+  };
 
   const handleExamSubmit = async () => {
+    //TODO: if user exam -> change token
+    console.log(searchParams.get("token"));
     const pureAnswers = examResult.answers.reduce((result: any, ans: QuestionResult) => {
       const { id, answerSelected } = ans;
       result.push({ id, answers: answerSelected });
       return result;
     }, []);
 
-    const resultSubmitExam: any = await dispatch(postSubmitExam({ ...examResult, answers: pureAnswers }));
+    const resultSubmitExam: any = await dispatch(postSubmitExam(
+      { ...examResult, startTimeExam: examStartTime, endTimeExam: Date.now(), answers: pureAnswers }));
 
     if (postSubmitExam.rejected.match(resultSubmitExam)) {
       //TODO: handle error
       return;
     }
     setSubmitModalOpen(true);
-    openNotificationWithIcon("success", resultSubmitExam?.payload?.message, "", 2);
 
     const resultCheckFeedback: any = await dispatch(getStatusIsUserDoFeedBack({ id: examResult.id }));
     if (getStatusIsUserDoFeedBack.rejected.match(resultCheckFeedback)) {
       //TODO: handle error
       return;
     }
-    setTimeout(()=>{
-      if(!resultCheckFeedback?.payload?.data){
-        navigate(`${AppRoutes.private.user.feedback}?token=${TOKEN}&examID=${examResult.id}`)
-      }else{
-        navigate(AppRoutes.public.home)  
+
+    setTimeout(() => {
+      //TODO: Specify exam user or user
+      if (!resultCheckFeedback?.payload?.data) {
+        navigate(`${AppRoutes.private.user.feedback}?token=${getLocalStorage(Constants.localStorageKey.accessToken)}&examID=${examResult.id}`);
+      } else {
+        navigate(AppRoutes.public.home);
       }
-    },500)
+    }, 500);
   };
 
   return (
     <>
+      <ExamModalResult flag={isExamResultModalOpen} />
       <div className="size__component grid grid-cols-6 gap-10 py-8">
 
         <div className="col-span-2 ">
