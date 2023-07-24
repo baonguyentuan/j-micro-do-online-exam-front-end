@@ -11,7 +11,9 @@
     },
     "register": {
         "free_registration":"Free Registration",
+        "signin":"Sign in",
         "signup":"Sign up",
+        "userName":"User name",
         "password":"Password",
         "re_password":"Re-peat Password",
         "sign_in_with_google":"Sign in with Google",

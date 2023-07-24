@@ -3,7 +3,7 @@ import type { MenuProps } from "antd";
 import { Badge, Button, Drawer, Dropdown, Popover, Select, Space } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/configStore";
+import { DispatchType, RootState } from "../../redux/configStore";
 import { useTranslation } from "react-i18next";
 import HeaderNavbarMobile from "./HeaderNavbarMobile";
 import "../../assets/css/header/header_title.css";
@@ -12,19 +12,19 @@ import Constants from "../../constants/Constants";
 import { getLocalStorage } from "../../utils/local-storage";
 import { BellOutlined, CloseOutlined, DownOutlined, MenuOutlined } from "@ant-design/icons";
 import { setNotifyBadge, setNotifyReaded } from "../../redux/reducers/notification/notificationSlice";
+import { postLogout } from "../../redux/reducers/auth";
 
 type Props = {}
 
-export default function HeaderTitle({}: Props) {
-  const dispatch = useDispatch();
+export default function HeaderTitle({ }: Props) {
+  const dispatch: DispatchType = useDispatch();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation("header");
   let [openMenu, setOpenMenu] = useState(false);
   const { haveNewNotify, arrNotify } = useSelector((state: RootState) => state.notificationSlice);
 
   const handleLogout = () => {
-    localStorage.clear();
-    navigate(AppRoutes.public.login);
+    dispatch(postLogout({ clientID: getLocalStorage(Constants.localStorageKey.userID) }))
   };
 
   const items: MenuProps["items"] = [
@@ -61,23 +61,23 @@ export default function HeaderTitle({}: Props) {
       return <Space>
         <span className="notification">
           <Popover placement="bottom"
-                   title={
-                     <h1 className="p-2 border-b-2 m-0 ">Thông báo mới nhận</h1>
-                   }
-                   content={
-                     <div className="notification__list">
-                       <ul className="border-b-2 p-0 m-0">
-                         {arrNotify.map((notifyItem, index) => {
-                           return <li key={notifyItem.id}
-                                      className={`notify__item ${notifyItem.readStatus ? "" : "unreaded"}`}
-                                      onClick={() => {
-                                        dispatch(setNotifyReaded({ notify: notifyItem }));
-                                      }}>{notifyItem.message}</li>;
-                         })}
-                       </ul>
-                       <NavLink className="block text-center p-2" to={"/home"}>Xem tất cả</NavLink>
-                     </div>
-                   } trigger="hover">
+            title={
+              <h1 className="p-2 border-b-2 m-0 ">Thông báo mới nhận</h1>
+            }
+            content={
+              <div className="notification__list">
+                <ul className="border-b-2 p-0 m-0">
+                  {arrNotify.map((notifyItem, index) => {
+                    return <li key={notifyItem.id}
+                      className={`notify__item ${notifyItem.readStatus ? "" : "unreaded"}`}
+                      onClick={() => {
+                        dispatch(setNotifyReaded({ notify: notifyItem }));
+                      }}>{notifyItem.message}</li>;
+                  })}
+                </ul>
+                <NavLink className="block text-center p-2" to={"/home"}>Xem tất cả</NavLink>
+              </div>
+            } trigger="hover">
             <span className="p-2" onMouseEnter={() => {
               setTimeout(() => {
                 dispatch(setNotifyBadge({ status: false }));

@@ -19,5 +19,6 @@
     "free": "Miễn phí",
     "premium": "Trả phí",
     "cancel": "Đóng",
-    "delete": "Xoá"
+    "delete": "Xoá",
+    "invalid_email_address": "Email không hợp lệ"
 }

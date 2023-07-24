@@ -14,4 +14,10 @@ export interface UserInfoModel {
 
 export interface UserStateModel {
   userInfo: UserInfoModel | null;
+  lstUsers: UserInfoModel[];
+  pagination: {
+    index: number,
+    pages: number,
+    totals: number
+  }
 }

@@ -19,7 +19,8 @@ export default {
       "home": "/user/dashboard",
       "doExam": "/takeExam/:name",
       "contest": "/contest",
-      "doContest": "/takeContest/:name"
+      "doContest": "/takeContest/:name",
+      "account":"/account"
     },
     "admin": {
       "admin": adminRoute,

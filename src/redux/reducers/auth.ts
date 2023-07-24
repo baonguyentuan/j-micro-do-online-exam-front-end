@@ -4,6 +4,8 @@ import clientService from "../../utils/client";
 import ApiEndpoint from "../../constants/ApiEndpoint";
 import { setLocalStorage } from "../../utils/local-storage";
 import Constants from "../../constants/Constants";
+import { history } from "../..";
+import AppRoutes from "../../constants/AppRoutes";
 
 
 const authSlice = createSlice({
@@ -19,23 +21,25 @@ const authSlice = createSlice({
   extraReducers: (builder => {
     builder.addCase(postLogin.fulfilled, (state, action) => {
       state.loading = false;
-      setLocalStorage(Constants.localStorageKey.accessToken, action.payload["access-token"]);
-
+      setLocalStorage(Constants.localStorageKey.accessToken, action.payload[Constants.localStorageKey.accessToken]);
+      history.push(AppRoutes.public.home)
       return state;
     });
     builder.addCase(postLogout.fulfilled, (state, action) => {
+      localStorage.clear()
+      history.push(AppRoutes.public.login)
       state.loading = false;
 
       return state;
     });
     builder.addCase(postRegisterUser.fulfilled, (state, action) => {
       state.loading = false;
-
+      history.push(AppRoutes.public.login)
       return state;
     });
-    builder.addCase(postLoginWithExamAccount.fulfilled,(state,action)=>{
+    builder.addCase(postLoginWithExamAccount.fulfilled, (state, action) => {
       state.loading = false;
-      
+
       return state;
     })
     builder.addMatcher(
@@ -44,20 +48,21 @@ const authSlice = createSlice({
         postLogin.pending,
         postLogout.pending,
         postLoginWithExamAccount.pending), (state, action) => {
-        state.loading = true;
+          state.loading = true;
 
-        return state;
-      });
+          return state;
+        });
     builder.addMatcher(
       isAnyOf(
         postLogin.rejected,
         postLogout.rejected,
         postRegisterUser.rejected,
         postLoginWithExamAccount.rejected), (state, action) => {
-        state.loading = false;
-
-        return state;
-      });
+          state.loading = false;
+          console.log(action);
+          
+          return state;
+        });
   })
 });
 
@@ -68,10 +73,10 @@ export const postLogin = createAsyncThunk(
   })
 );
 
-export const postLoginWithExamAccount= createAsyncThunk(
+export const postLoginWithExamAccount = createAsyncThunk(
   'auth/LoginWithExamAccount',
-  thunkAction(async (payload: any)=>{
-    return clientService.post(ApiEndpoint.auth.LOGIN_WITH_EXAM_ACCOUNT,payload)
+  thunkAction(async (payload: any) => {
+    return clientService.post(ApiEndpoint.auth.LOGIN_WITH_EXAM_ACCOUNT, payload)
   })
 )
 

@@ -4,26 +4,25 @@ import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { RegisterFormValues } from "../../../_core/Login";
 import { useTranslation } from "react-i18next";
-// import { registerUser } from "../../redux/user/userSlice"
 import { AuthFormWrapper } from "../../../assets/styles/authStyles";
 import { EscapeAuthButton } from "./Login";
 import AppRoutes from "../../../constants/AppRoutes";
 import { postRegisterUser } from "../../../redux/reducers/auth";
 import { DispatchType } from "../../../redux/configStore";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-const initialValues: RegisterFormValues = {
-  userName: "",
-  email: "",
-  password: "",
-  confirmPassword: ""
-};
 
 export default function Register() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { t } = useTranslation("login");
-  const dispatch : DispatchType = useDispatch();
-  
+  const dispatch: DispatchType = useDispatch();
+  const initialValues: RegisterFormValues = {
+    userName: "",
+    email: "",
+    password: "",
+    confirmPassword: ""
+  };
   const validationSchema = Yup.object({
     userName: Yup.string().min(6, t("register.minimum_character")).required(t("register.required")),
     email: Yup.string().email(t("register.invalid_email_address")).required(t("register.required")),
@@ -36,15 +35,15 @@ export default function Register() {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: async (values:any) => {
+    onSubmit: async (values: any) => {
       console.log("Registered:", values);
-      //const result = await dispatch(postRegisterUser(values));
-      
-      //if(postRegisterUser.rejected.match(result)){
+      const result = await dispatch(postRegisterUser(values));
+
+      if (postRegisterUser.rejected.match(result)) {
         //TODO: handle register error
         return;
-      //}
-      
+      }
+
     }
   });
 
@@ -61,6 +60,19 @@ export default function Register() {
           <form className="mt-8 space-y-9" onSubmit={formik.handleSubmit}>
             <input type="hidden" name="remember" value="true" />
             <div className="mb-3 rounded-md -space-y-px">
+              <div className="relative">
+                <p className="text-base text-slate-400 mb-1">
+                  {t("register.userName")}<span style={{ color: "red" }}>*</span>
+                </p>
+                <input
+                  id="userName"
+                  name="userName"
+                  onChange={formik.handleChange}
+                  value={formik.values.userName}
+                  className="border border-gray-200 p-2 rounded w-full"
+                />
+                {formik.errors.userName && <p className="error-helper text-xs text-red-700">{formik.errors.userName}</p>}
+              </div>
               <div className="relative">
                 <p className="text-base text-slate-400 mb-1">
                   Email<span style={{ color: "red" }}>*</span>
@@ -115,12 +127,12 @@ export default function Register() {
               >
                 {t("register.signup")}
               </button>
-              <a
-                href={AppRoutes.public.login}
+              <NavLink
+                to={AppRoutes.public.login}
                 className="w-2/3 flex justify-center py-2 px-4 border text-sm text-neutral-400 font-medium rounded-md mt-5 hover:bg-violet-100 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-indigo-100"
               >
                 {t("register.i_have_an_account")}
-              </a>
+              </NavLink>
             </div>
           </form>
         </div>

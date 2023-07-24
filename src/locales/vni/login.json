@@ -14,6 +14,7 @@
         "free_registration":"Đăng ký miễn phí",
         "signin":"Đăng nhập",
         "signup":"Đăng ký",
+        "userName":"Tên",
         "password":"Mật khẩu",
         "re_password":"Nhập lại mật khẩu",
         "sign_in_with_google":"Đăng nhập bằng Google",
