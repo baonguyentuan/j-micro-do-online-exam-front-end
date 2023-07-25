@@ -63,8 +63,8 @@ const Endpoints = ({ endpoints }: any) => {
             render: (_: any, record: any) => (
                 <div className='flex'>
                     <Button
-                        onClick={async () => {
-                            await dispatch(setDrawerInfo({
+                        onClick={() => {
+                            dispatch(setDrawerInfo({
                                 typeContent: 'updateEndpoint',
                                 sizeDrawer: Constants.sizeDrawer.SMALL
                             }))

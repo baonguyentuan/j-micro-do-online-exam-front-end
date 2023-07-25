@@ -16,10 +16,9 @@ const drawerSlice = createSlice({
       state.isOpen = false
     },
     setDrawerInfo: (state: PropsDrawerModifierModel, action: PayloadAction<{ typeContent: string, sizeDrawer: string }>) => {
-      console.log(1);
       state.isOpen = true
       state.typeContent = action.payload.typeContent
-      state.sizeDrawer=action.payload.sizeDrawer
+      state.sizeDrawer = action.payload.sizeDrawer
     }
   }
 });

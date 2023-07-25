@@ -26,7 +26,7 @@ const initialState = {
   }],
   inputEndpoint: {
     id: 1,
-    endpointPath: '',
+    endPoint: '',
   },
   name: '',
   order_by: 1,
