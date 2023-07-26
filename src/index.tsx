@@ -28,6 +28,7 @@ import LoginExamAccount from "./pages/public/auth/LoginExamAccount";
 import TrainingCourses from "./pages/public/course/TrainingCourses";
 import TrainingCoursesByCategory from "./pages/public/course/TrainingCoursesByCategory";
 import { Route, Routes, unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
+import AdminExam from "./Admin/AdminExam/AdminExam";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
