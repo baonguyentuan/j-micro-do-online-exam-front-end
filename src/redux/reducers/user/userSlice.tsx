@@ -5,6 +5,7 @@ import clientService from "../../../utils/client";
 import ApiEndpoint from "../../../constants/ApiEndpoint";
 import { setLocalStorage } from "../../../utils/local-storage";
 import Constants from "../../../constants/Constants";
+import { openNotificationWithIcon } from "../../../utils/operate";
 
 
 const initialState: UserStateModel = {
@@ -35,7 +36,10 @@ const userSlice = createSlice({
       state.pagination = action.payload.pagination
     });
     builder.addCase(updateUserInfoApi.fulfilled, (state, action) => {
-
+      openNotificationWithIcon("success", "Update info successful", "", 1);
+    });
+    builder.addCase(updateUserThumbnailApi.fulfilled, (state, action) => {
+      openNotificationWithIcon("success", "Update thumbnail successful", "", 1);
     });
     builder.addMatcher(
       isAnyOf(getUserInfo.pending,
@@ -52,7 +56,7 @@ const userSlice = createSlice({
         updateUserThumbnailApi.rejected),
       (state, action) => {
         console.log(action);
-        
+
       });
   })
 });

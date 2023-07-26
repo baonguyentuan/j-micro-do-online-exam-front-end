@@ -1,5 +1,5 @@
 const courseRootRoute = "/courses";
-const adminRoute = "/admin";
+const adminRoute = "/admin/";
 
 export default {
   "public": {

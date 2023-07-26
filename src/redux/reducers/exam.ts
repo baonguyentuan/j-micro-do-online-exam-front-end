@@ -16,6 +16,11 @@ import AppConfigs from "../../config/AppConfigs";
 import { thunkAction } from "../../utils/redux-helpers";
 import clientService from "../../utils/client";
 import ApiEndpoint from "../../constants/ApiEndpoint";
+import menuSlice, { setDefaultTabAccountKey } from "./menu/menuSlice";
+import categorySlice from "./category/categorySlice";
+import { getLocalStorage } from "../../utils/local-storage";
+import { history } from "../..";
+import AppRoutes from "../../constants/AppRoutes";
 
 const initialState = {
   hotExamsByCategory: {},
@@ -184,10 +189,10 @@ const examSlice = createSlice({
       isAnyOf(
         postCreateExam.fulfilled,
         deleteExam.fulfilled), (state) => {
-        state.loading = false;
+          state.loading = false;
 
-        return state;
-      });
+          return state;
+        });
     builder.addMatcher(
       isAnyOf(
         getListExam.pending,
@@ -198,10 +203,10 @@ const examSlice = createSlice({
         postCreateExam.pending,
         postSubmitExam.pending,
         deleteExam.pending), (state) => {
-        state.loading = true;
+          state.loading = true;
 
-        return state;
-      });
+          return state;
+        });
     builder.addMatcher(
       isAnyOf(
         getListExam.rejected,
@@ -212,10 +217,10 @@ const examSlice = createSlice({
         postCreateExam.rejected,
         postSubmitExam.rejected,
         deleteExam.rejected), (state) => {
-        state.loading = false;
+          state.loading = false;
 
-        return state;
-      });
+          return state;
+        });
   }
 });
 
@@ -304,7 +309,6 @@ export const createExamApi = (examDetail: FormData) => {
     try {
       const result = await examService.creatExam(examDetail);
       if (result.status === Constants.httpStatusCode.SUCCESS) {
-        dispatch(closeDrawer());
         dispatch(getFullExamDetail({
           examDetail: {
             id: -1,
@@ -328,6 +332,12 @@ export const createExamApi = (examDetail: FormData) => {
           order_by: -1
         }));
         openNotificationWithIcon("success", "Create exam successful", "", 1);
+        if (getLocalStorage(Constants.localStorageKey.status)) {
+          dispatch(closeDrawer())
+        } else {
+          dispatch(setDefaultTabAccountKey({ key: 'exam' }))
+          history.push(AppRoutes.private.user.account)
+        }
       } else {
         console.log(result);
         openNotificationWithIcon("error", "Create exam failed", "", 1);

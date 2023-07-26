@@ -1,3 +1,4 @@
-export interface MenuStateModel{
-    optionSidebarAdmin:string
+export interface MenuStateModel {
+    optionSidebarAdmin: string,
+    defaultTabAccountKey: string,
 }

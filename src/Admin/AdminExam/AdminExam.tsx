@@ -19,10 +19,11 @@ import { DispatchType, RootState } from "../../redux/configStore";
 import { setDrawerInfo } from "../../redux/reducers/drawer/drawerSlice";
 import { setOptionSidebarAdmin } from "../../redux/reducers/menu/menuSlice";
 import { CaretDownOutlined, CaretUpOutlined, DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
+import { getUserInfo } from "../../redux/reducers/user/userSlice";
 
 
 const AdminExam = () => {
-  let { t } = useTranslation("admin");
+  let { t } = useTranslation("contest");
   const dispatch: DispatchType = useDispatch();
   let [nameFilter, setNameFilter] = useState<boolean>(true);
   let [createAtFilter, setCreateAtFilter] = useState<boolean>(true);
@@ -42,7 +43,7 @@ const AdminExam = () => {
 
   const columns: ColumnsType<ExamCardInfoModel> = [
     {
-      title: t("thumbnail"),
+      title: t("detail.thumbnail"),
       dataIndex: "thumbnail",
       key: "thumbnail",
       width: "10%",
@@ -52,7 +53,7 @@ const AdminExam = () => {
     },
     {
       title: <div className="flex justify-between items-center">
-        <div>{t("name")}</div>
+        <div>{t("detail.name")}</div>
         <div>
           <Button type="link" className={`${nameFilter ? "hidden" : ""}`} onClick={async () => {
             await setNameFilter(!nameFilter);
@@ -70,20 +71,20 @@ const AdminExam = () => {
       render: (text) => <p>{text}</p>
     },
     {
-      title: "Category",
+      title: t("detail.category"),
       dataIndex: "categoryName",
       key: "categoryName",
       width: "10%"
     },
     {
-      title: "Exam type",
+      title: t("detail.examType"),
       dataIndex: "examType",
       key: "examType",
       width: "10%"
     },
     {
       title: <div className="flex justify-between items-center">
-        <div>Duration (min)</div>
+        <div>{t("detail.duration")} (min)</div>
         <div>
           <Button type="link" className={`${durationFilter ? "hidden" : ""}`} onClick={async () => {
             await setDurationFilter(!durationFilter);
@@ -100,7 +101,7 @@ const AdminExam = () => {
       width: "10%"
     },
     {
-      title: "Rating",
+      title: t("detail.rating"),
       dataIndex: "totalRating",
       key: "totalRating",
       width: "10%"
@@ -113,7 +114,7 @@ const AdminExam = () => {
     },
     {
       title: <div className="flex justify-between items-center">
-        <div>{t("create at")}</div>
+        <div>{t("detail.createAt")}</div>
         <div>
           <Button type="link" className={`${createAtFilter ? "hidden" : ""}`} onClick={async () => {
             await setCreateAtFilter(!createAtFilter);
@@ -132,7 +133,7 @@ const AdminExam = () => {
       }
     },
     {
-      title: t("action"),
+      title: t("exam.Action"),
       key: "action",
       width: "10%",
       render: (_, record) => (
@@ -154,8 +155,8 @@ const AdminExam = () => {
             }));
           }}><EditOutlined className="text-base -translate-y-1 " /></Button>
           <Popconfirm
-            title="Delete the category"
-            description="Are you sure to delete this category?"
+            title={t('exam.Delete the exam')}
+            description={t('exam.Are you sure to delete this exam?')}
             onConfirm={async () => {
               await dispatch(deleteExamApi(record.id));
             }}
@@ -177,7 +178,7 @@ const AdminExam = () => {
 
   return (
     <div>
-      <h1 className="text-2xl text-center font-bold text-gray-800 mb-2">Exam management</h1>
+      <h1 className="text-2xl text-center font-bold text-gray-800 mb-2">{t('exam.Exam management')}</h1>
       <div className="my-4 flex justify-between items-center">
         <Button onClick={async () => {
           await dispatch(getFullExamDetail({
@@ -188,144 +189,7 @@ const AdminExam = () => {
               examType: userInfo?.roles.find(roleItem => roleItem === "ADMIN") === "ADMIN" ? "FREE" : "PRIVATE",
               description: "",
               duration: AppConfigs.exam.MIN_DURATION_EXAM,
-              question: [
-                {
-                  "id": 1,
-                  "question": "Choose the word which is stressed differently from the rest.",
-                  "answers": ["access", "afford", "brochure", "casual"],
-                  "questionType": "SINGLE",
-                  "correctAnswers": [0],
-                  "questionPoint": 1
-                },
-                {
-                  "id": 2,
-                  "question": "Choose the word which is stressed differently from the rest.",
-                  "answers": [
-                    "behaviour",
-                    "determined",
-                    "counselor",
-                    "decisive"
-                  ],
-                  "questionType": "SINGLE",
-                  "correctAnswers": [0],
-                  "questionPoint": 1
-                },
-                {
-                  "id": 3,
-                  "question": "Choose the word which is stressed differently from the rest.",
-                  "answers": [
-                    "donate",
-                    "compare",
-                    "campaign",
-                    "flashy"
-                  ],
-                  "questionType": "MULTI",
-                  "correctAnswers": [0, 3],
-                  "questionPoint": 1
-                },
-                {
-                  "id": 4,
-                  "question": "Choose the word which is stressed differently from the rest.",
-                  "answers": ["access", "afford", "brochure", "casual"],
-                  "questionType": "SINGLE",
-                  "correctAnswers": [0],
-                  "questionPoint": 1
-                },
-                {
-                  "id": 5,
-                  "question": "Choose the word which is stressed differently from the rest.",
-                  "answers": [
-                    "behaviour",
-                    "determined",
-                    "counselor",
-                    "decisive"
-                  ],
-                  "questionType": "SINGLE",
-                  "correctAnswers": [0],
-                  "questionPoint": 1
-                },
-                {
-                  "id": 6,
-                  "question": "Choose the word which is stressed differently from the rest.",
-                  "answers": [
-                    "donate",
-                    "compare",
-                    "campaign",
-                    "flashy"
-                  ],
-                  "questionType": "MULTI",
-                  "correctAnswers": [0, 3],
-                  "questionPoint": 1
-                },
-                {
-                  "id": 7,
-                  "question": "Choose the word which is stressed differently from the rest.",
-                  "answers": ["access", "afford", "brochure", "casual"],
-                  "questionType": "SINGLE",
-                  "correctAnswers": [0],
-                  "questionPoint": 1
-                },
-                {
-                  "id": 8,
-                  "question": "Choose the word which is stressed differently from the rest.",
-                  "answers": [
-                    "behaviour",
-                    "determined",
-                    "counselor",
-                    "decisive"
-                  ],
-                  "questionType": "SINGLE",
-                  "correctAnswers": [0],
-                  "questionPoint": 1
-                },
-                {
-                  "id": 9,
-                  "question": "Choose the word which is stressed differently from the rest.",
-                  "answers": [
-                    "donate",
-                    "compare",
-                    "campaign",
-                    "flashy"
-                  ],
-                  "questionType": "MULTI",
-                  "correctAnswers": [0, 3],
-                  "questionPoint": 1
-                },
-                {
-                  "id": 10,
-                  "question": "Choose the word which is stressed differently from the rest.",
-                  "answers": ["access", "afford", "brochure", "casual"],
-                  "questionType": "SINGLE",
-                  "correctAnswers": [0],
-                  "questionPoint": 1
-                },
-                {
-                  "id": 11,
-                  "question": "Choose the word which is stressed differently from the rest.",
-                  "answers": [
-                    "behaviour",
-                    "determined",
-                    "counselor",
-                    "decisive"
-                  ],
-                  "questionType": "SINGLE",
-                  "correctAnswers": [0],
-                  "questionPoint": 1
-                },
-                {
-                  "id": 12,
-                  "question": "Choose the word which is stressed differently from the rest.",
-                  "answers": [
-                    "donate",
-                    "compare",
-                    "campaign",
-                    "flashy"
-                  ],
-                  "questionType": "MULTI",
-                  "correctAnswers": [0, 3],
-                  "questionPoint": 1
-                }
-              ],
+              question: [],
               file: null
             }
           }));
@@ -333,9 +197,9 @@ const AdminExam = () => {
             typeContent: Constants.typeDrawer.CREAT_EXAM,
             sizeDrawer: Constants.sizeDrawer.LARGE
           }));
-        }}>Create Exam</Button>
+        }}>{t('exam.Create exam')}</Button>
         <Input
-          placeholder={t("search")}
+          placeholder={t("detail.search")}
           size="large"
           onChange={(event) => {
             setTimeout(() => {
@@ -343,7 +207,7 @@ const AdminExam = () => {
             }, 1000);
           }} style={{ maxWidth: 400 }} className="mx-4" />
         <p className="mx-4 font-bold text-blue-600 text-base">
-          <span>{t("total")}: </span><span>{examsByCategory?.pagination.totals}</span></p>
+          <span>{t("detail.total")}: </span><span>{examsByCategory?.pagination?.totals}</span></p>
       </div>
       <Table
         rowKey={"id"}

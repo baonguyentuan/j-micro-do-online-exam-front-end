@@ -3,6 +3,7 @@ import { NotifyModel } from "./NotificationModel";
 
 export interface UserInfoModel {
   id: number;
+  image:string
   username: string;
   phone: string | null;
   email: string;

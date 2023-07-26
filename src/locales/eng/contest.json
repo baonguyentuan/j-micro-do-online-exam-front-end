@@ -33,8 +33,12 @@
         "exam is required": "Exam is required",
         "category is required": "Category is required",
         "click to Upload thumbnail": "Click to Upload thumbnail",
-        "start at":"Start at",
-        "organize by":"Organize by"
+        "start at": "Start at",
+        "organize by": "Organize by",
+        "createAt": "Create at",
+        "examType": "Exam Type",
+        "search":"Search",
+        "total":"Total"
     },
     "contest": {
         "relate Contest": "Relate Contest",
@@ -68,12 +72,15 @@
         "minium point is 1": "Point min is 1",
         "Answer is required": "Answer is required",
         "No question": "No question",
-        "numerical order":"Numerical order",
-        "action":"action",
-        "manager answer":"manager answer",
-        "Question answered":"Question answered",
-        "Question unanswered":"Question unanswered",
-        "Update exam":"Update Exam",
-        "Update thumbnail":"Update Thumbnail"
+        "numerical order": "Numerical order",
+        "action": "action",
+        "manager answer": "manager answer",
+        "Question answered": "Question answered",
+        "Question unanswered": "Question unanswered",
+        "Update exam": "Update Exam",
+        "Update thumbnail": "Update Thumbnail",
+        "Delete the exam": "Delete the exam",
+        "Are you sure to delete this exam?": "Are you sure to delete this exam ?",
+        "Exam management":"Exam management"
     }
 }

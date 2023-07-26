@@ -2,13 +2,20 @@ import { createSlice } from '@reduxjs/toolkit';
 import { DispatchType } from '../../configStore';
 import { setLoading } from "../loading/loadingSlice";
 import { rolesService } from '../../../services/RoleService';
+import Constants from '../../../constants/Constants';
 
 const initialState = {
-    data: [{
+    lstRole: [],
+    pagination: {
+        index: 1,
+        pages: 1,
+        totals: 1
+    },
+    currentRole: {
         id: 1,
         roleName: '',
-        createdAt: '',
-    }],
+        selectedEndpoint: '',
+      },
 };
 
 const rolesSlice = createSlice({
@@ -16,19 +23,20 @@ const rolesSlice = createSlice({
     initialState,
     reducers: {
         getRoles: (state, action) => {
-            state.data = action.payload;
+            state.lstRole = action.payload.data;
+            state.pagination=action.payload.pagination
         },
         addRoleSuccess: (state, action) => {
-            state.data.push(action.payload);
+            // state.data.push(action.payload);
         },
         updateRoleSuccess: (state, action) => {
-            const { id, updatedRole } = action.payload;
-            state.data = state.data.map(role => {
-                if (role.id === id) {
-                    return { ...role, ...updatedRole };
-                }
-                return role;
-            });
+            // const { id, updatedRole } = action.payload;
+            // state.data = state.data.map(role => {
+            //     if (role.id === id) {
+            //         return { ...role, ...updatedRole };
+            //     }
+            //     return role;
+            // });
         },
     },
 });
@@ -37,11 +45,11 @@ export const { getRoles, addRoleSuccess, updateRoleSuccess } = rolesSlice.action
 
 export default rolesSlice.reducer;
 
-export const getRolesApi = () => {
+export const getRolesApi = (param:object) => {
     return async (dispatch: DispatchType) => {
         dispatch(setLoading({ isLoading: true }));
         try {
-            const result = await rolesService.getRoles();
+            const result = await rolesService.getRoles(param);
             dispatch(getRoles(result.data));
         } catch (err) {
             console.log(err);
@@ -56,7 +64,14 @@ export const addRole = (name: string, endPoint: string) => {
         try {
             const result = await rolesService.createRole(name, endPoint);
             dispatch(addRoleSuccess(result.data));
-            await dispatch(getRolesApi());
+            await dispatch(getRolesApi({
+                name: Constants.EmptyString,
+                from_date: Constants.EmptyString,
+                to_date: Constants.EmptyString,
+                page_index: 1,
+                page_size: 10,
+                order_by: -1
+            }));
         } catch (err) {
             console.log(err);
         }

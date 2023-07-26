@@ -34,7 +34,11 @@
         "category is required":"Thể loại không thể bỏ trống",
         "click to Upload thumbnail":"Tải ảnh",
         "start at":"Bắt đầu",
-        "organize by":"Tổ chức"
+        "organize by":"Tổ chức",
+        "createAt":"Tạo ngày",
+        "examType":"Loại",
+        "search":"Tìm kiếm",
+        "total":"Tổng"
     },
     "contest":{
         "relate Contest":"Bài thi liên quan",
@@ -73,6 +77,9 @@
         "Question answered":"Câu hỏi đã làm",
         "Question unanswered":"Câu hỏi chưa làm",
         "Update exam":"Cập nhật bài thi",
-        "Update thumbnail":"Cập nhật ảnh"
+        "Update thumbnail":"Cập nhật ảnh",
+        "Delete the exam":"Xóa bài thi",
+        "Are you sure to delete this exam?":"Bạn có muốn xóa bài thi này ?",
+        "Exam management":"Quản lý bài thi"
     }
 }
