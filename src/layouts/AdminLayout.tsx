@@ -6,21 +6,31 @@ import DrawerModifier from '../components/Drawer/DrawerModifier';
 import { useSelector } from 'react-redux';
 import { DispatchType, RootState } from '../redux/configStore';
 import { useDispatch } from 'react-redux';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import '../assets/css/admin/admin.css'
 import { useTranslation } from 'react-i18next';
+import { getUserInfo } from '../redux/reducers/user/userSlice';
+import { getLocalStorage } from '../utils/local-storage';
+import Constants from '../constants/Constants';
+import AppRoutes from '../constants/AppRoutes';
 const { Header, Content } = Layout;
 const AdminLayout: React.FC = () => {
   let { userInfo } = useSelector((state: RootState) => state.userSlice)
+  let navigate = useNavigate()
   const dispatch: DispatchType = useDispatch()
   const { t, i18n } = useTranslation('header')
   const handleChange = (value: string) => {
     i18n.changeLanguage(value)
   };
   useEffect(() => {
-    // dispatch(getUserInfoApi())
+    if (getLocalStorage(Constants.localStorageKey.account) === "ADMIN" && getLocalStorage(Constants.localStorageKey.accessToken) !== null) {
+      dispatch(getUserInfo())
+    } else {
+      navigate(AppRoutes.public.home)
+    }
+
   }, [])
-  
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Header className='flex justify-end'>

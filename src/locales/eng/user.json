@@ -3,6 +3,13 @@
     "avatar": "Avatar",
     "username": "Username",
     "email": "Email",
+    "phone":"Phone",
+    "image":"Image",
+    "address":"Address",
+    "birthday":"Birthday",
+    "roles":"Roles",
+    "search":"Search",
+    "total":"Total",
     "account_type": "Account Type",
     "created_at": "Created At",
     "action": "Action",
@@ -20,5 +27,6 @@
     "premium": "Premium",
     "cancel": "Cancel",
     "delete": "Delete",
-    "invalid_email_address":"Invalid email address"
+    "invalid_email_address":"Invalid email address",
+    "user Management":"User Management"
 }

@@ -12,7 +12,8 @@ import { DispatchType, RootState } from "../../redux/configStore";
 import CreateQuestion from "../../components/exams/private/CreateQuestion";
 import { QuestionExamSubmitModel, QuestionRowModel } from "../../_core/exam";
 import { getCategoryOptionApi } from "../../redux/reducers/category/categorySlice";
-import { createExamApi, editExamApi, getFullExamDetail, updateThumbnailExamApi } from "../../redux/reducers/exam";
+import { createExamApi, editExamApi, getFullExamDetail, updateThumbnailExamApi, getExamDetailShow } from "../../redux/reducers/exam";
+import { getUserInfo } from "../../redux/reducers/user/userSlice";
 
 const { TextArea } = Input;
 type Props = {
@@ -219,165 +220,28 @@ const CreateExam = ({ status }: Props) => {
             examType: type,
             description: "",
             duration: AppConfigs.exam.MIN_DURATION_EXAM,
-            question: [
-              {
-                "id": 1,
-                "question": "Choose the word which is stressed differently from the rest.",
-                "answers": ["access", "afford", "brochure", "casual"],
-                "questionType": "SINGLE",
-                "correctAnswers": [0],
-                "questionPoint": 1
-              },
-              {
-                "id": 2,
-                "question": "Choose the word which is stressed differently from the rest.",
-                "answers": [
-                  "behaviour",
-                  "determined",
-                  "counselor",
-                  "decisive"
-                ],
-                "questionType": "SINGLE",
-                "correctAnswers": [0],
-                "questionPoint": 1
-              },
-              {
-                "id": 3,
-                "question": "Choose the word which is stressed differently from the rest.",
-                "answers": [
-                  "donate",
-                  "compare",
-                  "campaign",
-                  "flashy"
-                ],
-                "questionType": "MULTI",
-                "correctAnswers": [0, 3],
-                "questionPoint": 1
-              },
-              {
-                "id": 4,
-                "question": "Choose the word which is stressed differently from the rest.",
-                "answers": ["access", "afford", "brochure", "casual"],
-                "questionType": "SINGLE",
-                "correctAnswers": [0],
-                "questionPoint": 1
-              },
-              {
-                "id": 5,
-                "question": "Choose the word which is stressed differently from the rest.",
-                "answers": [
-                  "behaviour",
-                  "determined",
-                  "counselor",
-                  "decisive"
-                ],
-                "questionType": "SINGLE",
-                "correctAnswers": [0],
-                "questionPoint": 1
-              },
-              {
-                "id": 6,
-                "question": "Choose the word which is stressed differently from the rest.",
-                "answers": [
-                  "donate",
-                  "compare",
-                  "campaign",
-                  "flashy"
-                ],
-                "questionType": "MULTI",
-                "correctAnswers": [0, 3],
-                "questionPoint": 1
-              },
-              {
-                "id": 7,
-                "question": "Choose the word which is stressed differently from the rest.",
-                "answers": ["access", "afford", "brochure", "casual"],
-                "questionType": "SINGLE",
-                "correctAnswers": [0],
-                "questionPoint": 1
-              },
-              {
-                "id": 8,
-                "question": "Choose the word which is stressed differently from the rest.",
-                "answers": [
-                  "behaviour",
-                  "determined",
-                  "counselor",
-                  "decisive"
-                ],
-                "questionType": "SINGLE",
-                "correctAnswers": [0],
-                "questionPoint": 1
-              },
-              {
-                "id": 9,
-                "question": "Choose the word which is stressed differently from the rest.",
-                "answers": [
-                  "donate",
-                  "compare",
-                  "campaign",
-                  "flashy"
-                ],
-                "questionType": "MULTI",
-                "correctAnswers": [0, 3],
-                "questionPoint": 1
-              },
-              {
-                "id": 10,
-                "question": "Choose the word which is stressed differently from the rest.",
-                "answers": ["access", "afford", "brochure", "casual"],
-                "questionType": "SINGLE",
-                "correctAnswers": [0],
-                "questionPoint": 1
-              },
-              {
-                "id": 11,
-                "question": "Choose the word which is stressed differently from the rest.",
-                "answers": [
-                  "behaviour",
-                  "determined",
-                  "counselor",
-                  "decisive"
-                ],
-                "questionType": "SINGLE",
-                "correctAnswers": [0],
-                "questionPoint": 1
-              },
-              {
-                "id": 12,
-                "question": "Choose the word which is stressed differently from the rest.",
-                "answers": [
-                  "donate",
-                  "compare",
-                  "campaign",
-                  "flashy"
-                ],
-                "questionType": "MULTI",
-                "correctAnswers": [0, 3],
-                "questionPoint": 1
-              }
-            ],
+            question: [],
             file: null
           }
         }));
-        // await dispatch(examGetDetailReceived({
-        //   id: -1,
-        //   image: "",
-        //   examType: type,
-        //   examName: "",
-        //   createAt: "",
-        //   duration: AppConfigs.exam.MIN_DURATION_EXAM,
-        //   totalRating: 0,
-        //   categoryID: null,
-        //   description: "",
-        //   categoryName: "",
-        //   downloadNumber: 0
-        // }));
+        await dispatch(getExamDetailShow({
+          id: -1,
+          image: "",
+          examType: type,
+          examName: "",
+          createAt: "",
+          duration: AppConfigs.exam.MIN_DURATION_EXAM,
+          totalRating: 0,
+          categoryID: null,
+          description: "",
+          categoryName: "",
+          downloadNumber: 0
+        }));
       }
       await dispatch(getCategoryOptionApi());
     };
     setData();
-  }, [userInfo]);
+  }, []);
 
   return (
     <div className="size__component py-4" style={{ minHeight: "70vh" }}>

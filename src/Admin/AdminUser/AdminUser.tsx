@@ -26,16 +26,24 @@ function AdminUser() {
     page_size: 10,
     order_by: -1
   })
-  let { t } = useTranslation('admin')
+  let { t } = useTranslation('user')
   const columns: ColumnsType<UserInfoModel> = [
     {
-      title: 'Email',
+      title: t('image'),
+      dataIndex: 'image',
+      key: 'image',
+      render: (text, record, index) => {
+        return <img width={50} height={50} src={record.image} />
+      }
+    },
+    {
+      title: t('email'),
       dataIndex: 'email',
       key: 'email',
     },
     {
       title: <div className='flex justify-between items-center'>
-        <div>{t('name')}</div>
+        <div>{t('username')}</div>
         <div>
           <Button type='link' className={`${nameFilter ? 'hidden' : ''}`} onClick={async () => {
             await setNameFilter(!nameFilter)
@@ -52,18 +60,17 @@ function AdminUser() {
       render: (text) => <p>{text}</p>,
     },
     {
-      title: 'Phone',
+      title: t('phone'),
       dataIndex: 'phone',
       key: 'phone',
     },
     {
-      title: 'Address',
+      title: t('address'),
       dataIndex: 'address',
       key: 'address',
-
     },
     {
-      title: 'Birthday',
+      title: t('birthday'),
       dataIndex: 'birthday',
       key: 'birthday',
       render: (text, record, index) => {
@@ -72,7 +79,7 @@ function AdminUser() {
     },
     {
       title: <div className='flex justify-between items-center'>
-        <div>{t('create at')}</div>
+        <div>{t('created_at')}</div>
         <div>
           <Button type='link' className={`${createAtFilter ? 'hidden' : ''}`} onClick={async () => {
             await setCreateAtFilter(!createAtFilter)
@@ -91,8 +98,8 @@ function AdminUser() {
       }
     },
     {
-      title: "Roles",
-      key: 'reoles',
+      title: t('roles'),
+      key: 'roles',
       render: (text, record, index) => {
         return <Space>{record.roles.map((roleItem, index) => {
           return <Tag key={index} color='magenta'>{roleItem}</Tag>
@@ -105,31 +112,27 @@ function AdminUser() {
   }, [searchParams])
   return (
     <div>
-      <h1 className="text-2xl text-center font-bold text-gray-800 mb-2">User Management</h1>
+      <h1 className="text-2xl text-center font-bold text-gray-800 mb-2">{t('user Management')}</h1>
       <div className='my-4 flex justify-between items-center'>
         <Input
           placeholder={t('search')}
           size='large'
           onChange={(event) => {
-            setSearchParams({ ...searchParams, username: event.target.value, page_index: 1 })
-            // setTimeout(() => {
-            //   console.log(event.target.value);
-            // }, 1000)
-          }} style={{ maxWidth: 400 }} className='mx-4' />
-        <RangePicker
+            setTimeout(() => {
+              setSearchParams({ ...searchParams, username: event.target.value, page_index: 1 })
+            }, 1000)
+          }} style={{ maxWidth: 400 }} className='mp-4' />
+        {/* <RangePicker
           allowClear
           showTime={{ format: 'HH:mm:ss' }}
           format="YYYY-MM-DD HH:mm:ss"
           onOk={(time) => {
             if (time?.findIndex(timeItem => timeItem === null) === -1) {
               setSearchParams({ ...searchParams, from_date: dayjs(time[0]).format("YYYY-MM-DD HH:mm:ss"), to_date: dayjs(time[1]).format("YYYY-MM-DD HH:mm:ss"), page_index: 1 })
-              console.log(lstUsers);
-
             }
-
           }}
-        />
-        {/* <p className='mx-4 font-bold text-blue-600 text-base'><span>{t('total')}: </span><span>{examsByCategory?.pagination.totals}</span></p> */}
+        /> */}
+        <p className='mx-4 font-bold text-blue-600 text-base'><span>{t('total')}: </span><span>{pagination.totals}</span></p>
       </div>
       <Table
         rowKey={'id'}

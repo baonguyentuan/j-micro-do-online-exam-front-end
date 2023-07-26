@@ -30,6 +30,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import LoginExamAccount from "./pages/public/auth/LoginExamAccount";
 import DoContest from "./pages/private/contest/DoContest";
 import ExamModalResult from "./components/Modal/exam-result/ExamModalResult";
+import AdminRole from "./Admin/AdminRole/AdminRole";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -65,8 +66,9 @@ root.render(
         <Route path="admin" element={<AdminLayout />}>
           <Route path={AppRoutes.private.admin.user} element={<AdminUser />} />
           <Route path={AppRoutes.private.admin.category} element={<AdminCategory />} />
-          <Route index element={<AdminUser />} />
           <Route path={AppRoutes.private.admin.exam} element={<AdminExam />} />
+          <Route path={AppRoutes.private.admin.role} element={<AdminRole />} />
+          <Route index element={<AdminUser />} />
         </Route>
 
         {/* PRIVATE ROUTE */}

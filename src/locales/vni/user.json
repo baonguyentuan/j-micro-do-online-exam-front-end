@@ -3,6 +3,13 @@
     "avatar": "Ảnh đại diện",
     "username": "Tên người dùng",
     "email": "Email",
+    "phone": "SDT",
+    "image": "Ảnh",
+    "address": "Địa chỉ",
+    "birthday": "Ngày sinh",
+    "roles": "Loại tài khoản",
+    "search": "Tìm Kiếm",
+    "total": "Tổng",
     "account_type": "Loại tài khoản",
     "created_at": "Thời gian tạo",
     "action": "Hành động",
@@ -20,5 +27,6 @@
     "premium": "Trả phí",
     "cancel": "Đóng",
     "delete": "Xoá",
-    "invalid_email_address": "Email không hợp lệ"
+    "invalid_email_address": "Email không hợp lệ",
+    "user Management":"Quản lý người dùng"
 }
