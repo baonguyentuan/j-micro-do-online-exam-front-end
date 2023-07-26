@@ -10,6 +10,7 @@ export default {
   },
   localStorageKey: {
     accessToken: 'access-token',
+    userExamToken:'user-exam-token',
     username:'user',
     userID:'id',
     account: 'account'

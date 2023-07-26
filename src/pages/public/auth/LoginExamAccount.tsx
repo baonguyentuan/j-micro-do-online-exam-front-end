@@ -1,29 +1,31 @@
 import { useEffect } from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
 import AppRoutes from "../../../constants/AppRoutes";
+import Constants from "../../../constants/Constants";
+import { useDispatch, useSelector } from "react-redux";
 import { Button, Divider, Form, Input, Modal } from "antd";
-import { useNavigate, useParams } from "react-router-dom";
-import { DispatchType, RootState } from "../../../redux/configStore";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { getLocalStorage, setLocalStorage } from "../../../utils/local-storage";
+import { openNotificationWithIcon } from "../../../utils/operate";
 import { getContestByUser } from "../../../redux/reducers/contest";
+import { DispatchType, RootState } from "../../../redux/configStore";
 import { postLoginWithExamAccount } from "../../../redux/reducers/auth";
 import { ExclamationCircleOutlined, Html5Outlined, LoadingOutlined } from "@ant-design/icons";
-import { openNotificationWithIcon } from "../../../utils/operate";
 
 const LoginExamAccount = () => {
-  let { token } = useParams();
   const navigate = useNavigate();
+  let [searchParams] = useSearchParams();
   const dispatch: DispatchType = useDispatch();
   const [modal, contextHolder] = Modal.useModal();
   const { loading: LoadingLogin } = useSelector((state: RootState) => state.authSlice);
   const { loading: LoadingContest, contestInfo } = useSelector((state: RootState) => state.contestSlice);
 
-
   useEffect(() => {
+    const token = searchParams.get("token");
     if (!token) {
       confirm();
     }
-  }, [token]);
+  }, [searchParams.get("token")]);
 
   const confirm = () => {
     modal.confirm({
@@ -39,20 +41,23 @@ const LoginExamAccount = () => {
   };
 
   const handleSubmit = async (values: any) => {
-    const result = await dispatch(postLoginWithExamAccount({ ...values, validateToken: token }));
+    const result = await dispatch(postLoginWithExamAccount({ ...values, validateToken: searchParams.get("token") }));
 
     if (postLoginWithExamAccount.rejected.match(result)) {
-
+      //TODO: handler error
       return;
     }
+    
+    setLocalStorage(Constants.localStorageKey.userExamToken, result?.payload["access-token"]);
 
     const contestInfo = await dispatch(getContestByUser());
+    console.log(contestInfo);
     if (getContestByUser.rejected.match(contestInfo)) {
-
+      localStorage.clear();
       return;
     }
 
-    openNotificationWithIcon('success','','Accessing the contest successfully',1);
+    openNotificationWithIcon("success", "", "Accessing the contest successfully", 1);
   };
 
   return (
@@ -67,7 +72,7 @@ const LoginExamAccount = () => {
           </p>
           <Divider className="mt-0" />
           <Form
-            className="p-8"
+            className="p-8 pb-0"
             layout="horizontal"
             requiredMark={false}
             labelAlign={"left"}
@@ -78,13 +83,13 @@ const LoginExamAccount = () => {
                 span: 5
               }}
               label={<p className="font-medium">Account number</p>}
-              name="account"
+              name="username"
               rules={[{ required: true, message: "username is required" }]}
             >
               <Input
                 disabled={LoadingLogin}
                 size="large"
-                name="account"
+                name="username"
               />
             </Form.Item>
             <Form.Item
@@ -116,17 +121,35 @@ const LoginExamAccount = () => {
         </div>
         {/*  */}
         {
-          contestInfo !== undefined ?
-            (<div>
-              Contest info
-            </div>)
+          contestInfo?.examID !== undefined ?
+            (<Link to={`/takeContest/${contestInfo?.examName}?token=${getLocalStorage(Constants.localStorageKey.userExamToken)}`}>
+              <div className='px-7 font-medium'>
+                <div className='p-6 border border-indigo-200 rounded'>
+                  <p className='grid grid-cols-3'>
+                    <span>ContestName</span>
+                    <span className='col-span-2'>{contestInfo?.contestName}</span>
+                  </p>
+                  <p className='grid grid-cols-3'>
+                    <span>Start at</span>
+                    <span className='col-span-2'>{contestInfo?.startAt}</span>
+                  </p>
+                  <p className='grid grid-cols-3'>
+                    <span>End at</span>
+                    <span className='col-span-2'>{contestInfo?.endAt}</span>
+                  </p>
+                </div>
+              </div>
+            </Link>)
             :
-            (LoadingContest && <LoadingOutlined />)
+            (LoadingContest && <div style={{height:"100px"}} className='flex items-center justify-center'>
+              <LoadingOutlined className='text-2xl' />
+            </div>)
         }
       </div>
     </LoginExamAccountWrapper>
   );
 };
+
 const LoginExamAccountWrapper = styled.div`
   width: 100%;
   height: 100vh;

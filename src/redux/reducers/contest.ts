@@ -5,15 +5,15 @@ import clientService from "../../utils/client";
 import ApiEndpoint from "../../constants/ApiEndpoint";
 
 
-const initialState: InitialContestState = {
+const initialState = {
   loading: false,
 
   contests:{},
 
-  contestInfo:{},
+  contestInfo: {},
 
   contestInfoDetail:{}
-};
+} as InitialContestState;
 
 const contestSlice = createSlice({
   name: "contestSlice",
@@ -22,6 +22,7 @@ const contestSlice = createSlice({
   extraReducers: (builder => {
     builder.addCase(getContestByUser.fulfilled, (state, action) => {
       state.loading = false;
+      state.contestInfo = action.payload.data;
       
       return state;
     });

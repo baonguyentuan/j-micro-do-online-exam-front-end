@@ -109,6 +109,7 @@ export interface QuestionExamSubmitModel {
 
 export interface examSliceInitState {
   fullExamDetail:ExamDetailFormModel
+  
   lstOptionExam: ExamOptionModel[];
 
   hotExamsByCategory: ExamCategory;

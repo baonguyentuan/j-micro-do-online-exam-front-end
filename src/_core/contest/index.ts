@@ -56,7 +56,19 @@ export interface InitialContestState {
 
   contests: {},
 
-  contestInfo: {},
+  contestInfo: ContestInfoModel,
 
   contestInfoDetail: {},
+}
+
+export interface ContestInfoModel{
+  examID: number,
+  
+  endAt: string,
+  
+  startAt: string,
+  
+  examName:string,
+  
+  contestName: string,
 }

@@ -15,7 +15,7 @@ import AppRoutes from "../../../constants/AppRoutes";
 import { backToPosition } from "../../../utils/operate";
 import { getLocalStorage } from "../../../utils/local-storage";
 import { QuestionExamModel, QuestionResult } from "../../../_core/exam";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getStatusIsUserDoFeedBack } from "../../../redux/reducers/feedback";
 import ExamModalResult from "../../../components/Modal/exam-result/ExamModalResult";
 import { CheckCircleOutlined, ClockCircleOutlined, CloseCircleOutlined, TagsOutlined } from "@ant-design/icons";
@@ -25,7 +25,6 @@ const { Countdown } = Statistic;
 const DoExam = () => {
   const { name } = useParams();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
   const dispatch: DispatchType = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const [isSubmitModalOpen, setSubmitModalOpen] = useState(false);
@@ -34,8 +33,10 @@ const DoExam = () => {
   const {
     examFetchDetail,
     examResult,
-    examStartTime
+    examStartTime,
+    finalExamResult
   } = useSelector((state: RootState) => state.examSlice);
+
 
   useEffect(() => {
     const fetchExamDetail = async () => {
@@ -49,8 +50,6 @@ const DoExam = () => {
   };
 
   const handleExamSubmit = async () => {
-    //TODO: if user exam -> change token
-    console.log(searchParams.get("token"));
     const pureAnswers = examResult.answers.reduce((result: any, ans: QuestionResult) => {
       const { id, answerSelected } = ans;
       result.push({ id, answers: answerSelected });
@@ -64,27 +63,34 @@ const DoExam = () => {
       //TODO: handle error
       return;
     }
+
     setSubmitModalOpen(true);
+    setExamResultModalOpen(true);
+  };
 
-    const resultCheckFeedback: any = await dispatch(getStatusIsUserDoFeedBack({ id: examResult.id }));
-    if (getStatusIsUserDoFeedBack.rejected.match(resultCheckFeedback)) {
-      //TODO: handle error
-      return;
-    }
-
-    setTimeout(() => {
-      //TODO: Specify exam user or user
-      if (!resultCheckFeedback?.payload?.data) {
-        navigate(`${AppRoutes.private.user.feedback}?token=${getLocalStorage(Constants.localStorageKey.accessToken)}&examID=${examResult.id}`);
-      } else {
-        navigate(AppRoutes.public.home);
+  const getExamResult = async () => {
+    if (getLocalStorage(Constants.localStorageKey.userExamToken) == null) {
+      const resultCheckFeedback: any = await dispatch(getStatusIsUserDoFeedBack({ id: examResult.id }));
+      if (getStatusIsUserDoFeedBack.rejected.match(resultCheckFeedback)) {
+        //TODO: handle error
+        return;
       }
-    }, 500);
+      setTimeout(() => {
+        if (!resultCheckFeedback?.payload?.data) {
+          navigate(`${AppRoutes.private.user.feedback}?token=${getLocalStorage(Constants.localStorageKey.accessToken)}&examID=${examResult.id}`);
+        } else {
+          navigate(AppRoutes.public.home);
+        }
+      }, 500);
+    } else {
+      navigate(`${AppRoutes.private.user.feedback}?token=${getLocalStorage(Constants.localStorageKey.userExamToken)}&examID=${examResult.id}`);
+    }
   };
 
   return (
     <>
-      <ExamModalResult flag={isExamResultModalOpen} />
+      {isExamResultModalOpen &&
+        <ExamModalResult callback={getExamResult} data={finalExamResult} flag={isExamResultModalOpen} />}
       <div className="size__component grid grid-cols-6 gap-10 py-8">
 
         <div className="col-span-2 ">
@@ -105,12 +111,17 @@ const DoExam = () => {
                       <span><span className="font-medium">Duration:</span> {examFetchDetail?.duration} min</span></div>
                   </div>
                 </div>
-                <Countdown
-                  title="Exam end in"
-                  value={examStartTime + (60000 * examFetchDetail?.duration)}
-                  valueStyle={{ fontSize: 30 }}
-                  format="HH:mm:ss"
-                  onFinish={handleExamCountFinish} />
+                {
+                  !isExamResultModalOpen ? (<Countdown
+                    title="Exam end in"
+                    value={examStartTime + (60000 * examFetchDetail?.duration)}
+                    valueStyle={{ fontSize: 30 }}
+                    format="HH:mm:ss"
+                    onFinish={handleExamCountFinish} />) : (
+                    <p className="text-red-500 text-lg">Ended</p>
+                  )
+                }
+
               </div>
               <div className="mt-4">
                 <ExamSubmitModal flag={isSubmitModalOpen} submit={handleExamSubmit} />

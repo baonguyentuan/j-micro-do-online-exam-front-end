@@ -174,10 +174,15 @@ const examSlice = createSlice({
 
       return state;
     });
+    builder.addCase(postSubmitExam.fulfilled,(state,action)=>{
+      state.loading = false;
+      state.finalExamResult = action.payload.data;
+      
+      return state;
+    });
     builder.addMatcher(
       isAnyOf(
         postCreateExam.fulfilled,
-        postSubmitExam.fulfilled,
         deleteExam.fulfilled), (state) => {
         state.loading = false;
 

@@ -14,6 +14,7 @@ import { CloseOutlined } from "@ant-design/icons";
 import AppRoutes from "../../../constants/AppRoutes";
 import Constants from "../../../constants/Constants";
 import { openNotificationWithIcon } from "../../../utils/operate";
+import { getLocalStorage } from "../../../utils/local-storage";
 
 const initialFormValue: CommentFormValue = {
   comment: "",
@@ -25,7 +26,7 @@ const FeedBack = () => {
   let [searchParams] = useSearchParams();
   const { t } = useTranslation("contest");
   const dispatch: DispatchType = useDispatch();
-  const {loading} = useSelector((state: RootState) => state.feedBackSlice)
+  const { loading } = useSelector((state: RootState) => state.feedBackSlice);
 
   const formik = useFormik({
     initialValues: initialFormValue,
@@ -34,7 +35,7 @@ const FeedBack = () => {
       comment: Yup.string().required("Your review is required!")
     }),
     onSubmit: async (formValue) => {
-      let token =searchParams.get("token");
+      let token = searchParams.get("token");
       let exam = searchParams.get("examID");
       if (exam !== null && token !== null) {
         // @ts-ignore
@@ -46,15 +47,19 @@ const FeedBack = () => {
         }));
         formik.values.vote = 0;
         formik.values.comment = Constants.EmptyString;
-        if(postCreateFeedback.rejected.match(result)){
+        if (postCreateFeedback.rejected.match(result)) {
           //TODO: handle error
           return;
         }
-        
-        openNotificationWithIcon('success', `${result?.payload?.message}`, '', 1)
-        setTimeout(()=>{
-          navigate(AppRoutes.public.home)
-        },500)
+
+        if (getLocalStorage(Constants.localStorageKey.userExamToken) !== null) {
+          localStorage.removeItem(Constants.localStorageKey.userExamToken);
+        }
+
+        openNotificationWithIcon("success", `${result?.payload?.message}`, "", 1);
+        setTimeout(() => {
+          navigate(AppRoutes.public.home);
+        }, 500);
       }
     }
   });
@@ -62,7 +67,10 @@ const FeedBack = () => {
   return (
     <FeedbackWrapper className="flex justify-center relative">
       <Link to={AppRoutes.public.home} className="absolute font-medium bg-red-500 top-6 hover:bg-red-400
-       right-6 text-white cursor-pointer h-10 w-10 rounded inline-block"><CloseOutlined className='relative' style={{top:'3px',left:'13px'}} /></Link>
+       right-6 text-white cursor-pointer h-10 w-10 rounded inline-block"><CloseOutlined className="relative" style={{
+        top: "3px",
+        left: "13px"
+      }} /></Link>
       <div className="feedback_container p-4 bg-white rounded">
         <Form className="pb-2">
           <Form.Item label={`${t("feedback.vote")}:`} className="mb-1">
