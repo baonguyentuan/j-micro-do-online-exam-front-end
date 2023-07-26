@@ -123,7 +123,7 @@ const AdminCategory = () => {
               dispatch(getCategoryByConditionApi({ ...defaultCategoryGet, name: event.target.value }))
             }, 1000)
           }} style={{ maxWidth: 400 }} className='mx-4' />
-        <p className='mx-4 font-bold text-blue-600 text-base'><span>{t('total')}: </span><span>{pagination.totals}</span></p>
+        <p className='mx-4 font-bold text-blue-600 text-base'><span>{t('total')}: </span><span>{pagination?.totals}</span></p>
       </div>
       <Table
         rowKey={'id'}

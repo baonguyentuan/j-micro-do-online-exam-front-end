@@ -12,7 +12,8 @@ export default {
     accessToken: 'access-token',
     username: 'user',
     userID: 'id',
-    account: 'account'
+    account: 'account',
+    status:'status'
   },
   formStatus: {
     EDIT: 'edit',

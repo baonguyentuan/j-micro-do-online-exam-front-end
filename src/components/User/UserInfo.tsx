@@ -106,7 +106,8 @@ function UserInfo({ }: Props) {
                       return null
                     }}
                     maxCount={1}
-                    fileList={file ? [file] : []}
+                    defaultFileList={[]}
+                    // fileList={file ? [file] : []}
                     onChange={(file) => {
                       if (file.file) {
                         setFile(file.file)
@@ -114,7 +115,8 @@ function UserInfo({ }: Props) {
                     }}>
                     <Button icon={<UploadOutlined />} />
                   </Upload>
-                  {formik.values.image !== "" ? <img width={100} height={100} className="border-2 border-green-300 rounded-full" src={formik.values.image} alt={formik.values.username} /> : null}
+                  {formik.values.image !== "" ? <img style={{ width: 100, height: 100 }} className="border-2 border-green-300 rounded-full" src={formik.values.image} alt={formik.values.username} /> : null}
+
                 </Space>
 
                 <Button disabled={file ? false : true} className="text-center m-auto" onClick={async () => {

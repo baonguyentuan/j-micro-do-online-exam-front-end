@@ -67,7 +67,7 @@ const ListExamUser = () => {
         <Button className="font-medium" size="large" onClick={async () => {
           navigate("/create_exam");
         }}>Create Exam</Button>
-        <p className="mx-4 font-medium text-base"><span>Total Exams: </span><span>{lstOptionExam.length}</span>
+        <p className="mx-4 font-medium text-base"><span>Total Exams: </span><span>{lstOptionExam?.length}</span>
         </p>
       </div>
       <Table rowKey={"id"} columns={columns} dataSource={lstOptionExam} />

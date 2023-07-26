@@ -10,7 +10,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import '../assets/css/admin/admin.css'
 import { useTranslation } from 'react-i18next';
 import { getUserInfo } from '../redux/reducers/user/userSlice';
-import { getLocalStorage } from '../utils/local-storage';
+import { getLocalStorage, setLocalStorage } from '../utils/local-storage';
 import Constants from '../constants/Constants';
 import AppRoutes from '../constants/AppRoutes';
 const { Header, Content } = Layout;
@@ -25,6 +25,7 @@ const AdminLayout: React.FC = () => {
   useEffect(() => {
     if (getLocalStorage(Constants.localStorageKey.account) === "ADMIN" && getLocalStorage(Constants.localStorageKey.accessToken) !== null) {
       dispatch(getUserInfo())
+      setLocalStorage(Constants.localStorageKey.status, true)
     } else {
       navigate(AppRoutes.public.home)
     }

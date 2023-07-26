@@ -132,7 +132,7 @@ function AdminUser() {
             }
           }}
         /> */}
-        <p className='mx-4 font-bold text-blue-600 text-base'><span>{t('total')}: </span><span>{pagination.totals}</span></p>
+        <p className='mx-4 font-bold text-blue-600 text-base'><span>{t('total')}: </span><span>{pagination?.totals}</span></p>
       </div>
       <Table
         rowKey={'id'}

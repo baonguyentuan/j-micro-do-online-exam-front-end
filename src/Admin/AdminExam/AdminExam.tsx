@@ -207,7 +207,7 @@ const AdminExam = () => {
             }, 1000);
           }} style={{ maxWidth: 400 }} className="mx-4" />
         <p className="mx-4 font-bold text-blue-600 text-base">
-          <span>{t("detail.total")}: </span><span>{examsByCategory?.pagination.totals}</span></p>
+          <span>{t("detail.total")}: </span><span>{examsByCategory?.pagination?.totals}</span></p>
       </div>
       <Table
         rowKey={"id"}
