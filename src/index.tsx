@@ -46,7 +46,8 @@ root.render(
           <Route path={AppRoutes.public.courses_detail} element={<Course />} />
           <Route path={AppRoutes.public.courses} element={<TrainingCourses />} />
           {/* PRIVATE ROUTE*/}
-          <Route path="account" element={<Account />} />
+          <Route path={AppRoutes.private.user.account}
+            element={<ProtectedRoute><Account /></ProtectedRoute>} />
           <Route path="create_contest" element={<CreateContest />} />
           <Route path="create_exam" element={<CreateExam status={Constants.formStatus.CREATE} />} />
           <Route path={AppRoutes.public.courses_sort_category} element={<TrainingCoursesByCategory />} />
@@ -57,13 +58,13 @@ root.render(
         {/*<Route path={AppRoutes.private.admin.admin} element={<AdminLayout />}>*/}
         {/*  <Route path={AppRoutes.public.login} element={<AdminUser />} />*/}
         {/*  <Route path={AppRoutes.private.admin.category} element={<AdminCategory />} />*/}
-        {/*  <Route path={AppRoutes.private.admin.exam} element={<AdminExam />} />*/}
         {/*</Route>*/}
 
         <Route path="admin" element={<AdminLayout />}>
-          <Route path="admin_user" element={<AdminUser />} />
-          <Route path="admin_category" element={<AdminCategory />} />
+          <Route path={AppRoutes.private.admin.user} element={<AdminUser />} />
+          <Route path={AppRoutes.private.admin.category} element={<AdminCategory />} />
           <Route index element={<AdminUser />} />
+          <Route path={AppRoutes.private.admin.exam} element={<AdminExam />} />
         </Route>
 
         {/* PRIVATE ROUTE */}

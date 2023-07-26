@@ -8,7 +8,13 @@ import Constants from "../../../constants/Constants";
 
 
 const initialState: UserStateModel = {
-  userInfo: null
+  userInfo: null,
+  lstUsers: [],
+  pagination: {
+    index: 1,
+    pages: 1,
+    totals: 1
+  }
 };
 
 const userSlice = createSlice({
@@ -18,21 +24,35 @@ const userSlice = createSlice({
   extraReducers: (builder => {
     builder.addCase(getUserInfo.fulfilled, (state, action) => {
       state.userInfo = action.payload;
-      setLocalStorage(Constants.localStorageKey.username,action.payload.data.username)
-      setLocalStorage(Constants.localStorageKey.userID,action.payload.data.id)
-      setLocalStorage(Constants.localStorageKey.account,action.payload.data.roles[0])
-
+      setLocalStorage(Constants.localStorageKey.username, action.payload.data.username)
+      setLocalStorage(Constants.localStorageKey.userID, action.payload.data.id)
+      setLocalStorage(Constants.localStorageKey.account, action.payload.data.roles[0])
+      state.userInfo = action.payload.data
       return state;
     });
+    builder.addCase(getLstUserApi.fulfilled, (state, action) => {
+      state.lstUsers = action.payload.data;
+      state.pagination = action.payload.pagination
+    });
+    builder.addCase(updateUserInfoApi.fulfilled, (state, action) => {
+
+    });
     builder.addMatcher(
-      isAnyOf(getUserInfo.pending),
+      isAnyOf(getUserInfo.pending,
+        getLstUserApi.pending,
+        updateUserInfoApi.pending,
+        updateUserThumbnailApi.pending),
       (state, action) => {
 
       });
     builder.addMatcher(
-      isAnyOf(getUserInfo.rejected),
+      isAnyOf(
+        getUserInfo.rejected,
+        updateUserInfoApi.rejected,
+        updateUserThumbnailApi.rejected),
       (state, action) => {
-
+        console.log(action);
+        
       });
   })
 });
@@ -43,5 +63,22 @@ export const getUserInfo = createAsyncThunk(
     return clientService.get(ApiEndpoint.auth.GET_USER_INFO);
   })
 );
-
+export const getLstUserApi = createAsyncThunk(
+  "user/getLstUser",
+  thunkAction(async (params: any) => {
+    return clientService.get(ApiEndpoint.auth.GET_USER, { params })
+  })
+);
+export const updateUserInfoApi = createAsyncThunk(
+  "user/updateUserInfo",
+  thunkAction(async (data: any) => {
+    return clientService.post(ApiEndpoint.auth.UPDATE_USER_INFO, data)
+  })
+);
+export const updateUserThumbnailApi = createAsyncThunk(
+  "user/updateUserThumbnail",
+  thunkAction(async (thumbnail: FormData) => {
+    return clientService.post(ApiEndpoint.auth.UPDATE_USER_THUMBNAIL, thumbnail)
+  })
+);
 export default userSlice.reducer;

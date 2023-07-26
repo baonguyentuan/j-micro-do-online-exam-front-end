@@ -11,7 +11,7 @@ import CHAT_EN from './locales/eng/chat.json';
 import CONTEST_EN from './locales/eng/contest.json';
 import LOGIN_EN from './locales/eng/login.json';
 import CONTACT_EN from './locales/eng/contact.json';
-import ADMINUSER_EN from './locales/eng/adminUser.json';
+import USER_EN from './locales/eng/user.json';
 import ADMIN_EN from './locales/eng/admin.json';
 import HEADER_VN from './locales/vni/header.json';
 import FOOTER_VN from './locales/vni/footer.json';
@@ -24,7 +24,7 @@ import CHAT_VN from './locales/vni/chat.json';
 import CONTEST_VN from './locales/vni/contest.json';
 import LOGIN_VN from './locales/vni/login.json';
 import CONTACT_VN from './locales/vni/contact.json';
-import ADMINUSER_VN from './locales/vni/adminUser.json';
+import USER_VN from './locales/vni/user.json';
 import ADMIN_VN from './locales/vni/admin.json';
 export const defaultNS = 'header'
 export const resources = {
@@ -37,11 +37,11 @@ export const resources = {
     chat: CHAT_EN,
     skills: SKILLS_EN,
     feedback: FEEDBACK_EN,
-    contest:CONTEST_EN,
+    contest: CONTEST_EN,
     login: LOGIN_EN,
-    contact:CONTACT_EN,
-    adminUser:ADMINUSER_EN,
-    admin:ADMIN_EN
+    contact: CONTACT_EN,
+    user: USER_EN,
+    admin: ADMIN_EN
   },
   vn: {
     header: HEADER_VN,
@@ -52,17 +52,17 @@ export const resources = {
     chat: CHAT_VN,
     skills: SKILLS_VN,
     feedback: FEEDBACK_VN,
-    contest:CONTEST_VN,
+    contest: CONTEST_VN,
     login: LOGIN_VN,
-    contact:CONTACT_VN,
-    adminUser:ADMINUSER_VN,
-    admin:ADMIN_VN
+    contact: CONTACT_VN,
+    user: USER_VN,
+    admin: ADMIN_VN
   }
 } as const;
 
 i18n.use(initReactI18next).init({
   lng: 'vn',
-  ns: ['header', 'footer', 'banner', 'card', 'partner', 'chat', 'skills', 'feedback', 'login', 'contact','contest','admin'],
+  ns: ['header', 'footer', 'banner', 'card', 'partner', 'chat', 'skills', 'feedback', 'login', 'contact', 'contest', 'admin', 'user'],
   defaultNS,
   resources,
 });

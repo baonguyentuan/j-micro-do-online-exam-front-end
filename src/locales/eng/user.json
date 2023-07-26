@@ -19,5 +19,6 @@
     "free": "Free",
     "premium": "Premium",
     "cancel": "Cancel",
-    "delete": "Delete"
+    "delete": "Delete",
+    "invalid_email_address":"Invalid email address"
 }
