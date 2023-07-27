@@ -7,7 +7,7 @@ class EndpointService extends BaseService {
     getEndpoints = () => {
         return this.get('auth/endpoints')
     }
-    getEndpointsOrderBy = (order_by: any) => {
+    getEndpointsOrderBy = (order_by: {}) => {
         return this.getOrderBy('auth/endpoints', order_by)
     }
     getEndpointsByName = (condition: {endPointPath: string}) => {

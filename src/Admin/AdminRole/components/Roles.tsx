@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Button, Table, Input } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { handleInputRole } from '../../../redux/reducers/role/roleSlice';
+import { getRoleOderBy, handleInputRole } from '../../../redux/reducers/role/roleSlice';
 import { useDispatch } from 'react-redux';
 import { DispatchType } from '../../../redux/configStore';
 import { EditOutlined } from '@ant-design/icons';
@@ -11,7 +11,8 @@ import { getEndpointOptionApi } from '../../../redux/reducers/endpoint/endpointS
 import Constants from '../../../constants/Constants';
 
 const Roles = ({ roles }: any) => {
-    let dispatch: DispatchType = useDispatch()
+    let dispatch: DispatchType = useDispatch();
+    const [searchTerm, setSearchTerm] = useState("");
     const [state, setState] = useState({
         currentPage: 1,
         isModalVisible: false,
@@ -19,6 +20,18 @@ const Roles = ({ roles }: any) => {
 
     const handleChangePage = (page: number) => {
         setState({ ...state, currentPage: page });
+    };
+
+    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const term = event.target.value;
+        setSearchTerm(term);
+        dispatch(getRoleOderBy({
+            name: term,
+            from_date: '',
+            to_date: '',
+            page_size: 10,
+            order_by: -1,
+        }))
     };
     const columns = [
         {
@@ -55,8 +68,8 @@ const Roles = ({ roles }: any) => {
         <div className='role'>
             <div style={{ display: 'flex', marginBottom: '16px' }}>
                 <Button
-                    onClick={async () => {
-                        await dispatch(setDrawerInfo({
+                    onClick={() => {
+                        dispatch(setDrawerInfo({
                             typeContent: 'createRole',
                             sizeDrawer: Constants.sizeDrawer.SMALL
                         }))
@@ -67,7 +80,11 @@ const Roles = ({ roles }: any) => {
                     <PlusOutlined />
                     Add Role
                 </Button>
-                <Input.Search placeholder="Search Role" />
+                <Input.Search
+                    placeholder="Search Role"
+                    value={searchTerm}
+                    onChange={handleSearch}
+                />
             </div>
             <Table
                 dataSource={roles.data || []}
@@ -75,7 +92,7 @@ const Roles = ({ roles }: any) => {
                 pagination={{
                     position: ['bottomCenter'],
                     current: state.currentPage,
-                    total: roles?.data?.length,
+                    total: roles?.pagination?.totals,
                     pageSize: 10,
                     onChange: handleChangePage,
                 }}

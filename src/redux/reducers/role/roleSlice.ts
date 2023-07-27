@@ -57,7 +57,18 @@ export const getRolesApi = () => {
         dispatch(setLoading({ isLoading: false }));
     };
 };
-
+export const getRoleOderBy = (order_by: {}) => {
+    return async (dispatch: DispatchType) => {
+      dispatch(setLoading({ isLoading: true }))
+      try {
+        const result = await rolesService.getRolesOrderBy(order_by)
+        dispatch(getRoles(result.data));
+      } catch (err) {
+        console.log(err);
+      }
+      await dispatch(setLoading({ isLoading: false }))
+    }
+  }
 export const addRole = (name: string, endPoint: string) => {
     return async (dispatch: DispatchType) => {
         dispatch(setLoading({ isLoading: true }));

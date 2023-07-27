@@ -13,17 +13,17 @@ type Props = {
 const FormEndpointModifier = ({ formStatus }: Props) => {
     const [form] = Form.useForm();
     const { inputEndpoint } = useSelector((state: RootState) => state.endpointSlice)
+    const [nameEdit, setNameEdit] = useState(inputEndpoint.endPoint)
     const dispatch: DispatchType = useDispatch()
-    const [nameEdit, setNameEdit] = useState<string>(inputEndpoint?.endpointPath)
     const validateButtonEdit = () => {
-        if (nameEdit !== '') {
+        if (inputEndpoint.endPoint !== '') {
             return true
         } else {
             return false
         }
     }
     const validateButtonCreate = () => {
-        if (nameEdit !== '') {
+        if (inputEndpoint.endPoint === '') {
             return true
         } else {
             return false
@@ -38,45 +38,57 @@ const FormEndpointModifier = ({ formStatus }: Props) => {
     }
     const renderButtonSubmit = () => {
         if (formStatus === Constants.formStatus.EDIT) {
-            return <Button disabled={!validateButtonEdit()} className='btn__contest' onClick={async () => {
-                if (nameEdit !== inputEndpoint?.endpointPath) {
-                    await form.validateFields();
-                    dispatch(updateEndpointApi(inputEndpoint?.id, nameEdit));
-                    form.resetFields();
-                }
-                await dispatch(closeDrawer())
+            return <Button disabled={!validateButtonEdit()} className='btn__contest' onClick={() => {
+                form.validateFields();
+                dispatch(updateEndpointApi(inputEndpoint.id, nameEdit))
+                dispatch(getEndpointOderBy({
+                    name: '',
+                    from_date: '',
+                    to_date: '',
+                    page_size: 10,
+                    order_by: -1,
+                }));
+                form.resetFields();
+                dispatch(closeDrawer())
             }}>
                 Update
             </Button>
-        } else if (formStatus === Constants.formStatus.CREATE) {
+        } else {
             return <Button disabled={!validateButtonCreate()} className='btn__contest'
-                onClick={async () => {
-                    await form.validateFields();
-                    const orderBy = 1;
+                onClick={() => {
+                    form.validateFields();
                     dispatch(createEndpointApi(nameEdit));
-                    dispatch(getEndpointOderBy(orderBy));
-                    await dispatch(closeDrawer())
+                    dispatch(getEndpointOderBy({
+                        name: '',
+                        from_date: '',
+                        to_date: '',
+                        page_size: 10,
+                        order_by: -1,
+                    }));
+                    form.resetFields();
+                    dispatch(closeDrawer())
                 }}
             >
                 Create
             </Button>
         }
     }
+    const handleOnChange = (event: any) => {
+        setNameEdit(event.target.value);
+    }
     useEffect(() => {
-        setNameEdit(nameEdit);
+        if (formStatus === Constants.formStatus.EDIT) {
+            form.setFieldValue('endPoint', nameEdit)
+        }
     }, [inputEndpoint]);
 
     return (
-        <Form id='form_endpoint' labelAlign='left' labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
+        <Form form={form} id='form_endpoint' labelAlign='left' labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
             <Form.Item wrapperCol={{ span: 24 }}>
                 {renderTitle()}
             </Form.Item>
             <Form.Item name="endPoint" label="Endpoint" rules={[{ required: true, message: 'Please enter value of endpoint' }]}>
-                <Input
-                    value={nameEdit}
-                    onChange={async (event) => {
-                        await setNameEdit(event.target.value)
-                    }} />
+                <Input value={nameEdit} onChange={handleOnChange} />
             </Form.Item>
             <Form.Item wrapperCol={{ span: 24 }}>
                 {renderButtonSubmit()}

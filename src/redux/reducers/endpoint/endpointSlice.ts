@@ -1,5 +1,5 @@
-import { createSelector, createSlice } from '@reduxjs/toolkit'
-import { DispatchType, RootState } from '../../configStore';
+import { createSlice } from '@reduxjs/toolkit'
+import { DispatchType } from '../../configStore';
 import { endpointService } from '../../../services/EndpointService';
 import { setLoading } from "../loading/loadingSlice";
 
@@ -26,7 +26,7 @@ const initialState = {
   }],
   inputEndpoint: {
     id: 1,
-    endpointPath: '',
+    endPoint: '',
   },
   name: '',
   order_by: 1,
@@ -106,7 +106,7 @@ export const getEndpointByName = (endPointPath: string) => {
     await dispatch(setLoading({ isLoading: false }))
   }
 }
-export const getEndpointOderBy = (order_by: number) => {
+export const getEndpointOderBy = (order_by: {}) => {
   return async (dispatch: DispatchType) => {
     dispatch(setLoading({ isLoading: true }))
     try {

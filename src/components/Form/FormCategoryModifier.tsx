@@ -22,7 +22,6 @@ const FormCategoryModifier = ({ formStatus }: Props) => {
     let [fileValue, setFileValue] = useState<string>('')
     let [file, setFile] = useState<File | null>(null)
     let [img, setImg] = useState<any>(thumbnail)
-    console.log(nameEdit);
 
     const validateButtonEdit = () => {
         if (nameEdit !== '' || thumbnail !== Constants.defaultThumbnail || file) {

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button, Table, Input } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { getEndpointByName, handleInputEndpoint } from '../../../redux/reducers/endpoint/endpointSlice';
+import { getEndpointOderBy, handleInputEndpoint } from '../../../redux/reducers/endpoint/endpointSlice';
 import { useDispatch } from 'react-redux';
 import { DispatchType } from '../../../redux/configStore';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
@@ -19,7 +19,15 @@ const Endpoints = ({ endpoints }: any) => {
     const [deletingId, setDeletingId] = useState<any>(null);
     const handleChangePage = (page: number) => {
         setState({ ...state, currentPage: page });
-    };
+        dispatch(getEndpointOderBy({
+            name: '',
+            from_date: '',
+            to_date: '',
+            page_size: 10,
+            page_index: page,
+            order_by: -1,
+        }))
+    }
 
     const handleOpenDeletePopup = (id: number) => {
         setDeletingId(id);
@@ -32,7 +40,13 @@ const Endpoints = ({ endpoints }: any) => {
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         const term = event.target.value;
         setSearchTerm(term);
-        dispatch(getEndpointByName(term));
+        dispatch(getEndpointOderBy({
+            name: term,
+            from_date: '',
+            to_date: '',
+            page_size: 10,
+            order_by: -1,
+        }))
     };
 
     const columns = [
@@ -63,8 +77,8 @@ const Endpoints = ({ endpoints }: any) => {
             render: (_: any, record: any) => (
                 <div className='flex'>
                     <Button
-                        onClick={async () => {
-                            await dispatch(setDrawerInfo({
+                        onClick={() => {
+                            dispatch(setDrawerInfo({
                                 typeContent: 'updateEndpoint',
                                 sizeDrawer: Constants.sizeDrawer.SMALL
                             }))
@@ -99,7 +113,7 @@ const Endpoints = ({ endpoints }: any) => {
                     Add Endpoint
                 </Button>
                 <Input
-                    placeholder="Search Role"
+                    placeholder="Search Endpoint"
                     value={searchTerm}
                     onChange={handleSearch}
                 />
@@ -110,7 +124,7 @@ const Endpoints = ({ endpoints }: any) => {
                 pagination={{
                     position: ['bottomCenter'],
                     current: state.currentPage,
-                    total: endpoints?.data?.length,
+                    total: endpoints?.pagination?.totals,
                     pageSize: 10,
                     onChange: handleChangePage,
                 }}
