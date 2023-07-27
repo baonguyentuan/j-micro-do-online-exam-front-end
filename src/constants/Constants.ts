@@ -31,7 +31,8 @@ export default {
     },
     EXAM: "exam-management",
     CONTEST: "contest-management",
-    LOGOUT: "logout"
+    LOGOUT: "logout",
+    ARTICLES: "articles"
   },
   typeDrawer: {
     CREAT_CATEGORY: 'createCategory',

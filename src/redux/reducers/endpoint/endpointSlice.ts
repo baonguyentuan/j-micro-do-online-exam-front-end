@@ -6,16 +6,29 @@ import { setLoading } from "../loading/loadingSlice";
 const initialState = {
   data: [{
     id: 1,
-    endPoint: '',
+    endPointPath: '',
     createdBy: '',
     createdAt: '',
     updatedBy: '',
     updatedAt: '',
   }],
+  currentEndpointDetail: {
+    id: 1,
+    endPointPath: '',
+    createdBy: '',
+    createdAt: '',
+    updatedBy: '',
+    updatedAt: '',
+  },
   options: [{
     id: 1,
     name: ''
   }],
+  inputEndpoint: {
+    id: 1,
+    endPoint: '',
+  },
+  name: '',
   order_by: 1,
 }
 
@@ -25,6 +38,7 @@ const endpointSlice = createSlice({
   reducers: {
     getEndpoints: (state, action) => {
       state.data = action.payload;
+      state.currentEndpointDetail = action.payload;
       state.order_by = action.payload.order_by;
     },
     getEndpointOptions: (state, action) => {
@@ -33,21 +47,27 @@ const endpointSlice = createSlice({
     createEndpoint: (state, action) => {
       state.data.push(action.payload);
     },
+    setCurrentFilter: (state, action) => {
+      state.name = action.payload.name
+    },
     updateEndpoint: (state, action) => {
       const { id, endpointPath } = action.payload;
       const endpointIndex = state.data.findIndex((endpoint) => endpoint.id === id);
       if (endpointIndex !== -1) {
-        state.data[endpointIndex].endPoint = endpointPath;
+        state.data[endpointIndex].endPointPath = endpointPath;
       }
     },
     deleteEndpoint: (state, action) => {
       const { id } = action.payload;
       state.data = state.data.filter(endpoint => endpoint?.id !== id);
     },
+    handleInputEndpoint: (state, action) => {
+      state.inputEndpoint = action.payload;
+    },
   }
 });
 
-export const { getEndpoints, getEndpointOptions, createEndpoint, updateEndpoint, deleteEndpoint } = endpointSlice.actions
+export const { getEndpoints, getEndpointOptions, createEndpoint, updateEndpoint, deleteEndpoint, setCurrentFilter, handleInputEndpoint } = endpointSlice.actions
 
 export default endpointSlice.reducer
 export const getEndpointApi = () => {
@@ -74,19 +94,19 @@ export const getEndpointOptionApi = () => {
     await dispatch(setLoading({ isLoading: false }))
   }
 }
-export const getEndpointByName = (name: string) => {
+export const getEndpointByName = (endPointPath: string) => {
   return async (dispatch: DispatchType) => {
     dispatch(setLoading({ isLoading: true }))
     try {
-      const result = await endpointService.getEndpointsByName(name)
-      dispatch(getEndpoints(result.data));
+      const result = await endpointService.getEndpointsByName({endPointPath})
+      dispatch(setCurrentFilter(endPointPath));
     } catch (err) {
       console.log(err);
     }
     await dispatch(setLoading({ isLoading: false }))
   }
 }
-export const getEndpointOderBy = (order_by: number) => {
+export const getEndpointOderBy = (order_by: {}) => {
   return async (dispatch: DispatchType) => {
     dispatch(setLoading({ isLoading: true }))
     try {

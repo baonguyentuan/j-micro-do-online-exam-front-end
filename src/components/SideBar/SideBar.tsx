@@ -26,6 +26,7 @@ const SideBar: React.FC = () => {
           <Menu.Item key={Constants.optionMenuAdmin.AUTH.ROLE}><NavLink to={AppRoutes.private.admin.role}>Role</NavLink></Menu.Item>
           <Menu.Item key={Constants.optionMenuAdmin.AUTH.ENDPOINT}><NavLink to={AppRoutes.private.admin.endpoint}>Endpoint</NavLink></Menu.Item>
         </Menu.SubMenu>
+        <Menu.Item key={Constants.optionMenuAdmin.ARTICLES} icon={<FileOutlined />}><NavLink to={'/admin/articles'}>Articles</NavLink></Menu.Item>
         <Menu.Item key={Constants.optionMenuAdmin.EXAM} icon={<FileOutlined />}><NavLink to={AppRoutes.private.admin.exam}>Exam</NavLink></Menu.Item>
         <Menu.Item key={Constants.optionMenuAdmin.CONTEST} icon={<BookOutlined />}><NavLink to={AppRoutes.private.admin.contest}>Contest</NavLink></Menu.Item>
         <Menu.Item key="logout" icon={<LogoutOutlined />}>

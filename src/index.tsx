@@ -31,6 +31,8 @@ import { Route, Routes, unstable_HistoryRouter as HistoryRouter } from "react-ro
 import AdminExam from "./Admin/AdminExam/AdminExam";
 import ExamModalResult from "./components/Modal/exam-result/ExamModalResult";
 import AdminRole from "./Admin/AdminRole/AdminRole";
+import AdminEndpoint from "./Admin/AdminEndpoint";
+import AdminArticles from "./Admin/AdminArticles";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
@@ -67,18 +69,20 @@ root.render(
           <Route path={AppRoutes.private.admin.category} element={<AdminCategory />} />
           <Route path={AppRoutes.private.admin.exam} element={<AdminExam />} />
           <Route path={AppRoutes.private.admin.role} element={<AdminRole />} />
+          <Route path={AppRoutes.private.admin.endpoint} element={<AdminEndpoint />} />
+          <Route path={AppRoutes.private.admin.article} element={<AdminArticles />} />
           <Route index element={<AdminUser />} />
         </Route>
 
         {/* PRIVATE ROUTE */}
         <Route path={AppRoutes.private.user.feedback}
-               element={<ProtectedRoute><FeedBack /></ProtectedRoute>} />
+          element={<ProtectedRoute><FeedBack /></ProtectedRoute>} />
         <Route path={AppRoutes.private.user.doExam}
-               element={<ProtectedRoute><DoExam /></ProtectedRoute>} />
+          element={<ProtectedRoute><DoExam /></ProtectedRoute>} />
         <Route path={AppRoutes.private.user.doContest}
-               element={<ProtectedRoute><DoExam /></ProtectedRoute>} />
+          element={<ProtectedRoute><DoExam /></ProtectedRoute>} />
         <Route path={AppRoutes.private.user.contest}
-               element={<ProtectedRoute><DoContest /></ProtectedRoute>} />
+          element={<ProtectedRoute><DoContest /></ProtectedRoute>} />
 
         {/* PUBLIC ROUTE */}
         <Route path={AppRoutes.public.login} element={<Login />} />

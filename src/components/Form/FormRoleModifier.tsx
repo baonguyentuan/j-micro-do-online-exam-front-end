@@ -6,27 +6,25 @@ import { DispatchType, RootState } from '../../redux/configStore';
 import { useDispatch } from 'react-redux';
 import Constants from '../../constants/Constants';
 import { closeDrawer } from '../../redux/reducers/drawer/drawerSlice';
-import { useTranslation } from 'react-i18next';
-import { addRole } from '../../redux/reducers/role/roleSlice';
+import { addRole, updateRole } from '../../redux/reducers/role/roleSlice';
 type Props = {
     formStatus: string
 }
 const FormRoleModifier = ({ formStatus }: Props) => {
+    const [form] = Form.useForm();
     const data = useSelector((state: RootState) => state.endpointSlice?.options);
-    const { currentRole } = useSelector((state: RootState) => state.roleSlice)
+    const { inputRole } = useSelector((state: RootState) => state.roleSlice)
     const dispatch: DispatchType = useDispatch()
-    const { t } = useTranslation('admin')
-    const [nameEdit, setNameEdit] = useState<string>(currentRole.roleName)
 
     const validateButtonEdit = () => {
-        if (nameEdit !== '') {
+        if (inputRole?.roleName !== '') {
             return true
         } else {
             return false
         }
     }
     const validateButtonCreate = () => {
-        if (nameEdit !== '') {
+        if (inputRole?.roleName !== '') {
             return true
         } else {
             return false
@@ -41,31 +39,43 @@ const FormRoleModifier = ({ formStatus }: Props) => {
     }
     const renderButtonSubmit = () => {
         if (formStatus === Constants.formStatus.EDIT) {
-            return <Button disabled={!validateButtonEdit()} className='btn__contest' onClick={async () => {
-                if (nameEdit !== currentRole?.roleName) {
-                    // await dispatch(updateRole(roles.roleName, values.name));
-                }
-                await dispatch(closeDrawer())
-            }}>Update</Button>
-        } else if (formStatus === Constants.formStatus.CREATE) {
+            return <Button disabled={!validateButtonEdit()} className='btn__contest' onClick={() => {
+                form.validateFields();
+                dispatch(updateRole(inputRole.roleName, inputRole.selectedEndpoint))
+                form.resetFields();
+                dispatch(closeDrawer())
+            }}>
+                Update
+            </Button>
+        } else {
             return <Button disabled={!validateButtonCreate()} className='btn__contest'
-                onClick={async () => {
-                    await dispatch(addRole(currentRole?.roleName, data[0]?.name));
-                    await dispatch(closeDrawer())
+                onClick={() => {
+                    dispatch(addRole(inputRole?.roleName, data[0]?.name));
+                    form.resetFields();
+                    dispatch(closeDrawer())
                 }}
-            >Add</Button>
+            >
+                Add
+            </Button>
         }
     }
 
+    useEffect(() => {
+        if (formStatus === Constants.formStatus.EDIT) {
+            form.setFieldValue('role', inputRole.roleName)
+            form.setFieldValue('select_endpoint', inputRole.selectedEndpoint)
+        }
+    }, [inputRole]);
+
     return (
-        <Form id='form_role' labelAlign='left' labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
+        <Form form={form} id='form_role' labelAlign='left' labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
             <Form.Item wrapperCol={{ span: 24 }}>
                 {renderTitle()}
             </Form.Item>
-            <Form.Item label="Role Name" rules={[{ required: true, message: 'Please enter the role name' }]}>
+            <Form.Item name='role' label="Role Name" rules={[{ required: true, message: 'Please enter the role name' }]}>
                 <Input placeholder="Enter role name" />
             </Form.Item>
-            <Form.Item label="Endpoint" rules={[{ required: true }]}>
+            <Form.Item name='select_endpoint' label="Endpoint" rules={[{ required: true, message: 'Please enter the endpoint name' }]}>
                 <Select showSearch placeholder="Select endpoint" options={data} />
             </Form.Item>
             <Form.Item wrapperCol={{ span: 24 }}>
@@ -75,4 +85,4 @@ const FormRoleModifier = ({ formStatus }: Props) => {
     )
 }
 
-export default FormRoleModifier
+export default FormRoleModifier;

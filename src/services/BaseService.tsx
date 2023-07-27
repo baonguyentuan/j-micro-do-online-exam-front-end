@@ -155,9 +155,8 @@ export class BaseService {
     //     params: model,
     //   })
     // }
-
   }
-  getOrderBy(url: string, model: string) {
+  getOrderBy(url: string, model: any) {
     if (localStorage.getItem(Constants.localStorageKey.accessToken)) {
       return axios({
         url: `${ApiEndpoint.domain}/${url}`,
@@ -187,8 +186,4 @@ export class BaseService {
       })
     }
   }
-
-
-
-
 }

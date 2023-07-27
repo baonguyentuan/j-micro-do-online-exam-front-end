@@ -30,7 +30,8 @@ export default {
       "user": adminRoute + "user",
       "contest": adminRoute + "contest",
       "role": adminRoute + "role",
-      "endpoint": adminRoute + "endpoint"
+      "endpoint": adminRoute + "endpoint",
+      "article": adminRoute + "article"
     }
   }
 };

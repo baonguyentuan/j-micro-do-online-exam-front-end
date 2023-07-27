@@ -10,6 +10,8 @@ import CreateExam from '../../pages/Exam/CreateExam'
 import ViewExam from '../../pages/Exam/ViewExam'
 import FormEndpointModifier from '../Form/FormEndpointModifier'
 import FormRoleModifier from '../Form/FormRoleModifier'
+// import FormArticleModifier from '../Form/FormArticleModifier'
+
 const DrawerModifier = () => {
     let { isOpen, typeContent, sizeDrawer } = useSelector((state: RootState) => state.drawerSlice)
     const dispatch = useDispatch()
@@ -26,6 +28,8 @@ const DrawerModifier = () => {
             {typeContent === Constants.typeDrawer.EDIT_ENDPOINT && <FormEndpointModifier formStatus={Constants.formStatus.EDIT} />}
             {typeContent === Constants.typeDrawer.CREATE_ROLE && <FormRoleModifier formStatus={Constants.formStatus.CREATE} />}
             {typeContent === Constants.typeDrawer.EDIT_ROLE && <FormRoleModifier formStatus={Constants.formStatus.EDIT} />}
+            {/* {typeContent === Constants.typeDrawer.CREATE_ARTICLE && <FormArticleModifier formStatus={Constants.formStatus.CREATE} />}
+            {typeContent === Constants.typeDrawer.EDIT_ARTICLE && <FormArticleModifier formStatus={Constants.formStatus.EDIT} />} */}
         </Drawer>
     )
 }
