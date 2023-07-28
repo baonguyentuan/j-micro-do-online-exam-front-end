@@ -9,7 +9,7 @@ const data = [
   {
     id: 1,
     type: "FREE",
-    price: "$0",
+    price: "0 VND",
     desc: "The essentials for you when you are just getting started.",
     feature: [
       "5 Exams", "3 Contests", "All free courses", "Download supported"
@@ -18,7 +18,7 @@ const data = [
   {
     id: 2,
     type: "Monthly",
-    price: "$50/month",
+    price: "50 VND/month",
     desc: "For small team looking for self training efficiency and time savings",
     feature: [
       "Up to 100 exams per month", "Up to 50 contests per month", "24-hour chat support"
@@ -27,7 +27,7 @@ const data = [
   {
     id: 3,
     type: "Yearly",
-    price: "$200/years",
+    price: "200 VND/years",
     desc: "For businesses looking for the maximum competitive edge and expanding their reach.",
     feature: [
       "Unlimited exams", "Unlimited contests", "1-hours, dedicated support response time."
@@ -83,8 +83,15 @@ const AccountModalWrapper = styled.div`
 
 const AccountType = (props: AccountTypeProps) => {
   const { id, type, feature, price, desc } = props;
+  const renderButton=()=>{
+    if(type==="FREE"){
+      return <Button size="large" disabled className="mt-auto text-base "><CheckOutlined className="-translate-y-2 text-2xl text-green-400"/></Button>
+    }else{
+      return <Button size="large" className="mt-auto text-base">Choose</Button>
+    }
+  }
   return (
-    <div className="flex flex-col p-5 border-2 border-slate-300 rounded-md">
+    <div className={`flex flex-col p-5   rounded-md ${type==="FREE"? 'border-4 border-green-400': 'border-2 border-slate-300'}`}>
       <div>
         <h3 className="font-semibold text-lg mb-3">{type}</h3>
         <p className="account__type_font font-semibold text-2xl mb-4">{price}</p>
@@ -100,7 +107,7 @@ const AccountType = (props: AccountTypeProps) => {
           }
         </ul>
       </div>
-      <Button className="mt-auto">Choose</Button>
+      {renderButton()}
     </div>
   );
 };

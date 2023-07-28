@@ -30,10 +30,10 @@ export interface ContestCategoryModel {
 export interface CreateContestFormModel {
   name: string,
   description: string,
-  duration: number,
-  timeStart: string
-  contestantList: File | null,
-  exam: string | null
+  endAt: string,
+  startAt: string
+  file: File | null,
+  examID: number
 }
 
 export interface ContestResultModel {

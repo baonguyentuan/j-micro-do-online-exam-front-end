@@ -53,5 +53,6 @@ export default {
     SMALL: '30%',
     NORMAL: '50%',
     LARGE: '70%'
-  }
+  },
+  formatFullDate:"YYYY-MM-DD HH:mm:ss"
 }

@@ -34,6 +34,7 @@
         "category is required": "Category is required",
         "click to Upload thumbnail": "Click to Upload thumbnail",
         "start at": "Start at",
+        "end at":"End at",
         "organize by": "Organize by",
         "createAt": "Create at",
         "examType": "Exam Type",

@@ -3,6 +3,7 @@ import { InitialContestState } from "../../_core/contest";
 import { thunkAction } from "../../utils/redux-helpers";
 import clientService from "../../utils/client";
 import ApiEndpoint from "../../constants/ApiEndpoint";
+import { openNotificationWithIcon } from "../../utils/operate";
 
 
 const initialState = {
@@ -36,6 +37,11 @@ const contestSlice = createSlice({
       
       return state;
     });
+    builder.addCase(postCreateContest.fulfilled,(state,action)=>{
+      state.loading = false;
+      openNotificationWithIcon("success", "Create contest successful", "", 1)
+      return state;
+    });
     builder.addMatcher(
       isAnyOf(
         postCreateContest.fulfilled,
@@ -63,6 +69,7 @@ const contestSlice = createSlice({
         postCreateContest.rejected,
         deleteContest.rejected), (state, action) => {
         state.loading = false;
+        console.log(action)
         
         return state;
       });

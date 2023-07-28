@@ -24,8 +24,8 @@ const ViewExam = (props: Props) => {
                     <p><span className='prop__title'>Category:</span> <span className='text-base'>{examGetDetail.categoryName}</span></p>
                     <p><span className='prop__title'>Duration:</span> <span className='text-base'>{fullExamDetail.duration} min</span></p>
                     <p><span className='prop__title'>Type:</span> <span className='text-base'>{examGetDetail.examType}</span></p>
-                    <p><span className='prop__title'>Rate:</span> <span className='text-base'>{examGetDetail.totalRating} min</span></p>
-                    <p><span className='prop__title'>Downloaded:</span> <span className='text-base'>{examGetDetail.downloadNumber} min</span></p>
+                    <p><span className='prop__title'>Rate:</span> <span className='text-base'>{examGetDetail.totalRating}</span></p>
+                    <p><span className='prop__title'>Downloaded:</span> <span className='text-base'>{examGetDetail.downloadNumber}</span></p>
                 </div>
             </div>
             <div>

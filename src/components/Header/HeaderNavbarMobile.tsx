@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { postLogout } from '../../redux/reducers/auth';
 import { getLocalStorage } from '../../utils/local-storage';
 import Constants from '../../constants/Constants';
+import AppRoutes from '../../constants/AppRoutes';
 
 type Props = {}
 
@@ -22,7 +23,7 @@ const HeaderNavbarMobile = (props: Props) => {
     const items: MenuProps['items'] = [
         {
             key: '1',
-            label: (<NavLink className='block text-base py-1 ' to={'/account:id'}>{t('account')}</NavLink>),
+            label: (<NavLink className='block text-base py-1 ' to={AppRoutes.private.user.account}>{t('account')}</NavLink>),
         },
         {
             key: '2',
@@ -31,7 +32,7 @@ const HeaderNavbarMobile = (props: Props) => {
         },
         {
             key: '3',
-            label: (<NavLink className='block text-base py-1' to={'/uploadexam'}>{t('upload exam')}</NavLink>),
+            label: (<NavLink className='block text-base py-1' to={AppRoutes.private.user.create_exam}>{t('upload exam')}</NavLink>),
         }, {
             key: '4',
             label: (<Button type='link' className='w-full text-left pl-0 text-base py-1' onClick={handleLogout}>{t('logout')}</Button>),

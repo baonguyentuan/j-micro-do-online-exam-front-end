@@ -68,18 +68,18 @@ function Course() {
 
   const generateConditionExamButton = () => {
     if (examGetDetail
-      && examGetDetail.examType === "FREE"
-      && getLocalStorage(Constants.localStorageKey.accessToken) !== null) {
-      return <div className="flex justify-start items-center gap-3">
-        <Button onClick={() => navigate(`/takeExam/${examGetDetail?.examName}`)} size="large"
-                className="font-semibold">{t("detail.go to contest")}</Button>
-        <span className="font-medium">{t("detail.or")}</span>
-        <Button size="large" className="font-semibold">{t("detail.download now")}</Button>
-      </div>;
-    } else {
+      && examGetDetail.examType === "PREMIUM"
+      && getLocalStorage(Constants.localStorageKey.accessToken) !== null && getLocalStorage(Constants.localStorageKey.account) === 'USER') {
       return <div className="flex justify-start items-center">
         <Button onClick={handleShowAccountModal} size="large"
-                className="font-semibold">{t("detail.become a premium")}</Button>
+          className="font-semibold">{t("detail.become a premium")}</Button>
+      </div>;
+    } else {
+      return <div className="flex justify-start items-center gap-3">
+        <Button onClick={() => navigate(`/takeExam/${examGetDetail?.examName}`)} size="large"
+          className="font-semibold">{t("detail.go to contest")}</Button>
+        <span className="font-medium">{t("detail.or")}</span>
+        <Button size="large" className="font-semibold">{t("detail.download now")}</Button>
       </div>;
     }
   };
@@ -148,7 +148,7 @@ function Course() {
                 <div className="flex flex-col items-end">
                   <p className="text-base font-semibold">{t("detail.rating")}:</p>
                   <Rate className="flex items-center text-2xl" disabled
-                        value={examGetDetail?.totalRating} />
+                    value={examGetDetail?.totalRating} />
                 </div>
                 <h1 className="font-bold text-3xl mb-5 mt-2">{examGetDetail?.examName}</h1>
                 <p className="text-justify">
@@ -197,7 +197,7 @@ function Course() {
                   examRating !== undefined ? (
                     [0, ...examRating.ratingData.stars].map((opt, index) => {
                       return <ExamFeedBackFilterButton key={index} defaultStart={feedBackSearch.vote} star={opt}
-                                                       onHandleFilter={onHandleChangeFeedBackFilter} />;
+                        onHandleFilter={onHandleChangeFeedBackFilter} />;
                     })) : Constants.EmptyString
                 }
               </div>
@@ -210,8 +210,8 @@ function Course() {
                       {
                         examRatingList.data.map((feed, index) => {
                           return (<div onMouseEnter={() => handleOnMouseEnter(feed.id)}
-                                       onMouseLeave={handleOnMouseLeave} key={index}
-                                       className="relative border border-indigo-200 p-3 rounded">
+                            onMouseLeave={handleOnMouseLeave} key={index}
+                            className="relative border border-indigo-200 p-3 rounded">
                             {feed.userID === +getLocalStorage(Constants.localStorageKey.userID) &&
                               <OwnerTag>Owner</OwnerTag>}
                             <div className="flex justify-between items-center mb-2">
@@ -225,15 +225,15 @@ function Course() {
                             <p className="text-gray-600 text-base" dangerouslySetInnerHTML={{ __html: feed.comment }} />
                             <div className={`absolute h-full w-full top-0 left-0 cursor-pointer rounded
                               ${feedbackChoose === feed.id && feed.userID === +getLocalStorage(Constants.localStorageKey.userID) ? "flex items-center justify-center gap-3" : "hidden"}`}
-                                 style={{ backgroundColor: "rgba(0,0,0,0.3)" }}>
+                              style={{ backgroundColor: "rgba(0,0,0,0.3)" }}>
                               <button onClick={() => {
                                 confirm(feed.id);
                               }}
-                                      className="text-white text-medium bg-red-500 hover:bg-red-400 rounded py-1 px-2 flex items-center gap-3"
-                                      style={{ minWidth: "5rem" }}><DeleteOutlined /><span>Delete</span>
+                                className="text-white text-medium bg-red-500 hover:bg-red-400 rounded py-1 px-2 flex items-center gap-3"
+                                style={{ minWidth: "5rem" }}><DeleteOutlined /><span>Delete</span>
                               </button>
                               <FeedbackModal searchData={feedBackSearch} examID={examGetDetail?.id} feedID={feed.id}
-                                             buttonName="Edit" comment={feed.comment} vote={feed.vote} />
+                                buttonName="Edit" comment={feed.comment} vote={feed.vote} />
                             </div>
                           </div>);
                         })
@@ -244,14 +244,14 @@ function Course() {
                   {
                     examRatingList?.pagination?.pages > 1 ? (
                       <Pagination className="text-center mt-4" defaultCurrent={1}
-                                  total={examRatingList?.pagination?.totals}
-                                  defaultPageSize={AppConfigs.pagination.DEFAULT_PAGE_SIZE} onChange={(page) => {
-                        let topScroll = document.getElementById("feedbackArea")?.offsetTop;
-                        if (topScroll) {
-                          backToPosition(topScroll);
-                        }
-                        setFeedBackSearch({ ...feedBackSearch, page_index: page });
-                      }} />
+                        total={examRatingList?.pagination?.totals}
+                        defaultPageSize={AppConfigs.pagination.DEFAULT_PAGE_SIZE} onChange={(page) => {
+                          let topScroll = document.getElementById("feedbackArea")?.offsetTop;
+                          if (topScroll) {
+                            backToPosition(topScroll);
+                          }
+                          setFeedBackSearch({ ...feedBackSearch, page_index: page });
+                        }} />
                     ) : ""
                   }
                 </div>
@@ -296,8 +296,8 @@ const ExamFeedBackFilterButton = (props: ExamFeedBackFilterButtonProps) => {
   return (<ExamFeedBackFilterButtonWrapper>
     {
       star === 0 ? <Button className={`font-medium ${defaultStart === star ? "active" : ""}`} onClick={() => {
-          handleClickButton(star);
-        }}>{t("feedback.all")}</Button> :
+        handleClickButton(star);
+      }}>{t("feedback.all")}</Button> :
         <Button className={`font-medium ${defaultStart === star ? "active" : ""}`} onClick={() => {
           handleClickButton(star);
         }}>{star}<StarFilled className="-translate-y-1 text-yellow-400" /></Button>

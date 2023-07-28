@@ -182,6 +182,7 @@ const examSlice = createSlice({
     builder.addCase(postSubmitExam.fulfilled,(state,action)=>{
       state.loading = false;
       state.finalExamResult = action.payload.data;
+      console.log(action.payload.data);
       
       return state;
     });

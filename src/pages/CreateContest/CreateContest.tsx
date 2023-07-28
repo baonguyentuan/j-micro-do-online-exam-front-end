@@ -14,6 +14,8 @@ import { DispatchType, RootState } from "../../redux/configStore";
 import { useDispatch, useSelector } from "react-redux";
 import AppConfigs from "../../config/AppConfigs";
 import { getExamOptionApi } from "../../redux/reducers/exam";
+import Constants from "../../constants/Constants";
+import { postCreateContest } from "../../redux/reducers/contest";
 
 const { TextArea } = Input;
 type Props = {}
@@ -21,10 +23,10 @@ type Props = {}
 const DefaultCreateContestFormValue: CreateContestFormModel = {
   name: "",
   description: "",
-  duration: 30,
-  timeStart: dayjs(Date.now()).format("YYYY-MM-DD hh:mm:ss"),
-  contestantList: null,
-  exam: null
+  endAt: dayjs(Date.now()).format(Constants.formatFullDate),
+  startAt: dayjs(Date.now()).format(Constants.formatFullDate),
+  file: null,
+  examID: -1
 };
 const CreateContest = (props: Props) => {
   const optionsExam: SelectProps["options"] = [];
@@ -42,28 +44,33 @@ const CreateContest = (props: Props) => {
     validationSchema: Yup.object({
       name: Yup.string().required(t("detail.name is required")),
       description: Yup.string().required(t("detail.description is required")),
-      duration: Yup.number().typeError(t("detail.duration must be number")).required(t("detail.duration is required")).min(AppConfigs.exam.MIN_DURATION_EXAM, t("detail.minium duration is {{duration}} min", { duration: AppConfigs.exam.MIN_DURATION_EXAM })).max(AppConfigs.exam.MAX_DURATION_EXAM, t("detail.maxium duration is {{duration}} min", { duration: AppConfigs.exam.MAX_DURATION_EXAM })),
-      timeStart: Yup.date().typeError(t("detail.time start must be timestamp")).required(t("detail.time start is required")).min(dayjs().add(AppConfigs.exam.MIN_PERIOD_CONTEST - 1, "day"), t("detail.the contest must start at least {{duration}} days from the date of creation", { duration: AppConfigs.exam.MIN_PERIOD_CONTEST })),
-      contestantList: Yup.mixed().required(t("detail.file is required")),
-      exam: Yup.string().required(t("detail.exam is required"))
+      endAt: Yup.date().typeError(t("detail.time start must be timestamp")).required(t("detail.time start is required")).min(dayjs().add(AppConfigs.exam.MIN_PERIOD_CONTEST, "day"), t("detail.the contest must start at least {{duration}} days from the date of creation", { duration: AppConfigs.exam.MIN_PERIOD_CONTEST })),
+      startAt: Yup.date().typeError(t("detail.time start must be timestamp")).required(t("detail.time start is required")).min(dayjs().add(AppConfigs.exam.MIN_PERIOD_CONTEST, "day"), t("detail.the contest must start at least {{duration}} days from the date of creation", { duration: AppConfigs.exam.MIN_PERIOD_CONTEST })),
+      file: Yup.mixed().required(t("detail.file is required")),
+      examID: Yup.string().required(t("detail.exam is required"))
     }),
     onSubmit: (value) => {
-      let contestDetail = {
-        name: value.name,
-        description: value.description,
-        duration: value.duration,
-        timeStart: dayjs(value.timeStart).format("YYYY-MM-DD hh:mm"),
-        contestantList: value.contestantList,
-        exam: value.exam
-      };
-    //TODO: create contest
+      let formData = new FormData()
+      formData.append('name', value.name)
+      formData.append('description', value.description)
+      formData.append('endAt', dayjs(value.endAt).format(Constants.formatFullDate))
+      formData.append('startAt', dayjs(value.startAt).format(Constants.formatFullDate))
+      // console.log(typeof dayjs(value.startAt).format(Constants.formatFullDate));
+      // console.log(dayjs(value.endAt).format(Constants.formatFullDate));
+
+      //TODO: create contest
+      if (value.file) {
+        formData.append('file', value.file, value.file?.name)
+      }
+      formData.append('examID', value.examID.toString())
+      dispatch(postCreateContest(formData))
     }
   });
   const disabledDate: RangePickerProps["disabledDate"] = (current) => {
     return current && current < dayjs().endOf("day");
   };
-  let handleChangeDatePicker = (value: Dayjs | null) => {
-    formik.setFieldValue("timeStart", value);
+  let handleChangeDatePicker = (key: string, value: Dayjs | null) => {
+    formik.setFieldValue(key, value);
   };
   useEffect(() => {
     dispatch(getExamOptionApi());
@@ -81,7 +88,7 @@ const CreateContest = (props: Props) => {
           </Form.Item>
           <Form.Item label={t("detail.description")}>
             <TextArea rows={3} name="description" onChange={formik.handleChange} value={formik.values.description}
-                      onBlur={formik.handleBlur} />
+              onBlur={formik.handleBlur} />
             <p className="mt-1 text-red-500">{formik.errors.description}</p>
           </Form.Item>
           <FormItem label={t("detail.choose exam")}>
@@ -96,44 +103,55 @@ const CreateContest = (props: Props) => {
               }
               options={optionsExam}
               onChange={(value) => {
-                formik.setFieldValue("exam", value);
+                formik.setFieldValue("examID", value);
               }}
             />
-            <p className="mt-1 text-red-500">{formik.errors.exam}</p>
+            <p className="mt-1 text-red-500">{formik.errors.examID}</p>
           </FormItem>
-          <Form.Item label={t("detail.duration")}>
-            <InputNumber style={{ maxWidth: 150 }} addonAfter="minutes" name="duration" min={1}
-                         value={formik.values.duration} onChange={(durationValue) => {
-              formik.setFieldValue("duration", durationValue);
-            }} />
-            <p className="mt-1 text-red-500">{formik.errors.duration}</p>
-          </Form.Item>
-          <Form.Item label={t("detail.start time")}>
+          <Form.Item label={t("detail.start at")}>
             <DatePicker
-              name="timeStart"
+              name="startAt"
               disabledDate={disabledDate}
-              format={"YYYY-MM-DD hh:mm:ss"}
+              format={Constants.formatFullDate}
               showTime
-              defaultValue={dayjs(formik.values.timeStart)}
+              defaultValue={dayjs(formik.values.startAt)}
               onOk={(time) => {
-                handleChangeDatePicker(time);
+                handleChangeDatePicker("startAt", time);
               }} />
-            <p className="mt-1 text-red-500">{formik.errors.timeStart}</p>
+            <p className="mt-1 text-red-500">{formik.errors.startAt}</p>
+          </Form.Item>
+          <Form.Item label={t("detail.end at")}>
+            <DatePicker
+              name="endAt"
+              disabledDate={disabledDate}
+              format={Constants.formatFullDate}
+              showTime
+              defaultValue={dayjs(formik.values.endAt)}
+              onOk={(time) => {
+                handleChangeDatePicker("endAt", time);
+              }} />
+            <p className="mt-1 text-red-500">{formik.errors.endAt}</p>
           </Form.Item>
           <Form.Item label={t("detail.contestant list")}>
-            <Upload name="contestantList"
-                    accept=".csv"
-                    multiple={false}
-                    maxCount={1}
-                    onChange={(file) => {
-                      formik.setFieldValue("contestantList", file.file);
-                    }}
-                    onRemove={(file) => {
-                      formik.setFieldValue("contestantList", null);
-                    }}>
+            <Upload name="file"
+              accept=".csv"
+              multiple={false}
+              maxCount={1}
+              beforeUpload={() => {
+                return false;
+              }}
+              onPreview={(file) => {
+                return false;
+              }}
+              onChange={(file) => {
+                formik.setFieldValue("file", file.file);
+              }}
+              onRemove={(file) => {
+                formik.setFieldValue("file", null);
+              }}>
               <Button icon={<UploadOutlined className="-translate-y-1" />}>Click to Upload CSV File</Button>
             </Upload>
-            <p className="mt-1 text-red-500">{formik.errors.contestantList}</p>
+            <p className="mt-1 text-red-500">{formik.errors.file}</p>
           </Form.Item>
 
           <Form.Item className="text-center" wrapperCol={{ span: 24 }}>

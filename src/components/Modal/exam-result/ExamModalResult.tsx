@@ -1,7 +1,8 @@
 import { Button, Modal, Table } from "antd";
 import { useState } from "react";
 import type { ColumnsType } from "antd/es/table";
-
+import dayjs from "dayjs";
+import Constants from "../../../constants/Constants";
 interface IProps {
   flag: boolean;
 
@@ -51,6 +52,8 @@ const ExamModalResult = ({ flag, data, callback }: IProps) => {
   ];
 
   const formatData = () => {
+    console.log(data);
+    
     let newData = [];
     let totalQuest = 0;
     for (const [key, value] of Object.entries(data)) {
@@ -74,7 +77,7 @@ const ExamModalResult = ({ flag, data, callback }: IProps) => {
         newData.push({
           key: 2,
           name: "Participant",
-          value: value
+          value: data["exam"]
         });
       }
       if (key === "incorrectAnswers") {
@@ -99,7 +102,7 @@ const ExamModalResult = ({ flag, data, callback }: IProps) => {
         newData.push({
           key: 3,
           name: "CreatedAt",
-          value: value
+          value: dayjs(String(value)).format(Constants.formatFullDate)
         });
       }
     }
@@ -142,7 +145,7 @@ const ExamModalResult = ({ flag, data, callback }: IProps) => {
           dataSource={formatData()}
           bordered
           footer={() => <div className="flex justify-between font-medium">
-            <span>Total point:</span> <span>{data?.point}</span></div>}
+            <span>Total point:</span> <span>{data?.point.toFixed(2)}</span></div>}
           columns={columns}
           pagination={false}
         />

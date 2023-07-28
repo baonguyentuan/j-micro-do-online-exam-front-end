@@ -181,6 +181,7 @@ const CreateExam = ({ status }: Props) => {
           listType="picture"
           multiple={false}
           onPreview={(file) => {
+            return false;
           }}
           maxCount={1}
           onChange={(file) => {

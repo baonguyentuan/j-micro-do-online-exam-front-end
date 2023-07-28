@@ -20,7 +20,9 @@ export default {
       "doExam": "/takeExam/:name",
       "contest": "/contest",
       "doContest": "/takeContest/:name",
-      "account":"/account"
+      "account":"/account",
+      "create_exam":"/create_exam",
+      "create_contest":"/create_contest",
     },
     "admin": {
       "admin": adminRoute,

@@ -65,7 +65,7 @@ const ListExamUser = () => {
     <UserAdminContainer>
       <div className="mt-4 mb-8 flex justify-between items-center">
         <Button className="font-medium" size="large" onClick={async () => {
-          navigate("/create_exam");
+          navigate(AppRoutes.private.user.create_exam);
         }}>Create Exam</Button>
         <p className="mx-4 font-medium text-base"><span>Total Exams: </span><span>{lstOptionExam?.length}</span>
         </p>

@@ -2,6 +2,7 @@ import { Button, Space, Table } from "antd";
 import React from "react";
 import { UserAdminContainer } from "../../assets/styles/userAdminStyles";
 import { useNavigate } from "react-router-dom";
+import AppRoutes from "../../constants/AppRoutes";
 
 type Props = {}
 
@@ -52,7 +53,7 @@ const ListContestUser = (props: Props) => {
     <UserAdminContainer>
       <div className="mt-4 mb-8 flex justify-between items-center">
         <Button className="font-medium" size="large" onClick={async () => {
-          navigate("/create_exam");
+          navigate(AppRoutes.private.user.create_contest);
         }}>Create Contest</Button>
         <p className="mx-4 font-medium text-base"><span>Total Contests: </span><span>0</span></p>
       </div>
