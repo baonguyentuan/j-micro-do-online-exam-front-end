@@ -32,9 +32,14 @@ const HeaderNavbarMobile = (props: Props) => {
         },
         {
             key: '3',
-            label: (<NavLink className='block text-base py-1' to={AppRoutes.private.user.create_exam}>{t('upload exam')}</NavLink>),
-        }, {
+            label: (<NavLink className='block text-base py-1' to={AppRoutes.private.user.create_exam}>{t('create exam')}</NavLink>),
+        },
+        {
             key: '4',
+            label: (<NavLink className='block text-base py-1' to={AppRoutes.private.user.create_contest}>{t('create contest')}</NavLink>),
+        },
+        {
+            key: '5',
             label: (<Button type='link' className='w-full text-left pl-0 text-base py-1' onClick={handleLogout}>{t('logout')}</Button>),
         },
     ];

@@ -13,6 +13,7 @@ import { getLocalStorage } from "../../utils/local-storage";
 import { BellOutlined, CloseOutlined, DownOutlined, MenuOutlined } from "@ant-design/icons";
 import { setNotifyBadge, setNotifyReaded } from "../../redux/reducers/notification/notificationSlice";
 import { postLogout } from "../../redux/reducers/auth";
+import { setDefaultTabAccountKey } from "../../redux/reducers/menu/menuSlice";
 
 type Props = {}
 
@@ -37,19 +38,28 @@ export default function HeaderTitle({ }: Props) {
     {
       key: "2",
       label: (
-        <NavLink to={"/premium"}><span>{t("premium")}: </span><span
+        <p onClick={async () => {
+          await dispatch(setDefaultTabAccountKey({ key: 'payment' }))
+          await navigate(AppRoutes.private.user.account)
+        }}><span>{t("premium")}: </span><span
           className={`premium_type ${getLocalStorage(Constants.localStorageKey.account) === "ADMIN" ? "hidden" : ""}`}>
-          {getLocalStorage(Constants.localStorageKey.account)}</span></NavLink>
+            {getLocalStorage(Constants.localStorageKey.account)}</span></p>
       )
     },
     {
       key: "3",
       label: (
-        <NavLink to={AppRoutes.private.user.create_exam}>{t("upload exam")}</NavLink>
+        <NavLink to={AppRoutes.private.user.create_exam}>{t("create exam")}</NavLink>
       )
     },
     {
       key: "4",
+      label: (
+        <NavLink to={AppRoutes.private.user.create_contest}>{t("create contest")}</NavLink>
+      )
+    },
+    {
+      key: "5",
       label: (<p onClick={handleLogout}>{t("logout")}</p>
       )
     }

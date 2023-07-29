@@ -8,6 +8,7 @@
     "blog":"Blog",
     "account":"Account",
     "premium":"Premium",
-    "upload exam":"Upload exam",
+    "create exam":"Create exam",
+    "create contest":"Create contest",
     "input contest id or contest name":"Input contest id or contest name"
 }

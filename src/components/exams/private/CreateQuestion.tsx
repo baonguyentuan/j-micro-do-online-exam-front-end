@@ -30,6 +30,8 @@ function CreateQuestion({ questionList, setLstQuestion, questionError, isNewQues
     let locale = {
         emptyText: t('exam.No question')
     }
+    console.log(questionList);
+
     const formik = useFormik({
         initialValues: QuestionFormDefaultValue,
         enableReinitialize: true,
@@ -195,6 +197,8 @@ function CreateQuestion({ questionList, setLstQuestion, questionError, isNewQues
             key: 'question',
             width: '87%',
             render: (text: string, record: QuestionRowModel, index: number) => {
+                console.log(editId, record.id);
+
                 if (editId === record.id) {
                     return <div >
                         <TextArea
@@ -303,6 +307,7 @@ function CreateQuestion({ questionList, setLstQuestion, questionError, isNewQues
                             }}><CloseCircleOutlined /></Button>
                     </div>
                 } else {
+
                     return <div className=''>
                         <Button
                             className='btn__action'
@@ -367,7 +372,7 @@ function CreateQuestion({ questionList, setLstQuestion, questionError, isNewQues
                     </div>
                     <div >
                         <h1 className='font-bold'>{t('exam.note')} :</h1>
-                        <p>* {t('exam.Each exam have at least {{min}} question and max {{max}} question',{min:AppConfigs.exam.MIN_QUESTION_EXAM,max:AppConfigs.exam.MAX_QUESTION_EXAM})}</p>
+                        <p>* {t('exam.Each exam have at least {{min}} question and max {{max}} question', { min: AppConfigs.exam.MIN_QUESTION_EXAM, max: AppConfigs.exam.MAX_QUESTION_EXAM })}</p>
                         <p>* {t('exam.Each question have at least 2 answers')}</p>
                         <p>* {t('exam.You must choose correct answers')}</p>
                     </div>

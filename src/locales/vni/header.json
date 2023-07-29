@@ -1,13 +1,14 @@
 {
-    "signin":"Đăng nhập",
-    "signup":"Đăng ký",
-    "logout":"Đăng xuất",
-    "home":"Trang chủ",
-    "contact":"Liên hệ",
-    "trainingCourse":"Luyện thi",
-    "blog":"Blog",
-    "account":"Tài khoản",
-    "premium":"Premium",
-    "upload exam":"Tải lên đề thi",
-    "input contest id or contest name":"Nhập mã kỳ thi hoặc tên kỳ thi"
+    "signin": "Đăng nhập",
+    "signup": "Đăng ký",
+    "logout": "Đăng xuất",
+    "home": "Trang chủ",
+    "contact": "Liên hệ",
+    "trainingCourse": "Luyện thi",
+    "blog": "Blog",
+    "account": "Tài khoản",
+    "premium": "Premium",
+    "create exam": "Tạo đề thi",
+    "create contest": "Tạo kỳ thi",
+    "input contest id or contest name": "Nhập mã kỳ thi hoặc tên kỳ thi"
 }

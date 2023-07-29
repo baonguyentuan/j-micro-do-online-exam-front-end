@@ -8,7 +8,9 @@ import PaymentUser from "../../../components/exams/private/PaymentUser";
 import styled from "styled-components";
 import DrawerModifier from '../../../components/Drawer/DrawerModifier';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../redux/configStore';
+import { DispatchType, RootState } from '../../../redux/configStore';
+import { useDispatch } from 'react-redux';
+import { setDefaultTabAccountKey } from '../../../redux/reducers/menu/menuSlice';
 
 type Props = {}
 let itemsTab: TabsProps['items'] = [
@@ -35,6 +37,7 @@ let itemsTab: TabsProps['items'] = [
 
 function Account({ }: Props) {
   let { defaultTabAccountKey } = useSelector((state: RootState) => state.menuSlice)
+  const dispatch: DispatchType = useDispatch();
   return (
     <div>
       <AccountWrapper className='size__component rounded py-4 mb-20 bg-slate-50' style={{ minHeight: '90vh' }}>
@@ -42,6 +45,9 @@ function Account({ }: Props) {
         <Tabs
           type='card'
           tabPosition='left'
+          onChange={(key) => {
+            dispatch(setDefaultTabAccountKey({ key }))
+          }}
           defaultActiveKey={defaultTabAccountKey}
           items={itemsTab}
         />

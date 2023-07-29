@@ -70,7 +70,7 @@ const ListExamUser = () => {
         <p className="mx-4 font-medium text-base"><span>Total Exams: </span><span>{lstOptionExam?.length}</span>
         </p>
       </div>
-      <Table rowKey={"id"} columns={columns} dataSource={lstOptionExam} />
+      <Table rowKey={'id'} columns={columns} dataSource={lstOptionExam} />
     </UserAdminContainer>
   );
 };

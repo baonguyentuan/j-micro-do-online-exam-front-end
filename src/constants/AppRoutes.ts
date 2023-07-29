@@ -23,6 +23,7 @@ export default {
       "account":"/account",
       "create_exam":"/create_exam",
       "create_contest":"/create_contest",
+      "premium":"/premium"
     },
     "admin": {
       "admin": adminRoute,
