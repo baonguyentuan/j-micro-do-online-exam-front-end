@@ -42,7 +42,7 @@ const endpointSlice = createSlice({
       state.order_by = action.payload.order_by;
     },
     getEndpointOptions: (state, action) => {
-      state.options = action.payload.options;
+      state.options = action.payload;
     },
     createEndpoint: (state, action) => {
       state.data.push(action.payload);
@@ -82,17 +82,15 @@ export const getEndpointApi = () => {
     await dispatch(setLoading({ isLoading: false }))
   }
 }
-export const getEndpointOptionApi = () => {
-  return async (dispatch: DispatchType) => {
+export const getEndpointOptionApi = () => async (dispatch: DispatchType) => {
     dispatch(setLoading({ isLoading: true }))
     try {
       const result = await endpointService.getEndpointOption()
-      dispatch(getEndpointOptions(result.data));
+      dispatch(getEndpointOptions(result.data.data));
     } catch (err) {
       console.log(err);
     }
-    await dispatch(setLoading({ isLoading: false }))
-  }
+    dispatch(setLoading({ isLoading: false }))
 }
 export const getEndpointByName = (endPointPath: string) => {
   return async (dispatch: DispatchType) => {

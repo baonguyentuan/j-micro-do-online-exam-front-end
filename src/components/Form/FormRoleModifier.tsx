@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Button, Form, Input, Select } from 'antd'
 import { useSelector } from 'react-redux';
 import { DispatchType, RootState } from '../../redux/configStore';
@@ -12,7 +12,11 @@ type Props = {
 }
 const FormRoleModifier = ({ formStatus }: Props) => {
     const [form] = Form.useForm();
-    const data = useSelector((state: RootState) => state.endpointSlice?.options);
+    const options = useSelector((state: RootState) => state.endpointSlice?.options);
+    const endpoints = options?.map(item => ({
+        value: item?.id.toString(),
+        label: item?.name
+    }));
     const { inputRole } = useSelector((state: RootState) => state.roleSlice)
     const dispatch: DispatchType = useDispatch()
 
@@ -39,7 +43,7 @@ const FormRoleModifier = ({ formStatus }: Props) => {
     }
     const renderButtonSubmit = () => {
         if (formStatus === Constants.formStatus.EDIT) {
-            return <Button disabled={!validateButtonEdit()} className='btn__contest' onClick={() => {
+            return <Button disabled={validateButtonEdit()} className='btn__contest' onClick={() => {
                 form.validateFields();
                 dispatch(updateRole(inputRole.roleName, inputRole.selectedEndpoint))
                 form.resetFields();
@@ -48,9 +52,9 @@ const FormRoleModifier = ({ formStatus }: Props) => {
                 Update
             </Button>
         } else {
-            return <Button disabled={!validateButtonCreate()} className='btn__contest'
+            return <Button disabled={validateButtonCreate()} className='btn__contest'
                 onClick={() => {
-                    dispatch(addRole(inputRole?.roleName, data[0]?.name));
+                    dispatch(addRole(inputRole?.roleName, inputRole.selectedEndpoint));
                     form.resetFields();
                     dispatch(closeDrawer())
                 }}
@@ -62,26 +66,30 @@ const FormRoleModifier = ({ formStatus }: Props) => {
 
     useEffect(() => {
         if (formStatus === Constants.formStatus.EDIT) {
-            form.setFieldValue('role', inputRole.roleName)
-            form.setFieldValue('select_endpoint', inputRole.selectedEndpoint)
+            form.setFieldsValue({
+                role: inputRole.roleName,
+                select_endpoint: inputRole.selectedEndpoint,
+            });
         }
     }, [inputRole]);
 
     return (
-        <Form form={form} id='form_role' labelAlign='left' labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
-            <Form.Item wrapperCol={{ span: 24 }}>
-                {renderTitle()}
-            </Form.Item>
-            <Form.Item name='role' label="Role Name" rules={[{ required: true, message: 'Please enter the role name' }]}>
-                <Input placeholder="Enter role name" />
-            </Form.Item>
-            <Form.Item name='select_endpoint' label="Endpoint" rules={[{ required: true, message: 'Please enter the endpoint name' }]}>
-                <Select showSearch placeholder="Select endpoint" options={data} />
-            </Form.Item>
-            <Form.Item wrapperCol={{ span: 24 }}>
-                {renderButtonSubmit()}
-            </Form.Item>
-        </Form>
+        <>
+            <Form form={form} id='form_role' labelAlign='left' labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
+                <Form.Item wrapperCol={{ span: 24 }}>
+                    {renderTitle()}
+                </Form.Item>
+                <Form.Item name='role' label="Role Name" rules={[{ required: true, message: 'Please enter the role name' }]}>
+                    <Input placeholder="Enter role name" />
+                </Form.Item>
+                <Form.Item name='select_endpoint' label="Endpoint" rules={[{ required: true, message: 'Please enter the endpoint name' }]}>
+                    <Select showSearch placeholder="Select endpoint" options={endpoints} />
+                </Form.Item>
+                <Form.Item wrapperCol={{ span: 24 }}>
+                    {renderButtonSubmit()}
+                </Form.Item>
+            </Form>
+        </>
     )
 }
 
