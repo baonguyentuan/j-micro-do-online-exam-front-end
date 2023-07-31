@@ -33,6 +33,7 @@ import ExamModalResult from "./components/Modal/exam-result/ExamModalResult";
 import AdminRole from "./Admin/AdminRole/AdminRole";
 import AdminEndpoint from "./Admin/AdminEndpoint";
 import AdminArticles from "./Admin/AdminArticles";
+import NotFoundPage from "./pages/404Page";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
@@ -49,13 +50,14 @@ root.render(
           <Route path={AppRoutes.public.contact} element={<Contact />} />
           <Route path={AppRoutes.public.courses_detail} element={<Course />} />
           <Route path={AppRoutes.public.courses} element={<TrainingCourses />} />
+          <Route path="*" element={<NotFoundPage />} />
           {/* PRIVATE ROUTE*/}
           <Route path={AppRoutes.private.user.account}
             element={<ProtectedRoute><Account /></ProtectedRoute>} />
           <Route path={AppRoutes.private.user.create_contest} element={<ProtectedRoute><CreateContest /></ProtectedRoute>} />
           <Route path={AppRoutes.private.user.create_exam} element={<ProtectedRoute><CreateExam status={Constants.formStatus.CREATE} /></ProtectedRoute>} />
           <Route path={AppRoutes.public.courses_sort_category} element={<TrainingCoursesByCategory />} />
-          <Route path="*" element={<Home />} />
+          <Route path="/home" element={<Home />} />
         </Route>
 
         {/* TODO: FIX */}
