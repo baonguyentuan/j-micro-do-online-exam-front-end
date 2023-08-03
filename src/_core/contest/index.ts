@@ -1,18 +1,19 @@
 import { ContestCommentModel } from "../CommentModel";
+import { PaginationModel } from "../common/Common";
 import { QuestionContestModel } from "../exam";
 
-export interface ContestInfoModel {
-  id: number,
-  name: string
-  imgSrc: string,
-  categories: string[],
-  duration: number,
-  rating: ContestCommentModel[],
-  description: string,
-  premium: string,
-  quantityDownload: number,
-  createBy: string
-}
+// export interface ContestInfoModel {
+//   id: number,
+//   name: string
+//   imgSrc: string,
+//   categories: string[],
+//   duration: number,
+//   rating: ContestCommentModel[],
+//   description: string,
+//   premium: string,
+//   quantityDownload: number,
+//   createBy: string
+// }
 
 export interface ContestState {
   contestDetail: ContestInfoModel | null,
@@ -58,17 +59,39 @@ export interface InitialContestState {
 
   contestInfo: ContestInfoModel,
 
-  contestInfoDetail: {},
+  contestInfoDetail: ContestInfoDetailModel,
+
+  lstContest: ContestInfoModel[],
+
+  pagination: PaginationModel
 }
 
-export interface ContestInfoModel{
+export interface ContestInfoModel {
+  id: number
+
   examID: number,
-  
+
   endAt: string,
-  
+
   startAt: string,
-  
-  examName:string,
-  
+
+  examName: string,
+
   contestName: string,
+}
+
+export interface ContestInfoDetailModel {
+  name: string,
+
+  examName: string,
+
+  endAt: string,
+
+  startAt: string,
+
+  ownerName: string,
+
+  description: string,
+
+  participants: { username: string, email: string }[]
 }

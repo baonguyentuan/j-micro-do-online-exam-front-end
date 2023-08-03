@@ -33,6 +33,8 @@ import ExamModalResult from "./components/Modal/exam-result/ExamModalResult";
 import AdminRole from "./Admin/AdminRole/AdminRole";
 import AdminEndpoint from "./Admin/AdminEndpoint";
 import AdminArticles from "./Admin/AdminArticles";
+import DrawerModifier from "./components/Drawer/DrawerModifier";
+import AdminContest from "./Admin/AdminContest/AdminContest";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
@@ -68,6 +70,7 @@ root.render(
           <Route path={AppRoutes.private.admin.user} element={<AdminUser />} />
           <Route path={AppRoutes.private.admin.category} element={<AdminCategory />} />
           <Route path={AppRoutes.private.admin.exam} element={<AdminExam />} />
+          <Route path={AppRoutes.private.admin.contest} element={<AdminContest />} />
           <Route path={AppRoutes.private.admin.role} element={<AdminRole />} />
           <Route path={AppRoutes.private.admin.endpoint} element={<AdminEndpoint />} />
           <Route path={AppRoutes.private.admin.article} element={<AdminArticles />} />
@@ -90,5 +93,6 @@ root.render(
         <Route path={AppRoutes.public.contest} element={<LoginExamAccount />} />
       </Routes>
     </HistoryRouter>
+    <DrawerModifier />
   </Provider>
 );

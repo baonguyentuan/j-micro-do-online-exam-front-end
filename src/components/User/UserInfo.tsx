@@ -36,12 +36,12 @@ function UserInfo({ }: Props) {
   let formik = useFormik({
     enableReinitialize: true,
     initialValues: currentInfo,
-    // validationSchema:Yup.object({
-    //   email: Yup.string().email(t("invalid_email_address")).required(t("required")),
-    //   username: Yup.string().min(6, t("minimum_character")).required(t("required"))
-    // }),
+    validationSchema: Yup.object({
+      email: Yup.string().email(t("invalid_email_address")).required(t("validate_email_required")),
+      username: Yup.string().required(t("validate_username_required"))
+    }),
     onSubmit: async (formValue) => {
-      const result = await dispatch(updateUserInfoApi({
+      await dispatch(updateUserInfoApi({
         userName: formValue.username,
         email: formValue.email,
         phone: formValue.phone,
@@ -61,9 +61,11 @@ function UserInfo({ }: Props) {
           <Col span={12}>
             <Form.Item label={"Username"} >
               <Input name='username' value={formik.values.username} onChange={formik.handleChange} />
+              <p className="text-red-400">{formik.errors.username}</p>
             </Form.Item>
             <Form.Item label={"Email"} >
               <Input name='email' value={formik.values.email} onChange={formik.handleChange} />
+              <p className="text-red-400">{formik.errors.email}</p>
             </Form.Item>
             <Form.Item label={"Phone"} >
               <Input name='phone' value={formik.values.phone ? formik.values.phone : ''} onChange={formik.handleChange} />

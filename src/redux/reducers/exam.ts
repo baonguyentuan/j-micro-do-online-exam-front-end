@@ -27,7 +27,16 @@ const initialState = {
   lstOptionExam: [{}],
   checkExamResult: {},
   loading: false,
-  fullExamDetail: {}
+  fullExamDetail: {
+    id:-1,
+    title: '',
+    categoryId: null,
+    examType: '',
+    description: '',
+    duration: 0,
+    question: [{}],
+    file: ''
+  }
 } as examSliceInitState;
 
 const examSlice = createSlice({

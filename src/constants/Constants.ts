@@ -54,5 +54,7 @@ export default {
     NORMAL: '50%',
     LARGE: '70%'
   },
-  formatFullDate:"YYYY-MM-DD HH:mm:ss"
+  formatFullDate:"YYYY-MM-DD HH:mm:ss",
+  formatDate:"YYYY-MM-DD HH:mm"
+
 }

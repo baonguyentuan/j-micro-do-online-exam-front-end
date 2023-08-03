@@ -10,7 +10,7 @@ import Constants from "../../constants/Constants";
 import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../redux/configStore";
 import CreateQuestion from "../../components/exams/private/CreateQuestion";
-import { QuestionExamSubmitModel, QuestionRowModel } from "../../_core/exam";
+import { ExamDetailFormModel, QuestionExamSubmitModel, QuestionRowModel } from "../../_core/exam";
 import { getCategoryOptionApi } from "../../redux/reducers/category/categorySlice";
 import { createExamApi, editExamApi, getFullExamDetail, updateThumbnailExamApi, getExamDetailShow } from "../../redux/reducers/exam";
 import { getUserInfo } from "../../redux/reducers/user/userSlice";
@@ -42,19 +42,21 @@ const CreateExam = ({ status }: Props) => {
     });
   });
 
-  let startValue;
+  let startValue: ExamDetailFormModel;
   if (status === Constants.formStatus.CREATE) {
     startValue = {
-      title: fullExamDetail.title,
-      categoryId: fullExamDetail.categoryId,
-      examType: fullExamDetail.examType,
-      description: fullExamDetail.description,
-      duration: fullExamDetail.duration,
-      question: fullExamDetail.question,
-      file: fullExamDetail.file
+      id: -1,
+      title: '',
+      categoryId: null,
+      examType: userInfo?.roles.find(roleItem => roleItem === "ADMIN") === "ADMIN" ? "FREE" : "PRIVATE",
+      description: '',
+      duration: 0,
+      question: [],
+      file: null
     };
   } else {
     startValue = {
+      id: fullExamDetail.id,
       title: fullExamDetail.title,
       categoryId: fullExamDetail.categoryId,
       examType: examGetDetail.examType,
@@ -90,8 +92,8 @@ const CreateExam = ({ status }: Props) => {
           questions: lstCreateQuestion
         }));
       } else {
-        if (typeof formValue.file === "object" && formValue.file) {
-          formData.append("file", formValue.file, formValue.file?.name);
+        if (formValue.file && typeof formValue.file === "object") {
+          formData.append("file", formValue.file, formValue.file?.name)
         }
         formData.append("title", formValue.title);
         formData.append("duration ", JSON.stringify(formValue.duration));
@@ -133,7 +135,7 @@ const CreateExam = ({ status }: Props) => {
       return <Form.Item label={t("detail.thumbnail")}>
         {file.file ? <img width={150} height={150} src={file.fileSrc} alt={formik.values.examType} /> :
           <img width={150} height={150} src={typeof formik.values.file === "string" ? formik.values.file : ""}
-               alt={formik.values.examType} />}
+            alt={formik.values.examType} />}
         <Input
           className="my-4"
           value={file.filePath}
@@ -211,34 +213,6 @@ const CreateExam = ({ status }: Props) => {
   };
   useEffect(() => {
     let setData = async () => {
-      if (status === Constants.formStatus.CREATE) {
-        let type = userInfo?.roles.find(roleItem => roleItem === "ADMIN") === "ADMIN" ? "FREE" : "PRIVATE";
-        await dispatch(getFullExamDetail({
-          examDetail: {
-            id: -1,
-            title: "",
-            categoryId: null,
-            examType: type,
-            description: "",
-            duration: AppConfigs.exam.MIN_DURATION_EXAM,
-            question: [],
-            file: null
-          }
-        }));
-        await dispatch(getExamDetailShow({
-          id: -1,
-          image: "",
-          examType: type,
-          examName: "",
-          createAt: "",
-          duration: AppConfigs.exam.MIN_DURATION_EXAM,
-          totalRating: 0,
-          categoryID: null,
-          description: "",
-          categoryName: "",
-          downloadNumber: 0
-        }));
-      }
       await dispatch(getCategoryOptionApi());
     };
     setData();
