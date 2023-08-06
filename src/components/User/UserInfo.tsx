@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, DatePicker, Form, Input, Row, Space, Upload } from "antd";
+import { Button, Col, DatePicker, Form, Input, Row, Space, Upload, UploadFile } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { UserAdminContainer } from "../../assets/styles/userAdminStyles";
 import { useSelector } from "react-redux";
@@ -16,6 +16,7 @@ function UserInfo({ }: Props) {
   let { userInfo } = useSelector((state: RootState) => state.userSlice)
   let dispatch: DispatchType = useDispatch()
   let [file, setFile] = useState<any>(null)
+  let [fileList, setFileList] = useState<UploadFile[]>([])
   const { t } = useTranslation("user");
   let currentInfo
   if (userInfo) {
@@ -94,7 +95,6 @@ function UserInfo({ }: Props) {
                 <h2 className="text-center font-medium text-xl mb-2">Avatar</h2>
                 <Space className="m-auto">
                   <Upload
-
                     className="text-center"
                     style={{ width: 150 }}
                     name="file"
@@ -105,14 +105,19 @@ function UserInfo({ }: Props) {
                     listType="picture-circle"
                     multiple={false}
                     onPreview={(file) => {
-                      return null
+                      return false
                     }}
                     maxCount={1}
                     defaultFileList={[]}
-                    // fileList={file ? [file] : []}
+                    fileList={file ? fileList : []}
+                    onRemove={() => {
+                      setFile(null)
+                      return false
+                    }}
                     onChange={(file) => {
                       if (file.file) {
                         setFile(file.file)
+                        setFileList(file.fileList)
                       }
                     }}>
                     <Button icon={<UploadOutlined />} />

@@ -217,7 +217,13 @@ const CreateExam = ({ status }: Props) => {
     };
     setData();
   }, []);
-
+  useEffect(() => {
+    setFile({
+      file: null,
+      fileSrc: "",
+      filePath: ""
+    })
+  }, [fullExamDetail, examGetDetail])
   return (
     <div className="size__component py-4" style={{ minHeight: "70vh" }}>
       {status === Constants.formStatus.EDIT ?

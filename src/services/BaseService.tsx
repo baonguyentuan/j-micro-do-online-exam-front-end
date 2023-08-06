@@ -141,20 +141,20 @@ export class BaseService {
   }
 
   getByParams(url: string, model: any) {
-    // if (localStorage.getItem(Constants.localStorageKey.accessToken)) {
+    if (localStorage.getItem(Constants.localStorageKey.accessToken)) {
     return axios({
       url: `${ApiEndpoint.domain}/${url}`,
       method: 'GET',
       params: model,
       headers: { "Authorization": "Bearer " + localStorage.getItem(Constants.localStorageKey.accessToken) }
     })
-    // } else {
-    //   return axios({
-    //     url: `${ApiEndpoint.domain}/${url}`,
-    //     method: 'GET',
-    //     params: model,
-    //   })
-    // }
+    } else {
+      return axios({
+        url: `${ApiEndpoint.domain}/${url}`,
+        method: 'GET',
+        params: model,
+      })
+    }
   }
   getOrderBy(url: string, model: any) {
     if (localStorage.getItem(Constants.localStorageKey.accessToken)) {

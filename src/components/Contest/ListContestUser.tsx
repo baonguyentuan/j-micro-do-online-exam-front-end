@@ -6,9 +6,9 @@ import AppRoutes from "../../constants/AppRoutes";
 import AppConfigs from "../../config/AppConfigs";
 import { DispatchType, RootState } from "../../redux/configStore";
 import { useDispatch } from "react-redux";
-import { deleteContest, getContestByOwner, getContestDetail } from "../../redux/reducers/contest";
+import { deleteContest, getContestByOwner, getContestDetail} from "../../redux/reducers/contest";
 import { useSelector } from "react-redux";
-import { CaretDownOutlined, CaretUpOutlined, DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
+import { CaretDownOutlined, CaretUpOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 import { ContestInfoModel } from "../../_core/contest";
 import Constants from "../../constants/Constants";
 import dayjs from "dayjs";
@@ -29,13 +29,12 @@ const ListContestUser = (props: Props) => {
     order_by: -1
   })
   let [nameFilter, setNameFilter] = useState<boolean>(true);
-  let [createAtFilter, setCreateAtFilter] = useState<boolean>(true);
   let { t } = useTranslation("contest");
 
   const columns = [
     {
       title: <div className="flex justify-between items-center">
-        <div>Contest name</div>
+        <div>{t('detail.Contest name')}</div>
         <div>
           <Button type="link" className={`${nameFilter ? "hidden" : ""}`} onClick={async () => {
             await setNameFilter(!nameFilter);
@@ -52,13 +51,13 @@ const ListContestUser = (props: Props) => {
       render: (text: string) => <a>{text}</a>
     },
     {
-      title: "Exam name",
+      title: t('detail.Exam name'),
       dataIndex: "examName",
       key: "examName",
       render: (text: string) => <a>{text}</a>
     },
     {
-      title: "Time start",
+      title: t('detail.start at'),
       dataIndex: "startAt",
       key: "startAt",
       render: (text: string) => {
@@ -66,7 +65,7 @@ const ListContestUser = (props: Props) => {
       }
     },
     {
-      title: "Time end",
+      title: t('detail.end at'),
       dataIndex: "endAt",
       key: "endAt",
       render: (text: string) => {
@@ -74,7 +73,7 @@ const ListContestUser = (props: Props) => {
       }
     },
     {
-      title: "Action",
+      title: t('exam.Action'),
       key: "action",
       render: (text: string, record: ContestInfoModel, index: number) => (
         <Space size="middle">
@@ -83,8 +82,8 @@ const ListContestUser = (props: Props) => {
             await dispatch(setDrawerInfo({ typeContent: Constants.typeDrawer.VIEW_CONTEST, sizeDrawer: Constants.sizeDrawer.NORMAL }))
           }}><EyeOutlined className="text-base -translate-y-1 " /></Button>
           <Popconfirm
-            title={'Delete the contest'}
-            description={'Are you sure to delete this contest?'}
+            title={t('contest.Delete the contest')}
+            description={t('contest.Are you sure to delete this contest?')}
             onConfirm={async () => {
               await dispatch(deleteContest(record.id));
             }}
@@ -106,8 +105,8 @@ const ListContestUser = (props: Props) => {
       <div className="mt-4 mb-8 flex justify-between items-center">
         <Button className="font-medium" size="large" onClick={async () => {
           navigate(AppRoutes.private.user.create_contest);
-        }}>Create Contest</Button>
-        <p className="mx-4 font-medium text-base"><span>Total Contests: </span><span>{pagination.totals}</span></p>
+        }}>{t('contest.create contest')}</Button>
+        <p className="mx-4 font-medium text-base"><span>{t('detail.total')}: </span><span>{pagination.totals}</span></p>
       </div>
       <div>
         <Table

@@ -2,10 +2,11 @@ import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit";
 import { thunkAction } from "../../utils/redux-helpers";
 import clientService from "../../utils/client";
 import ApiEndpoint from "../../constants/ApiEndpoint";
-import { setLocalStorage } from "../../utils/local-storage";
+import { getLocalStorage, setLocalStorage } from "../../utils/local-storage";
 import Constants from "../../constants/Constants";
 import { history } from "../..";
 import AppRoutes from "../../constants/AppRoutes";
+import { getUserInfo } from "./user/userSlice";
 
 
 const authSlice = createSlice({
@@ -21,8 +22,7 @@ const authSlice = createSlice({
   extraReducers: (builder => {
     builder.addCase(postLogin.fulfilled, (state, action) => {
       state.loading = false;
-      setLocalStorage(Constants.localStorageKey.accessToken, action.payload[Constants.localStorageKey.accessToken]);
-      history.push(AppRoutes.public.home)
+
       return state;
     });
     builder.addCase(postLogout.fulfilled, (state, action) => {
@@ -60,7 +60,7 @@ const authSlice = createSlice({
         postLoginWithExamAccount.rejected), (state, action) => {
           state.loading = false;
           console.log(action);
-          
+
           return state;
         });
   })
@@ -68,8 +68,16 @@ const authSlice = createSlice({
 
 export const postLogin = createAsyncThunk(
   "auth/Login",
-  thunkAction((payload: any) => {
-    return clientService.post(ApiEndpoint.auth.LOGIN, payload);
+  thunkAction(async (payload: any, { dispatch }) => {
+    let resultLogin = await clientService.post(ApiEndpoint.auth.LOGIN, payload);
+    setLocalStorage(Constants.localStorageKey.accessToken, resultLogin.data[Constants.localStorageKey.accessToken]);
+    await dispatch(getUserInfo())
+    if (getLocalStorage(Constants.localStorageKey.account) === "ADMIN" && getLocalStorage(Constants.localStorageKey.accessToken) !== null) {
+      history.push(AppRoutes.private.admin.admin)
+    } else {
+      history.push(AppRoutes.public.home)
+    }
+    return resultLogin
   })
 );
 

@@ -15,8 +15,8 @@ import { useDispatch, useSelector } from "react-redux";
 import AppConfigs from "../../config/AppConfigs";
 import { getExamDetailShow, getExamOptionApi, getFullExamDetailApi } from "../../redux/reducers/exam";
 import Constants from "../../constants/Constants";
-import { postCreateContest } from "../../redux/reducers/contest";
 import { setDrawerInfo } from "../../redux/reducers/drawer/drawerSlice";
+import { postCreateContest } from "../../redux/reducers/contest";
 
 const { TextArea } = Input;
 type Props = {}
@@ -47,7 +47,7 @@ const CreateContest = (props: Props) => {
       name: Yup.string().required(t("detail.name is required")),
       description: Yup.string().required(t("detail.description is required")),
       startAt: Yup.date().typeError(t("detail.time start must be timestamp")).required(t("detail.time start is required")).min(dayjs().add(AppConfigs.exam.MIN_PERIOD_CONTEST, "day"), t("detail.the contest must start at least {{duration}} days from the date of creation", { duration: AppConfigs.exam.MIN_PERIOD_CONTEST })),
-      endAt: Yup.date().typeError(t("detail.time start must be timestamp")).required(t("detail.time start is required")).min(dayjs().add(AppConfigs.exam.MIN_PERIOD_CONTEST, "day"), t("detail.the contest must start at least {{duration}} days from the date of creation", { duration: AppConfigs.exam.MIN_PERIOD_CONTEST })).test('isLarger', 'End time  must be large', (value, context) => {
+      endAt: Yup.date().typeError(t("detail.time start must be timestamp")).required(t("detail.time start is required")).min(dayjs().add(AppConfigs.exam.MIN_PERIOD_CONTEST, "day"), t("detail.the contest must start at least {{duration}} days from the date of creation", { duration: AppConfigs.exam.MIN_PERIOD_CONTEST })).test('isLarger', t('detail.time end at least {{duration}} min from the time start', { duration: fullExamDetail.duration + 10 }), (value, context) => {
         if (dayjs(value).diff(dayjs(context.parent.startAt), 'minute') >= fullExamDetail.duration + 10) {
           return true
         }
@@ -114,12 +114,16 @@ const CreateContest = (props: Props) => {
               }}
             />
             <p className="mt-1 text-red-500">{formik.errors.examID}</p>
-            {formik.values.examID !== -1 ? <div>
-              <p><span className="prop__title">Name</span>: <span className="text-base">{fullExamDetail.title}</span></p>
-              <p><span className="prop__title">Category</span>: <span className="text-base">{examGetDetail.categoryName}</span></p>
-              <p><span className="prop__title">Duration</span>: <span className="text-base">{fullExamDetail.duration}</span> min</p>
-              <p><span className="prop__title">Quantity of question</span>: <span className="text-base">{fullExamDetail.question.length}</span></p>
-              <Button onClick={async () => {
+            {formik.values.examID !== -1 ? <div className="border-2 mt-4 px-4 pb-4 pt-2 rounded-lg border-blue-500">
+              <p className="text-base my-4 grid grid-cols-4">
+                <span className=' font-bold col-span-1'>{t('detail.name')}</span><span className='col-span-3'>: {fullExamDetail.title}</span></p>
+              <p className="text-base my-4 grid grid-cols-4">
+                <span className=' font-bold col-span-1'>{t('detail.category')}</span><span className='col-span-3'>: {examGetDetail.categoryName}</span></p>
+              <p className="text-base my-4 grid grid-cols-4">
+                <span className=' font-bold col-span-1'>{t('detail.duration')}</span><span className='col-span-3'>: {fullExamDetail.duration} min</span></p>
+              <p className="text-base my-4 grid grid-cols-4">
+                <span className=' font-bold col-span-1'>{t('detail.Quantity of question')}</span><span className='col-span-3'>: {fullExamDetail.question.length}</span></p>
+              <Button className="mt-4 pb-7 border-violet-600 border-2 text-base font-semibold" onClick={async () => {
                 dispatch(setDrawerInfo({ typeContent: Constants.typeDrawer.VIEW_EXAM, sizeDrawer: Constants.sizeDrawer.LARGE }))
               }}>Preview</Button>
             </div> : null}

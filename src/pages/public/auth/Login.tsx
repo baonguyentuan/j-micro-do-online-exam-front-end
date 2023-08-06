@@ -46,9 +46,9 @@ export default function Login() {
         return;
       }
 
-      const role: string = fetchUser.payload?.data?.roles[0];
+      // const role: string = fetchUser.payload?.data?.roles[0];
 
-      role.includes("USER") ? navigate(AppRoutes.public.home) : navigate(AppRoutes.public.home);
+      // role.includes("USER") ? navigate(AppRoutes.public.home) : navigate(AppRoutes.public.home);
     }
   });
 

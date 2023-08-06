@@ -22,6 +22,7 @@ const AdminLayout: React.FC = () => {
     i18n.changeLanguage(value)
   };
   useEffect(() => {
+
     if (getLocalStorage(Constants.localStorageKey.account) === "ADMIN" && getLocalStorage(Constants.localStorageKey.accessToken) !== null) {
       dispatch(getUserInfo())
       setLocalStorage(Constants.localStorageKey.status, true)
@@ -57,7 +58,7 @@ const AdminLayout: React.FC = () => {
           <Outlet />
         </Content>
       </Layout>
-      
+
     </Layout>
   );
 };

@@ -1,5 +1,5 @@
-import { createAsyncThunk, createListenerMiddleware, createSlice, isAnyOf } from "@reduxjs/toolkit";
-import { InitialContestState } from "../../_core/contest";
+import { PayloadAction, createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit";
+import { ContestInfoModel, InitialContestState } from "../../_core/contest";
 import { thunkAction } from "../../utils/redux-helpers";
 import clientService from "../../utils/client";
 import ApiEndpoint from "../../constants/ApiEndpoint";
@@ -33,7 +33,8 @@ const initialState = {
 const contestSlice = createSlice({
   name: "contestSlice",
   initialState,
-  reducers: {},
+  reducers: {
+  },
   extraReducers: (builder => {
     builder.addCase(getContestByUser.fulfilled, (state, action) => {
       state.loading = false;
@@ -45,6 +46,8 @@ const contestSlice = createSlice({
       state.loading = false;
       state.lstContest = action.payload.data
       state.pagination = action.payload.pagination
+      console.log('get');
+
       return state;
     });
     builder.addCase(getContestDetail.fulfilled, (state, action) => {
@@ -54,7 +57,8 @@ const contestSlice = createSlice({
     });
     builder.addCase(postCreateContest.fulfilled, (state, action) => {
       state.loading = false;
-      history.push(AppRoutes.private.user.account)
+      console.log(action.payload);
+
       return state;
     });
     builder.addCase(deleteContest.fulfilled, (state, action) => {
@@ -100,7 +104,7 @@ const contestSlice = createSlice({
 export const getContestByOwner = createAsyncThunk(
   "contest/getContestByOwner",
   thunkAction(async (params: any) => {
-    return clientService.get(ApiEndpoint.contest.GET, { params });
+    return await clientService.get(ApiEndpoint.contest.GET, { params });
   })
 );
 
@@ -121,37 +125,51 @@ export const getContestDetail = createAsyncThunk(
 export const postCreateContest = createAsyncThunk(
   "contest/postCreateContest",
   thunkAction(async (payload: any, { dispatch }) => {
-    let result = await clientService.post(ApiEndpoint.contest.CREATE, payload);
-    await dispatch(getContestByOwner({
-      name: '',
-      from_date: '',
-      to_date: '',
-      page_size: AppConfigs.pagination.DEFAULT_PAGE_SIZE,
-      page_index: AppConfigs.pagination.DEFAULT_PAGE_INDEX,
-      order_by: -1
-    }))
-    await dispatch(setDefaultTabAccountKey({ key: 'contest' }))
-    return result
+    try {
+      await clientService.post(ApiEndpoint.contest.CREATE, payload);
+      openNotificationWithIcon("success", "Create contest successful", "", 1)
+      let result = await dispatch(getContestByOwner({
+        name: '',
+        from_date: '',
+        to_date: '',
+        page_size: AppConfigs.pagination.DEFAULT_PAGE_SIZE,
+        page_index: AppConfigs.pagination.DEFAULT_PAGE_INDEX,
+        order_by: -1
+      }))
+      await dispatch(setDefaultTabAccountKey({ key: 'contest' }))
+      await history.push(AppRoutes.private.user.account)
+      return result
+    } catch (error) {
+      openNotificationWithIcon("error", "Create contest failed", "", 1);
+    }
+
   })
 );
 
 export const deleteContest = createAsyncThunk(
   "contest/deleteContest",
   thunkAction(async (idContest: number, { dispatch }) => {
-    await clientService.delete(`${ApiEndpoint.contest.DELETE}/${idContest}`);
-    const result = await dispatch(getContestByOwner({
-      name: '',
-      from_date: '',
-      to_date: '',
-      page_size: AppConfigs.pagination.DEFAULT_PAGE_SIZE,
-      page_index: AppConfigs.pagination.DEFAULT_PAGE_INDEX,
-      order_by: -1
-    }))
-    return result
+    try {
+      await clientService.delete(`${ApiEndpoint.contest.DELETE}/${idContest}`);
+      const result = await dispatch(getContestByOwner({
+        name: '',
+        from_date: '',
+        to_date: '',
+        page_size: AppConfigs.pagination.DEFAULT_PAGE_SIZE,
+        page_index: AppConfigs.pagination.DEFAULT_PAGE_INDEX,
+        order_by: -1
+      }))
+      openNotificationWithIcon("success", "Delete contest successful", "", 1)
+      return result
+    } catch (error) {
+      openNotificationWithIcon("error", "Delete contest failed", "", 1);
+      
+    }
+
   })
 );
 
-export const { } = contestSlice.actions;
+export const {  } = contestSlice.actions;
 
 export default contestSlice.reducer;
 

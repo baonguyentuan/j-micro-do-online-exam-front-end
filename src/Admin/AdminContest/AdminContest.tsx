@@ -36,7 +36,7 @@ const AdminContest = (props: Props) => {
     const columns = [
         {
             title: <div className="flex justify-between items-center">
-                <div>Contest name</div>
+                <div>{t('detail.Contest name')}</div>
                 <div>
                     <Button type="link" className={`${nameFilter ? "hidden" : ""}`} onClick={async () => {
                         await setNameFilter(!nameFilter);
@@ -53,19 +53,19 @@ const AdminContest = (props: Props) => {
             render: (text: string) => <a>{text}</a>
         },
         {
-            title: "Exam name",
+            title: t('detail.Exam name'),
             dataIndex: "examName",
             key: "examName",
             render: (text: string) => <a>{text}</a>
         },
         {
-            title: "Owner",
+            title: t('detail.Owner'),
             dataIndex: "ownerName",
             key: "ownerName",
             render: (text: string) => <a>{text}</a>
         },
         {
-            title: "Time start",
+            title: t('detail.start at'),
             dataIndex: "startAt",
             key: "startAt",
             render: (text: string) => {
@@ -73,7 +73,7 @@ const AdminContest = (props: Props) => {
             }
         },
         {
-            title: "Time end",
+            title: t('detail.end at'),
             dataIndex: "endAt",
             key: "endAt",
             render: (text: string) => {
@@ -81,7 +81,7 @@ const AdminContest = (props: Props) => {
             }
         },
         {
-            title: "Action",
+            title: t('exam.Action'),
             key: "action",
             render: (text: string, record: ContestInfoModel, index: number) => (
                 <Space size="middle">
@@ -99,17 +99,17 @@ const AdminContest = (props: Props) => {
     }, [searchParam])
     return (
         <div>
-            <h1 className="text-2xl text-center font-bold text-gray-800 mb-2">Contest managerment</h1>
+            <h1 className="text-2xl text-center font-bold text-gray-800 mb-2">{t('contest.Contest management')}</h1>
             <div className="mt-4 mb-8 flex justify-between items-center">
                 <Input
-                    placeholder={"search"}
+                    placeholder={t('detail.search')}
                     size="large"
                     onChange={(event) => {
                         setTimeout(() => {
                             setSearchParam({ ...searchParam, name: event.target.value, page_index: 1 });
                         }, 1000);
                     }} style={{ maxWidth: 400 }} className="mr-4" />
-                <p className="mx-4 font-medium text-base"><span>Total Contests: </span><span>{pagination.totals}</span></p>
+                <p className="mx-4 font-medium text-base"><span>{t('detail.total')}: </span><span>{pagination.totals}</span></p>
             </div>
             <div>
                 <Table
