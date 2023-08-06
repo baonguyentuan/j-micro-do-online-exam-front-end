@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Button, Checkbox, Input, InputNumber, Popconfirm, Radio, Select, Table } from 'antd'
 import { PlusCircleOutlined, DeleteOutlined, CheckOutlined, EditOutlined, CloseCircleOutlined } from '@ant-design/icons'
 import { useFormik } from 'formik';
@@ -30,13 +30,10 @@ function CreateQuestion({ questionList, setLstQuestion, questionError, isNewQues
     let locale = {
         emptyText: t('exam.No question')
     }
-    console.log(questionList);
-
     const formik = useFormik({
         initialValues: QuestionFormDefaultValue,
         enableReinitialize: true,
         onSubmit: (formValue) => {
-            console.log(formValue);
         },
         validationSchema: Yup.object({
             question: Yup.string().required(t('exam.Question is required')),
@@ -197,8 +194,6 @@ function CreateQuestion({ questionList, setLstQuestion, questionError, isNewQues
             key: 'question',
             width: '87%',
             render: (text: string, record: QuestionRowModel, index: number) => {
-                console.log(editId, record.id);
-
                 if (editId === record.id) {
                     return <div >
                         <TextArea
@@ -399,6 +394,13 @@ function CreateQuestion({ questionList, setLstQuestion, questionError, isNewQues
                                 formik.setFieldValue('correctAnswers', newQuestion.correctAnswers)
                                 await setLstQuestion(lstQuestionUpdate)
                                 await setEditId(newID)
+                                if (document.getElementsByClassName('ant-drawer-body')[0]) {
+                                    console.log(document.getElementsByClassName('ant-drawer-body')[0].clientTop);
+                                    document.getElementsByClassName('ant-drawer-body')[0]?.scrollTo({
+                                        top: document.getElementsByClassName('ant-drawer-body')[0].scrollHeight,
+                                        behavior: 'smooth'
+                                    })
+                                }
                             }}
                             disabled={disableAddQuestion}
                         >{t('exam.add question')}</Button>

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Avatar, Layout, Select, Space } from 'antd';
 import SideBar from '../components/SideBar/SideBar';
 import { UserOutlined } from '@ant-design/icons';
-import DrawerModifier from '../components/Drawer/DrawerModifier';
 import { useSelector } from 'react-redux';
 import { DispatchType, RootState } from '../redux/configStore';
 import { useDispatch } from 'react-redux';
@@ -23,6 +22,7 @@ const AdminLayout: React.FC = () => {
     i18n.changeLanguage(value)
   };
   useEffect(() => {
+
     if (getLocalStorage(Constants.localStorageKey.account) === "ADMIN" && getLocalStorage(Constants.localStorageKey.accessToken) !== null) {
       dispatch(getUserInfo())
       setLocalStorage(Constants.localStorageKey.status, true)
@@ -58,7 +58,7 @@ const AdminLayout: React.FC = () => {
           <Outlet />
         </Content>
       </Layout>
-      <DrawerModifier />
+
     </Layout>
   );
 };

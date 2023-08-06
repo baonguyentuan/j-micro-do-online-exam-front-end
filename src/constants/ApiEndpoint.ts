@@ -1,8 +1,8 @@
 export default {
-  domain:process.env.REACT_APP_SERVER_URL || "http://localhost:8763/api/v1",
+  domain: process.env.REACT_APP_SERVER_URL || "http://localhost:8763/api/v1",
   auth: {
     "LOGIN": 'auth/login',
-    "LOGIN_WITH_EXAM_ACCOUNT":'auth/accounts-exam/login',
+    "LOGIN_WITH_EXAM_ACCOUNT": 'auth/accounts-exam/login',
     "LOGOUT": 'auth/logout',
     "GET_USER": 'auth/users',
     "REGISTER": 'auth/register',
@@ -11,30 +11,30 @@ export default {
     "UPDATE_USER_INFO": 'auth/update/info',
     "UPDATE_USER_THUMBNAIL": 'auth/update/thumbnail',
   },
-  auth_exam:{
-    LOGIN:'auth/accounts-exam/login'
+  auth_exam: {
+    LOGIN: 'auth/accounts-exam/login'
   },
-  role:{
+  role: {
     "GET": 'auth/roles',
-    "EDIT":'auth/roles/edit',
-    "CREATE":'auth/roles/create',
-    "GET_ROLE_DETAIL":'auth/roles/detail',
+    "EDIT": 'auth/roles/edit',
+    "CREATE": 'auth/roles/create',
+    "GET_ROLE_DETAIL": 'auth/roles/detail',
   },
-  article:{
-    "GET":'articles',
-    "CREATE":'articles/create',
-    "DELETE":'articles/delete',
-    "GET_ARTICLE_BY_ID":'articles/id',
-    "GET_ARTICLE_BY_NAME":'articles/name',
-    "UPDATE_ARTICLE_INFO":'articles/update',
-    "UPDATE_ARTICLE_THUMBNAIL":'articles/update-img',
+  article: {
+    "GET": 'articles',
+    "CREATE": 'articles/create',
+    "DELETE": 'articles/delete',
+    "GET_ARTICLE_BY_ID": 'articles/id',
+    "GET_ARTICLE_BY_NAME": 'articles/name',
+    "UPDATE_ARTICLE_INFO": 'articles/update',
+    "UPDATE_ARTICLE_THUMBNAIL": 'articles/update-img',
   },
   exam: {
     "GET": 'exams/get',
     "EDIT": 'exams/edit',
     "CREATE": 'exams/create',
     "DELETE": 'exams/delete',
-    "UPDATE_THUMBNAIL":"exams/update-thumbnail",
+    "UPDATE_THUMBNAIL": "exams/update-thumbnail",
     "GET_DETAIL": 'exams/name',
     "GET_FULL_DETAIL": 'exams/detail',
     "GET_RANDOM": 'exams/random',
@@ -43,14 +43,14 @@ export default {
     "GET_EXAM_OPTIONS": 'exams/options',
     "GET_ORDER_BY": 'exams/orderByOptions',
     "GET_HOT_EXAMS_CATEGORY": 'exams/hot/category',
-    "SUBMIT_EXAM":'exams/submit',
+    "SUBMIT_EXAM": 'exams/submit',
   },
-  contest:{
-    "DELETE":'exams/contests/',
-    "GET":'exams/contests/owner',
-    "CREATE":'exams/contests/create',
-    "GET_CONTEST_BY_ID":'exams/contests/get',
-    "GET_CONTEST_FOR_USER":'exams/contests/user',
+  contest: {
+    "DELETE": 'exams/contests/delete',
+    "GET": 'exams/contests/owner',
+    "CREATE": 'exams/contests/create',
+    "GET_CONTEST_BY_ID": 'exams/contests/get',
+    "GET_CONTEST_FOR_USER": 'exams/contests/user',
   },
   category: {
     "GET": 'exams/categories/get',
@@ -61,29 +61,29 @@ export default {
     "UPDATE_CATEGORY_INFO": 'exams/categories/update/info',
     "UPDATE_CATEGORY_THUMBNAIL": 'exams/categories/update/thumbnail',
   },
-  endpoint:{
-    "GET":'auth/endpoints',
-    "EDIT":'auth/endpoints/edit',
-    "CREATE":'auth/endpoints/create',
-    "DELETE":'auth/endpoints/delete',
-    "GET_ENDPOINT_OPTIONS":'auth/endpoints/options',
+  endpoint: {
+    "GET": 'auth/endpoints',
+    "EDIT": 'auth/endpoints/edit',
+    "CREATE": 'auth/endpoints/create',
+    "DELETE": 'auth/endpoints/delete',
+    "GET_ENDPOINT_OPTIONS": 'auth/endpoints/options',
   },
-  topic:{
-    "GET":'notify/topics',
-    "CREATE":'notify/topics',
-    "DELETE":'notify/topics/delete',
-    "SUBSCRIBE_TOPIC":'notify/topic/subscribe',
-    "UNSUBSCRIBE_TOPIC":'notify/topic/unsubscribe',
+  topic: {
+    "GET": 'notify/topics',
+    "CREATE": 'notify/topics',
+    "DELETE": 'notify/topics/delete',
+    "SUBSCRIBE_TOPIC": 'notify/topic/subscribe',
+    "UNSUBSCRIBE_TOPIC": 'notify/topic/unsubscribe',
   },
-  notification:{
-    "GET_NOTIFY_BY_USER":'notify/user'
+  notification: {
+    "GET_NOTIFY_BY_USER": 'notify/user'
   },
-  feedback:{
-    "EDIT":'exams/feedback/edit',
-    "DELETE":'exams/feedback/delete',
-    "GET_EXAM_RATING":'exams/feedback/calculate',
-    "CREATE_EXAM_FEEDBACK":'exams/feedback/create',
-    "GET_FEEDBACK_BY_EXAM_NAME":'exams/feedback/exam',
-    "GET_STATUS_USER_FEEDBACK":'exams/feedback/check',
+  feedback: {
+    "EDIT": 'exams/feedback/edit',
+    "DELETE": 'exams/feedback/delete',
+    "GET_EXAM_RATING": 'exams/feedback/calculate',
+    "CREATE_EXAM_FEEDBACK": 'exams/feedback/create',
+    "GET_FEEDBACK_BY_EXAM_NAME": 'exams/feedback/exam',
+    "GET_STATUS_USER_FEEDBACK": 'exams/feedback/check',
   }
 }

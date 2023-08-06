@@ -29,6 +29,7 @@
         "time start must be timestamp": "Time start must be timestamp",
         "time start is required": "Time start is required",
         "the contest must start at least {{duration}} days from the date of creation": "The contest must start at least {{duration}} days from the date of creation",
+        "time end at least {{duration}} min from the time start":"Time end at least {{duration}} min from the time start",
         "file is required": "File is required",
         "exam is required": "Exam is required",
         "category is required": "Category is required",
@@ -39,11 +40,21 @@
         "createAt": "Create at",
         "examType": "Exam Type",
         "search":"Search",
-        "total":"Total"
+        "total":"Total",
+        "Quantity of question":"Quantity of question",
+        "Contest name":"Contest name",
+        "Exam name":"Exam name",
+        "Owner":"Owner",
+        "Participants":"Participants",
+        "Numeric order":"Numeric order",
+        "Account":"Account"
     },
     "contest": {
         "relate Contest": "Relate Contest",
-        "create contest": "Create contest"
+        "create contest": "Create contest",
+        "Delete the contest":"Delete the contest",
+        "Are you sure to delete this contest?":"Are you sure to delete this contest?",
+        "Contest management":"Contest management"
     },
     "feedback": {
         "customer feedback": "Customer Feedback",

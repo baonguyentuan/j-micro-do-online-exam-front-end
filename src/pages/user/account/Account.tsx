@@ -6,11 +6,11 @@ import ListExamUser from '../../../components/exams/private/ListExamUser';
 import ListContestUser from '../../../components/Contest/ListContestUser';
 import PaymentUser from "../../../components/exams/private/PaymentUser";
 import styled from "styled-components";
-import DrawerModifier from '../../../components/Drawer/DrawerModifier';
 import { useSelector } from 'react-redux';
 import { DispatchType, RootState } from '../../../redux/configStore';
 import { useDispatch } from 'react-redux';
 import { setDefaultTabAccountKey } from '../../../redux/reducers/menu/menuSlice';
+import { getLocalStorage } from '../../../utils/local-storage';
 
 type Props = {}
 let itemsTab: TabsProps['items'] = [
@@ -22,11 +22,13 @@ let itemsTab: TabsProps['items'] = [
   {
     label: 'Exam',
     key: 'exam',
+    disabled: getLocalStorage('account') === 'ADMIN' ? true : false,
     children: <ListExamUser />
   },
   {
     label: 'Contest',
     key: 'contest',
+    disabled: getLocalStorage('account') === 'ADMIN' ? true : false,
     children: <ListContestUser />
   }, {
     label: 'Payment',
@@ -52,7 +54,6 @@ function Account({ }: Props) {
           items={itemsTab}
         />
       </AccountWrapper>
-      <DrawerModifier />
     </div>
 
   )

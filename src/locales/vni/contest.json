@@ -29,6 +29,7 @@
         "time start must be timestamp":"Thời gian bắt đầu phải là định dạng thời gian",
         "time start is required":"Thời gian bắt đầu không thể bỏ trống",
         "the contest must start at least {{duration}} days from the date of creation":"Kỳ thi phải được tạo trước {{duration}} ngày",
+        "time end at least {{duration}} min from the time start":"Thời gian kết thúc ít nhất {{duration}} phút kể từ thời gian bắt đầu",
         "file is required":"Bạn phải chọn tệp tin ",
         "exam is required":"Bài thi không thể bỏ trống",
         "category is required":"Thể loại không thể bỏ trống",
@@ -39,11 +40,21 @@
         "createAt":"Tạo ngày",
         "examType":"Loại",
         "search":"Tìm kiếm",
-        "total":"Tổng"
+        "total":"Tổng",
+        "Quantity of question":"Số lượng câu hỏi",
+        "Contest name":"Tên kỳ thi",
+        "Exam name":"Tên bài thi",
+        "Owner":"Người tạo",
+        "Participants":"Thí sinh",
+        "Numeric order":"STT",
+        "Account":"Tài khoản"
     },
     "contest":{
         "relate Contest":"Bài thi liên quan",
-        "create contest":"Tạo kỳ thi"
+        "create contest":"Tạo kỳ thi",
+        "Delete the contest":"Xóa kỳ thi",
+        "Are you sure to delete this contest?":"Bạn có muốn xóa kỳ thi này ?",
+        "Contest management":"Quản lý kỳ thi"
     },
     "feedback":{
         "customer feedback":"Khách hàng đánh giá",

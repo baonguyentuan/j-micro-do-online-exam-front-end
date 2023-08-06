@@ -129,7 +129,7 @@ const AdminExam = () => {
       dataIndex: "createAt",
       key: "createAt",
       render: (text) => {
-        return <p>{dayjs(text).format("YYYY-MM-DD hh:mm:ss")}</p>;
+        return <p>{dayjs(text).format(Constants.formatFullDate)}</p>;
       }
     },
     {
@@ -163,7 +163,7 @@ const AdminExam = () => {
             okType="danger"
             okText="Yes"
             cancelText="No">
-            <Button className="btn_delete" disabled={record.examType === "PRIVATE"}><DeleteOutlined
+            <Button className={record.examType === "PRIVATE" ? "" : "btn_delete"} disabled={record.examType === "PRIVATE"}><DeleteOutlined
               className="text-base -translate-y-1 " /></Button>
           </Popconfirm>
         </Space>
@@ -181,18 +181,6 @@ const AdminExam = () => {
       <h1 className="text-2xl text-center font-bold text-gray-800 mb-2">{t('exam.Exam management')}</h1>
       <div className="my-4 flex justify-between items-center">
         <Button onClick={async () => {
-          await dispatch(getFullExamDetail({
-            examDetail: {
-              id: -1,
-              title: "",
-              categoryId: null,
-              examType: userInfo?.roles.find(roleItem => roleItem === "ADMIN") === "ADMIN" ? "FREE" : "PRIVATE",
-              description: "",
-              duration: AppConfigs.exam.MIN_DURATION_EXAM,
-              question: [],
-              file: null
-            }
-          }));
           await dispatch(setDrawerInfo({
             typeContent: Constants.typeDrawer.CREAT_EXAM,
             sizeDrawer: Constants.sizeDrawer.LARGE
