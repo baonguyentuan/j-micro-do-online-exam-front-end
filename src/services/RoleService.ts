@@ -10,10 +10,10 @@ class RoleService extends BaseService {
     getRolesOrderBy = (order_by: {}) => {
         return this.getOrderBy('auth/roles', order_by)
     }
-    createRole = (name: string, endPoint: string) => {
+    createRole = (name: string, endPoint: Array<number>) => {
         return this.postAdmin('auth/roles/create', {name, endPoint})
     }
-    editRole = (name: string, endPoint: string) => {
+    editRole = (name: string, endPoint:  Array<number>) => {
         return this.putAdmin('auth/roles/edit', {name, endPoint})
     }
 }
