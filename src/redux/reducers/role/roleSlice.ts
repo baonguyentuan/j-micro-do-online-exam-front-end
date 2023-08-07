@@ -12,7 +12,7 @@ const initialState = {
     inputRole: {
         id: 1,
         roleName: '',
-        selectedEndpoint: '',
+        selectedEndpoint: [],
       },
 };
 
@@ -69,7 +69,7 @@ export const getRoleOderBy = (order_by: {}) => {
       await dispatch(setLoading({ isLoading: false }))
     }
   }
-export const addRole = (name: string, endPoint: string) => {
+export const addRole = (name: string, endPoint: Array<number>) => {
     return async (dispatch: DispatchType) => {
         dispatch(setLoading({ isLoading: true }));
         try {
@@ -83,7 +83,7 @@ export const addRole = (name: string, endPoint: string) => {
     };
 };
 
-export const updateRole = (name: string, endPoint: string) => {
+export const updateRole = (name: string, endPoint: Array<number>) => {
     return async (dispatch: DispatchType) => {
         dispatch(setLoading({ isLoading: true }));
         try {

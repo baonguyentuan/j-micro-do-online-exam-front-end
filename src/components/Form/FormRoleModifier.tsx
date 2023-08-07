@@ -20,20 +20,6 @@ const FormRoleModifier = ({ formStatus }: Props) => {
     const { inputRole } = useSelector((state: RootState) => state.roleSlice)
     const dispatch: DispatchType = useDispatch()
 
-    const validateButtonEdit = () => {
-        if (inputRole?.roleName !== '') {
-            return true
-        } else {
-            return false
-        }
-    }
-    const validateButtonCreate = () => {
-        if (inputRole?.roleName !== '') {
-            return true
-        } else {
-            return false
-        }
-    }
     const renderTitle = () => {
         if (formStatus === Constants.formStatus.EDIT) {
             return <h1 className='text-center text-2xl font-bold'>Edit Role</h1>
@@ -43,20 +29,23 @@ const FormRoleModifier = ({ formStatus }: Props) => {
     }
     const renderButtonSubmit = () => {
         if (formStatus === Constants.formStatus.EDIT) {
-            return <Button disabled={validateButtonEdit()} className='btn__contest' onClick={() => {
-                form.validateFields();
-                dispatch(updateRole(inputRole.roleName, inputRole.selectedEndpoint))
-                form.resetFields();
-                dispatch(closeDrawer())
+            return <Button className='btn__contest' onClick={() => {
+                form.validateFields().then((values: any) => {
+                    dispatch(updateRole(values.role, values.select_endpoint))
+                    form.resetFields();
+                    dispatch(closeDrawer())
+                })
             }}>
                 Update
             </Button>
         } else {
-            return <Button disabled={validateButtonCreate()} className='btn__contest'
+            return <Button className='btn__contest'
                 onClick={() => {
-                    dispatch(addRole(inputRole?.roleName, inputRole.selectedEndpoint));
-                    form.resetFields();
-                    dispatch(closeDrawer())
+                    form.validateFields().then((values) => {
+                        dispatch(addRole(values.role, values.select_endpoint));
+                        form.resetFields();
+                        dispatch(closeDrawer())
+                    });
                 }}
             >
                 Add
@@ -83,7 +72,13 @@ const FormRoleModifier = ({ formStatus }: Props) => {
                     <Input placeholder="Enter role name" />
                 </Form.Item>
                 <Form.Item name='select_endpoint' label="Endpoint" rules={[{ required: true, message: 'Please enter the endpoint name' }]}>
-                    <Select showSearch placeholder="Select endpoint" options={endpoints} />
+                    <Select
+                        showSearch
+                        placeholder="Select endpoint"
+                        options={endpoints}
+                        mode="multiple"
+                        allowClear
+                    />
                 </Form.Item>
                 <Form.Item wrapperCol={{ span: 24 }}>
                     {renderButtonSubmit()}
