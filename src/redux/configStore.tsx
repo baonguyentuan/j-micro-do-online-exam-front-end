@@ -36,7 +36,8 @@ export const store = configureStore({
     roleSlice,
     endpointSlice,
     globalSlice
-  }
+  },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false })
 });
 
 export type RootState = ReturnType<typeof store.getState>

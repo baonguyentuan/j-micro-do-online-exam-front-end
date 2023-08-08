@@ -133,10 +133,10 @@ const DoExam = () => {
               <h1 className="font-medium text-xl my-2">Quản lý câu trả lời</h1>
               <div className="mb-2 flex gap-5">
                 <p><span><CheckCircleOutlined
-                  className="-translate-y-1 text-green-600" /></span> : <span className="font-medium">Đã trả lời</span>
+                  className="text-green-600 relative" /></span> : <span className="font-medium">Đã trả lời</span>
                 </p>
                 <p><span><CloseCircleOutlined
-                  className="-translate-y-1 text-red-600" /></span> : <span className="font-medium">Chưa trả lời</span>
+                  className="text-red-600 relative" /></span> : <span className="font-medium">Chưa trả lời</span>
                 </p>
               </div>
 
@@ -153,8 +153,8 @@ const DoExam = () => {
                     <span className="font-medium">{`${answerIndex + 1}`}</span>
                     {
                       answer.answerSelected.length > 0 ?
-                        <span><CheckCircleOutlined className="-translate-y-1 text-green-600 text-xl" /></span> :
-                        <span><CloseCircleOutlined className="-translate-y-1 text-red-600 text-xl" /></span>
+                        <span><CheckCircleOutlined className="text-green-600 text-xl" /></span> :
+                        <span><CloseCircleOutlined className="text-red-600 text-xl" /></span>
                     }
                   </div>;
                 })}

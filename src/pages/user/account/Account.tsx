@@ -22,13 +22,13 @@ let itemsTab: TabsProps['items'] = [
   {
     label: 'Exam',
     key: 'exam',
-    disabled: getLocalStorage('account') === 'ADMIN' ? true : false,
+    disabled: getLocalStorage('account') === 'ADMIN',
     children: <ListExamUser />
   },
   {
     label: 'Contest',
     key: 'contest',
-    disabled: getLocalStorage('account') === 'ADMIN' ? true : false,
+    disabled: getLocalStorage('account') === 'ADMIN',
     children: <ListContestUser />
   }, {
     label: 'Payment',
@@ -76,8 +76,8 @@ const AccountWrapper = styled.section`
       background-color: #FFB84C;
     }
   }
-  
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
+  box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
 `
 
 export default Account
