@@ -16,7 +16,7 @@ import AppConfigs from "../../../config/AppConfigs";
 import { getLocalStorage } from "../../../utils/local-storage";
 import { DispatchType, RootState } from "../../../redux/configStore";
 import FeedbackModal from "../../../components/Feedbacks/FeedbackModal";
-import { getExamDetailShow, getExamsRandom } from "../../../redux/reducers/exam";
+import {getDownLoadExam, getExamDetailShow, getExamsRandom } from "../../../redux/reducers/exam";
 import { backToPosition, openNotificationWithIcon } from "../../../utils/operate";
 import { deleteFeedBack, getExamRating, getFeedbacksByExam } from "../../../redux/reducers/feedback";
 import { GlobalAccountModalActionType, triggerGlobalAccountModal } from "../../../redux/reducers/global-slice";
@@ -58,6 +58,22 @@ function Course() {
     dispatch(getFeedbacksByExam(feedBackSearch));
   }, [feedBackSearch]);
 
+  const handleDownloadExam = async () => {
+    const result = await dispatch(getDownLoadExam({ examId: examGetDetail?.id }));
+
+    if (getDownLoadExam.rejected.match(result)) {
+      //TODO: handle error
+      return;
+    }
+
+    const url = window.URL.createObjectURL(new Blob([result.payload]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", examGetDetail?.examName + ".pdf");
+    document.body.appendChild(link);
+    link.click();
+  };
+
   const onHandleChangeFeedBackFilter = (star: number) => {
     setFeedBackSearch({ ...feedBackSearch, vote: star });
   };
@@ -69,7 +85,8 @@ function Course() {
   const generateConditionExamButton = () => {
     if (examGetDetail
       && examGetDetail.examType === "PREMIUM"
-      && getLocalStorage(Constants.localStorageKey.accessToken) !== null && getLocalStorage(Constants.localStorageKey.account) === 'USER') {
+      && getLocalStorage(Constants.localStorageKey.accessToken) !== null 
+      && getLocalStorage(Constants.localStorageKey.account) === 'USER') {
       return <div className="flex justify-start items-center">
         <Button onClick={handleShowAccountModal} size="large"
           className="font-semibold">{t("detail.become a premium")}</Button>
@@ -79,7 +96,7 @@ function Course() {
         <Button onClick={() => navigate(`/takeExam/${examGetDetail?.examName}`)} size="large"
           className="font-semibold">{t("detail.go to contest")}</Button>
         <span className="font-medium">{t("detail.or")}</span>
-        <Button size="large" className="font-semibold">{t("detail.download now")}</Button>
+        <Button onClick={handleDownloadExam} size="large" className="font-semibold">{t("detail.download now")}</Button>
       </div>;
     }
   };

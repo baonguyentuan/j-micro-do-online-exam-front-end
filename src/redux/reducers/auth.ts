@@ -15,7 +15,7 @@ const authSlice = createSlice({
     loading: false
   },
   reducers: {
-    forceLogout(state) {
+    forceLogout() {
       localStorage.removeItem(Constants.localStorageKey.accessToken);
     }
   },

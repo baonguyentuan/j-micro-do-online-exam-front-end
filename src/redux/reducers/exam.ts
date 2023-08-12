@@ -197,6 +197,7 @@ const examSlice = createSlice({
     });
     builder.addMatcher(
       isAnyOf(
+        getDownLoadExam.fulfilled,
         postCreateExam.fulfilled,
         deleteExam.fulfilled), (state) => {
           state.loading = false;
@@ -205,6 +206,7 @@ const examSlice = createSlice({
         });
     builder.addMatcher(
       isAnyOf(
+        getDownLoadExam.pending,
         getListExam.pending,
         getListExamByCategory.pending,
         getExamOrderByOptions.pending,
@@ -219,6 +221,7 @@ const examSlice = createSlice({
         });
     builder.addMatcher(
       isAnyOf(
+        getDownLoadExam.rejected,
         getListExam.rejected,
         getListExamByCategory.rejected,
         getExamOrderByOptions.rejected,
@@ -253,6 +256,13 @@ export const getListExam = createAsyncThunk(
   "exam/getListExam",
   thunkAction(async (params: any) => {
     return clientService.get(ApiEndpoint.exam.GET, { params });
+  })
+);
+
+export const getDownLoadExam = createAsyncThunk(
+  "exam/getDownloadExam",
+  thunkAction(async (params: any) => {
+    return clientService.get(ApiEndpoint.exam.DOWNLOAD_EXAM, { params, responseType: "blob" });
   })
 );
 

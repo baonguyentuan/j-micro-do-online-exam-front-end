@@ -12,6 +12,7 @@ interface IProps {
 }
 
 const ExamModalResult = ({ flag, data, callback }: IProps) => {
+  console.log(data)
   const [open, setOpen] = useState(true);
   const showModal = () => {
     setOpen(true);
@@ -77,7 +78,7 @@ const ExamModalResult = ({ flag, data, callback }: IProps) => {
         newData.push({
           key: 2,
           name: "Participant",
-          value: data["exam"]
+          value: data["userName"]
         });
       }
       if (key === "incorrectAnswers") {

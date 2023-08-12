@@ -44,6 +44,7 @@ export default {
     "GET_ORDER_BY": 'exams/orderByOptions',
     "GET_HOT_EXAMS_CATEGORY": 'exams/hot/category',
     "SUBMIT_EXAM": 'exams/submit',
+    "DOWNLOAD_EXAM":'exams/downloadExam'
   },
   contest: {
     "DELETE": 'exams/contests/delete',

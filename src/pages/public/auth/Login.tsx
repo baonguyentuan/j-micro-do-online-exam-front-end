@@ -19,7 +19,6 @@ const initialValues: LoginFormValues = {
 };
 
 export default function Login() {
-  const navigate = useNavigate();
   const { t } = useTranslation("login");
   const dispatch: DispatchType = useDispatch();
   const validationSchema = Yup.object({
@@ -45,10 +44,6 @@ export default function Login() {
         dispatch(forceLogout());
         return;
       }
-
-      // const role: string = fetchUser.payload?.data?.roles[0];
-
-      // role.includes("USER") ? navigate(AppRoutes.public.home) : navigate(AppRoutes.public.home);
     }
   });
 
