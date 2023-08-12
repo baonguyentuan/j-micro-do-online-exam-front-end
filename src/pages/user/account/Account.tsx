@@ -33,6 +33,7 @@ let itemsTab: TabsProps['items'] = [
   }, {
     label: 'Payment',
     key: 'payment',
+    disabled: getLocalStorage('account') === 'ADMIN' ? true : false,
     children: <PaymentUser />
   },
 ]

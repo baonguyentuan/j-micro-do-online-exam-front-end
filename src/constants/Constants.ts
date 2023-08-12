@@ -55,6 +55,9 @@ export default {
     LARGE: '70%'
   },
   formatFullDate:"YYYY-MM-DD HH:mm:ss",
-  formatDate:"YYYY-MM-DD HH:mm"
-
+  formatDate:"YYYY-MM-DD HH:mm",
+  pricePremium:{
+    MONTHLY:200000,
+    YEARLY:1680000
+  }
 }

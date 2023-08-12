@@ -85,5 +85,9 @@ export default {
     "CREATE_EXAM_FEEDBACK": 'exams/feedback/create',
     "GET_FEEDBACK_BY_EXAM_NAME": 'exams/feedback/exam',
     "GET_STATUS_USER_FEEDBACK": 'exams/feedback/check',
+  },
+  payment:{
+    "CREATE_PAYMENT":'payment/create_payment',
+    "CREATE_TRANSACTION":'payment/create-transaction',
   }
 }

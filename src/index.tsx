@@ -36,6 +36,7 @@ import AdminArticles from "./Admin/AdminArticles";
 import NotFoundPage from "./pages/404Page";
 import DrawerModifier from "./components/Drawer/DrawerModifier";
 import AdminContest from "./Admin/AdminContest/AdminContest";
+import PaymentInfo from "./pages/private/payment/PaymentInfo";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
@@ -88,7 +89,8 @@ root.render(
           element={<ProtectedRoute><DoExam /></ProtectedRoute>} />
         <Route path={AppRoutes.private.user.contest}
           element={<ProtectedRoute><DoContest /></ProtectedRoute>} />
-
+        <Route path={'payment/transaction-info*'}
+          element={<ProtectedRoute><PaymentInfo /></ProtectedRoute>} />
         {/* PUBLIC ROUTE */}
         <Route path={AppRoutes.public.login} element={<Login />} />
         <Route path={AppRoutes.public.register} element={<Register />} />

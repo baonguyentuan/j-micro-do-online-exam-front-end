@@ -4,6 +4,8 @@ import { CheckOutlined } from "@ant-design/icons";
 import { DispatchType, RootState } from "../../../redux/configStore";
 import { useDispatch, useSelector } from "react-redux";
 import { GlobalAccountModalActionType, triggerGlobalAccountModal } from "../../../redux/reducers/global-slice";
+import Constants from "../../../constants/Constants";
+import { createPaymentAPI } from "../../../redux/reducers/payment";
 
 const data = [
   {
@@ -17,8 +19,8 @@ const data = [
   },
   {
     id: 2,
-    type: "Monthly",
-    price: "50 VND/month",
+    type: "MONTHLY",
+    price: `${Constants.pricePremium.MONTHLY.toLocaleString()} VND/month`,
     desc: "For small team looking for self training efficiency and time savings",
     feature: [
       "Up to 100 exams per month", "Up to 50 contests per month", "24-hour chat support"
@@ -26,8 +28,8 @@ const data = [
   },
   {
     id: 3,
-    type: "Yearly",
-    price: "200 VND/years",
+    type: "YEARLY",
+    price: `${Constants.pricePremium.YEARLY.toLocaleString()} VND/years`,
     desc: "For businesses looking for the maximum competitive edge and expanding their reach.",
     feature: [
       "Unlimited exams", "Unlimited contests", "1-hours, dedicated support response time."
@@ -42,7 +44,7 @@ const AccountModal = () => {
   const hideModal = () => {
     dispatch(triggerGlobalAccountModal({ type: GlobalAccountModalActionType.CLOSE }));
   };
-  
+
   return (
     <>
       <Modal
@@ -82,16 +84,25 @@ const AccountModalWrapper = styled.div`
 `;
 
 const AccountType = (props: AccountTypeProps) => {
+  let dispatch: DispatchType = useDispatch()
   const { id, type, feature, price, desc } = props;
-  const renderButton=()=>{
-    if(type==="FREE"){
-      return <Button size="large" disabled className="mt-auto text-base "><CheckOutlined className="-translate-y-2 text-2xl text-green-400"/></Button>
-    }else{
-      return <Button size="large" className="mt-auto text-base">Choose</Button>
+  const renderButton = () => {
+    if (type === "FREE") {
+      return <Button size="large" disabled className="mt-auto text-base "><CheckOutlined className="-translate-y-2 text-2xl text-green-400" /></Button>
+    } else {
+      return <Button size="large" className="mt-auto text-base" onClick={() => {
+        let result
+        if (type === "MONTHLY") {
+          result = dispatch(createPaymentAPI(Constants.pricePremium.MONTHLY))
+        } else {
+          result = dispatch(createPaymentAPI(Constants.pricePremium.YEARLY))
+        }
+
+      }}>Choose</Button>
     }
   }
   return (
-    <div className={`flex flex-col p-5   rounded-md ${type==="FREE"? 'border-4 border-green-400': 'border-2 border-slate-300'}`}>
+    <div className={`flex flex-col p-5   rounded-md ${type === "FREE" ? 'border-4 border-green-400' : 'border-2 border-slate-300'}`}>
       <div>
         <h3 className="font-semibold text-lg mb-3">{type}</h3>
         <p className="account__type_font font-semibold text-2xl mb-4">{price}</p>

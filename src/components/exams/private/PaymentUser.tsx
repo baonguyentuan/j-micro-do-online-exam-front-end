@@ -3,11 +3,17 @@ import { UserAdminContainer } from "../../../assets/styles/userAdminStyles";
 import { Link } from "react-router-dom";
 import AppRoutes from "../../../constants/AppRoutes";
 import React from "react";
-import { Table } from "antd";
+import { Button, Table } from "antd";
+import { useDispatch } from "react-redux";
+import { DispatchType, RootState } from "../../../redux/configStore";
+import { GlobalAccountModalActionType, triggerGlobalAccountModal } from "../../../redux/reducers/global-slice";
+import { useSelector } from "react-redux";
 
 function PaymentUser() {
+  let dispatch: DispatchType = useDispatch()
+  let { userInfo } = useSelector((state: RootState) => state.userSlice)
   const data: any = [];
-  
+
   const columns = [
     {
       title: "Name",
@@ -22,20 +28,20 @@ function PaymentUser() {
       width: "10%"
     }
   ];
-  
+
   return (
     <UserAdminContainer>
       <div className="font-medium flex items-center justify-between">
         <h2 className="font-medium text-lg">Payment history</h2>
         <div className="flex flex-col items-center">
-          <p>Account type: Trial</p>
+          <p>Account type: {userInfo?.roles.findIndex(role => role === "USER_PREMIUM") !== -1 ? "USER_PREMIUM" : "USER"}</p>
           <p>Thời gian hết hạn</p>
           <p className="flex items-center gap-2">
             <ClockCircleOutlined /> <span className="text-xl">09:00:00</span>
           </p>
         </div>
       </div>
-      <div>
+      <div className="">
         <p>Description: Tải khoản dùng thử sẽ có 1 số hạn chế trong việc sử dụng đối với trang web</p>
         <ul>
           <li>Số lượng bài thi tải lên hệ thống tối đa là 5</li>
@@ -44,6 +50,9 @@ function PaymentUser() {
             không có quyền sửa lại cuộc thi.
           </li>
         </ul>
+        <Button onClick={() => {
+          dispatch(triggerGlobalAccountModal({ type: GlobalAccountModalActionType.OPEN }))
+        }}>Gia hạn</Button>
       </div>
       {/* TODO: Generate list payment */}
       <div className='mt-6'>
