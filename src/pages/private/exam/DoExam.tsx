@@ -17,8 +17,9 @@ import { getLocalStorage } from "../../../utils/local-storage";
 import { QuestionExamModel, QuestionResult } from "../../../_core/exam";
 import { useNavigate, useParams } from "react-router-dom";
 import { getStatusIsUserDoFeedBack } from "../../../redux/reducers/feedback";
-import ExamModalResult from "../../../components/Modal/exam-result/ExamModalResult";
 import { CheckCircleOutlined, ClockCircleOutlined, CloseCircleOutlined, TagsOutlined } from "@ant-design/icons";
+import ExamModalResult from "../../../components/Modal/exam-result/ExamModalResult";
+
 
 const { Countdown } = Statistic;
 

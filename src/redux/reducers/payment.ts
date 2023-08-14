@@ -15,30 +15,6 @@ const paymentSlice = createSlice({
     name: 'paymentSlice',
     initialState,
     reducers: {},
-    // extraReducers: (builder) => {
-    //     builder.addCase(createPaymentAPI.fulfilled, (state, action) => {
-    //         return state
-    //     })
-    //     builder.addMatcher(
-    //         isAnyOf(
-    //             createPaymentAPI.fulfilled), (state, action) => {
-
-    //                 return state;
-    //             });
-    //     builder.addMatcher(
-    //         isAnyOf(
-    //             createPaymentAPI.pending), (state, action) => {
-
-    //                 return state;
-    //             });
-    //     builder.addMatcher(
-    //         isAnyOf(
-    //             createPaymentAPI.rejected), (state, action) => {
-    //                 console.log(action);
-
-    //                 return state;
-    //             });
-    // }
 });
 
 export const { } = paymentSlice.actions
@@ -49,6 +25,8 @@ export const createPaymentAPI = createAsyncThunk(
     "payment/createPayment",
     thunkAction(async (price: number) => {
         try {
+            console.log(price);
+            
             let result = await clientService.get(ApiEndpoint.payment.CREATE_PAYMENT, { params: { totalPrice: price } });
             if (result.data.data.status === '00' && result.data.data.message === 'Success') {
                 let win = window.open(result.data.data.url,"_parent")

@@ -30,7 +30,7 @@ const PaymentInfo = (props: Props) => {
             }
         }, 1000);
         if (timing > 0) {
-            return <NavLink className='underline' to={AppRoutes.private.user.account}>{`Quay trở lại trang tài khoản (tự động chuyển trang sau ${timing})s`}</NavLink>
+            return <NavLink className='underline text-blue-500' to={AppRoutes.private.user.account}>{`Quay trở lại trang tài khoản (tự động chuyển trang sau ${timing})s`}</NavLink>
         } else {
             return <Navigate to={AppRoutes.private.user.account} />
         }

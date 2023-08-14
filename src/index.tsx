@@ -29,10 +29,9 @@ import TrainingCourses from "./pages/public/course/TrainingCourses";
 import TrainingCoursesByCategory from "./pages/public/course/TrainingCoursesByCategory";
 import { Route, Routes, unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 import AdminExam from "./Admin/AdminExam/AdminExam";
-import ExamModalResult from "./components/Modal/exam-result/ExamModalResult";
 import AdminRole from "./Admin/AdminRole/AdminRole";
 import AdminEndpoint from "./Admin/AdminEndpoint";
-import AdminArticles from "./Admin/AdminArticles";
+import AdminArticles from "./Admin/AdminArticles/AdminArticles";
 import NotFoundPage from "./pages/404Page";
 import DrawerModifier from "./components/Drawer/DrawerModifier";
 import AdminContest from "./Admin/AdminContest/AdminContest";
@@ -62,13 +61,7 @@ root.render(
           <Route path={AppRoutes.public.courses_sort_category} element={<TrainingCoursesByCategory />} />
           <Route path="/home" element={<Home />} />
         </Route>
-
-        {/* TODO: FIX */}
-        {/*<Route path={AppRoutes.private.admin.admin} element={<AdminLayout />}>*/}
-        {/*  <Route path={AppRoutes.public.login} element={<AdminUser />} />*/}
-        {/*  <Route path={AppRoutes.private.admin.category} element={<AdminCategory />} />*/}
-        {/*</Route>*/}
-
+        {/* admin router */}
         <Route path={AppRoutes.private.admin.admin} element={<AdminLayout />}>
           <Route path={AppRoutes.private.admin.user} element={<AdminUser />} />
           <Route path={AppRoutes.private.admin.category} element={<AdminCategory />} />
@@ -89,7 +82,7 @@ root.render(
           element={<ProtectedRoute><DoExam /></ProtectedRoute>} />
         <Route path={AppRoutes.private.user.contest}
           element={<ProtectedRoute><DoContest /></ProtectedRoute>} />
-        <Route path={'payment/transaction-info*'}
+        <Route path={'payment/*'}
           element={<ProtectedRoute><PaymentInfo /></ProtectedRoute>} />
         {/* PUBLIC ROUTE */}
         <Route path={AppRoutes.public.login} element={<Login />} />

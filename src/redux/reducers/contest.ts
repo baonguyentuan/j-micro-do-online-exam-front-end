@@ -46,8 +46,6 @@ const contestSlice = createSlice({
       state.loading = false;
       state.lstContest = action.payload.data
       state.pagination = action.payload.pagination
-      console.log('get');
-
       return state;
     });
     builder.addCase(getContestDetail.fulfilled, (state, action) => {

@@ -32,22 +32,22 @@ export default {
     EXAM: "exam-management",
     CONTEST: "contest-management",
     LOGOUT: "logout",
-    ARTICLES: "articles"
+    ARTICLES: "article-management"
   },
   typeDrawer: {
     CREAT_CATEGORY: 'createCategory',
-    EDIT_CATEGORY: 'updateCategory',
     CREAT_EXAM: 'createExam',
-    EDIT_EXAM: 'updateExam',
-    VIEW_EXAM: 'viewExam',
-    CREAT_CONTEST: 'createContest',
-    VIEW_CONTEST: 'viewContest',
     CREATE_ENDPOINT: 'createEndpoint',
     CREATE_ROLE: 'createRole',
     CREATE_ARTICLE: 'createArticle',
+    CREAT_CONTEST: 'createContest',
+    EDIT_EXAM: 'updateExam',
+    EDIT_CATEGORY: 'updateCategory',
     EDIT_ENDPOINT: 'updateEndpoint',
     EDIT_ROLE: 'updateRole',
     EDIT_ARTICLE: 'updateArticle',
+    VIEW_EXAM: 'viewExam',
+    VIEW_CONTEST: 'viewContest',
   },
   sizeDrawer: {
     SMALL: '30%',

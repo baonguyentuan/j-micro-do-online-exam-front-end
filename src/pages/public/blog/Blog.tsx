@@ -2,7 +2,7 @@ import React from "react";
 import { Blog } from "../../../_core/Blog";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/configStore";
-import CardBlog from "../../../components/CardBlog/CardBlog";
+import CardBlog from "../../../components/Card/CardBlog";
 import { selectAllBlogs } from "../../../redux/reducers/blog/blogSlice";
 
 const BlogList = () => {
