@@ -49,7 +49,7 @@ const PaymentInfo = (props: Props) => {
                 <h1 className='py-2 text-2xl font-bold'>Thông tin thanh toán</h1>
                 <p className='py-2 grid grid-cols-3'>
                     <span className='font-semibold col-span-1'>Số tiền</span>
-                    <span className='col-span-2'>: {Number(params.get('vnp_Amount')).toLocaleString()} VND</span>
+                    <span className='col-span-2'>: {(Number(params.get('vnp_Amount')) / 100).toLocaleString()} VND</span>
                 </p>
                 <p className='py-2 grid grid-cols-3'>
                     <span className='font-semibold col-span-1'>Mã giao dịch</span>
@@ -76,7 +76,7 @@ const PaymentInfo = (props: Props) => {
             params.get('vnp_TransactionStatus') &&
             params.get('vnp_TxnRef')) {
             let transactionInfo = {
-                vnp_Amount: params.get('vnp_Amount'),
+                vnp_Amount: Number(params.get('vnp_Amount')) / 100,
                 vnp_BankCode: params.get('vnp_BankCode'),
                 vnp_BankTranNo: params.get('vnp_BankTranNo'),
                 vnp_CardType: params.get('vnp_CardType'),

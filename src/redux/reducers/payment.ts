@@ -47,7 +47,7 @@ export const createTransactionAPI = createAsyncThunk(
             let result = await clientService.get(ApiEndpoint.payment.CREATE_TRANSACTION, { params: transactionInfo });
             if(result.data.message==='Create Transaction Success'  ){
                 console.log(result.data);
-                // setLocalStorage(Constants.localStorageKey.accessToken,result.data.accessToken)
+                setLocalStorage(Constants.localStorageKey.accessToken,result.data.accessToken)
                 await dispatch(getUserInfo())
             }else if(result.data.message==='Extend Success'){
                 await dispatch(getUserInfo())
