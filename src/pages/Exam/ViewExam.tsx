@@ -7,7 +7,8 @@ type Props = {}
 
 const ViewExam = (props: Props) => {
     const { fullExamDetail, examGetDetail } = useSelector((state: RootState) => state.examSlice)
-
+    console.log(fullExamDetail,examGetDetail);
+    
     return (
         <div >
             <h1 className='text-center font-bold text-2xl m-4'>Exam Infomation</h1>
@@ -19,11 +20,11 @@ const ViewExam = (props: Props) => {
                 <div className='col-span-1'>
                     <div className=' flex items-start'>
                         <p className='prop__title'>Thumbnail: </p>
-                        <img style={{ width: 150, border: '1px solid black' }} src={examGetDetail.image} alt={fullExamDetail.title} />
+                        <img style={{ width: 150, border: '1px solid black' }} src={examGetDetail?.image} alt={fullExamDetail.title} />
                     </div>
-                    <p><span className='prop__title'>Category:</span> <span className='text-base'>{examGetDetail.categoryName}</span></p>
+                    <p><span className='prop__title'>Category:</span> <span className='text-base'>{examGetDetail?.categoryName}</span></p>
                     <p><span className='prop__title'>Duration:</span> <span className='text-base'>{fullExamDetail.duration} min</span></p>
-                    <p><span className='prop__title'>Type:</span> <span className='text-base'>{examGetDetail.examType}</span></p>
+                    <p><span className='prop__title'>Type:</span> <span className='text-base'>{examGetDetail?.examType}</span></p>
                     <p><span className='prop__title'>Rate:</span> <span className='text-base'>{examGetDetail.totalRating}</span></p>
                     <p><span className='prop__title'>Downloaded:</span> <span className='text-base'>{examGetDetail.downloadNumber}</span></p>
                 </div>

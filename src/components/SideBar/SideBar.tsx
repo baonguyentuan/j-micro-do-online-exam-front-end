@@ -4,8 +4,12 @@ import { AreaChartOutlined, TeamOutlined, LogoutOutlined, AppstoreOutlined, File
 import { NavLink } from 'react-router-dom';
 import Constants from '../../constants/Constants';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/configStore';
+import { DispatchType, RootState } from '../../redux/configStore';
 import AppRoutes from '../../constants/AppRoutes';
+import { useDispatch } from 'react-redux';
+import { logoutUser } from '../../redux/reducers/userTest/userSlice';
+import { postLogout } from '../../redux/reducers/auth';
+import { getLocalStorage } from '../../utils/local-storage';
 
 
 const { Sider } = Layout;
@@ -13,6 +17,7 @@ const { Sider } = Layout;
 
 const SideBar: React.FC = () => {
   let { optionSidebarAdmin } = useSelector((state: RootState) => state.menuSlice)
+  const dispatch:DispatchType=useDispatch()
   const [collapsed, setCollapsed] = useState(false);
   return (
     <Sider theme='dark' collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
@@ -30,7 +35,9 @@ const SideBar: React.FC = () => {
         <Menu.Item key={Constants.optionMenuAdmin.EXAM} icon={<FileOutlined />}><NavLink to={AppRoutes.private.admin.exam}>Exam</NavLink></Menu.Item>
         <Menu.Item key={Constants.optionMenuAdmin.CONTEST} icon={<BookOutlined />}><NavLink to={AppRoutes.private.admin.contest}>Contest</NavLink></Menu.Item>
         <Menu.Item key="logout" icon={<LogoutOutlined />}>
-          <NavLink to={'/login'}>Logout</NavLink>
+          <p onClick={()=>{
+            dispatch(postLogout({ clientID: getLocalStorage(Constants.localStorageKey.userID) }))
+          }}>Logout</p>
         </Menu.Item>
       </Menu>
     </Sider>

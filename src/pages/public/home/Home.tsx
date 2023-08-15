@@ -16,7 +16,6 @@ export default function Home({}: Props) {
       <Statistics />
       <SkillCategory />
       <Feedback />
-      <HotContest />
     </div>
   );
 }

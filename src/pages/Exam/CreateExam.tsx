@@ -267,7 +267,7 @@ const CreateExam = ({ status }: Props) => {
               userInfo?.roles?.find(roleItem => roleItem === "ADMIN") === "ADMIN" || status === Constants.formStatus.EDIT ?
                 <Form.Item label={"Type"}>
                   <Select
-                    style={{ width: 100 }}
+                    style={{ width: 150 }}
                     disabled={status !== Constants.formStatus.CREATE}
                     value={formik.values.examType}
                     onChange={(value) => {
@@ -280,7 +280,7 @@ const CreateExam = ({ status }: Props) => {
                   />
                 </Form.Item> : ""
             }
-            <Form.Item label={t("detail.duration")}>
+            <Form.Item label={<span className="whitespace-normal">{t("detail.duration")}</span>}>
               <InputNumber
                 style={{ maxWidth: 150 }}
                 addonAfter={t("detail.minutes")}

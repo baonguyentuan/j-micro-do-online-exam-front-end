@@ -24,16 +24,6 @@ export default function HeaderNavbar({ }: Props) {
                     <NavLink to={AppRoutes.public.contact} className='btn__navbar'>{t('contact')}</NavLink>
                     <NavLink to={AppRoutes.public.blog} className='btn__navbar'>{t('blog')}</NavLink>
                 </div>
-
-                <Form className='m-0 lg:m-auto flex-1'>
-                    <Search
-                        placeholder={t('input contest id or contest name')}
-                        allowClear
-                        enterButton={<Button><SearchOutlined className='-translate-y-1' /></Button>}
-                        size="large"
-                        onSearch={onSearch}
-                    />
-                </Form>
             </div>
         </div>
 

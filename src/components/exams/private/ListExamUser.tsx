@@ -15,7 +15,7 @@ const ListExamUser = () => {
   let navigate = useNavigate();
   let dispatch: DispatchType = useDispatch();
   const getDetail = async (id: number, name: string, typeDrawer: string) => {
-    dispatch(getExamDetailShow({ name: name }));
+    await dispatch(getExamDetailShow({ name: name }));
     await dispatch(getFullExamDetailApi(id));
     await dispatch(setDrawerInfo({ typeContent: typeDrawer, sizeDrawer: Constants.sizeDrawer.LARGE }));
   };

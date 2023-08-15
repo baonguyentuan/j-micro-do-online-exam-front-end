@@ -27,7 +27,7 @@ const HeaderNavbarMobile = (props: Props) => {
         },
         {
             key: '2',
-            label: (<NavLink className='block text-base py-1' to={'/premium'}><span>{t('premium')}: </span><span
+            label: (<NavLink className='block text-base py-1' to={AppRoutes.private.user.premium}><span>{t('premium')}: </span><span
                 className='premium__type'>{userInfo?.roles?.find(roleItem => roleItem === 'USER_PREMIUM' || roleItem === "ADMIN") ? "PREMIUM" : "FREE"}</span></NavLink>),
         },
         {

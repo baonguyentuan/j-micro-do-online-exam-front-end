@@ -59,7 +59,9 @@ root.render(
           <Route path={AppRoutes.private.user.create_contest} element={<ProtectedRoute><CreateContest /></ProtectedRoute>} />
           <Route path={AppRoutes.private.user.create_exam} element={<ProtectedRoute><CreateExam status={Constants.formStatus.CREATE} /></ProtectedRoute>} />
           <Route path={AppRoutes.public.courses_sort_category} element={<TrainingCoursesByCategory />} />
-          <Route path="/home" element={<Home />} />
+          <Route path={'payment/*'}
+          element={<ProtectedRoute><PaymentInfo /></ProtectedRoute>} />
+          <Route path={AppRoutes.public.home} element={<Home />} />
         </Route>
         {/* admin router */}
         <Route path={AppRoutes.private.admin.admin} element={<AdminLayout />}>
@@ -82,8 +84,7 @@ root.render(
           element={<ProtectedRoute><DoExam /></ProtectedRoute>} />
         <Route path={AppRoutes.private.user.contest}
           element={<ProtectedRoute><DoContest /></ProtectedRoute>} />
-        <Route path={'payment/*'}
-          element={<ProtectedRoute><PaymentInfo /></ProtectedRoute>} />
+
         {/* PUBLIC ROUTE */}
         <Route path={AppRoutes.public.login} element={<Login />} />
         <Route path={AppRoutes.public.register} element={<Register />} />

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import type { MenuProps } from "antd";
-import { Badge, Button, Drawer, Dropdown, Popover, Select, Space } from "antd";
+import { Badge, Button, Drawer, Dropdown, Popover, Select, Space, Tag } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../redux/configStore";
@@ -39,12 +39,15 @@ export default function HeaderTitle({ }: Props) {
       key: "2",
       label: (
         <p onClick={async () => {
-          await dispatch(setDefaultTabAccountKey({ key: 'payment' }))
-          await navigate(AppRoutes.private.user.account)
-        }}><span>{t("premium")}: </span><span
-          className={`premium_type ${getLocalStorage(Constants.localStorageKey.account) === "ADMIN" ? "hidden" : ""}`}>
-            {getLocalStorage(Constants.localStorageKey.account)}</span></p>
-      )
+          if (getLocalStorage(Constants.localStorageKey.account) !== "ADMIN") {
+            await dispatch(setDefaultTabAccountKey({ key: 'payment' }))
+            await navigate(AppRoutes.private.user.account)
+          }
+        }}><span>{t("premium")}: </span><Tag color="cyan"
+          className={`premium_type `}>
+            {getLocalStorage(Constants.localStorageKey.account)}</Tag></p>
+      ),
+      disabled: getLocalStorage(Constants.localStorageKey.account) === "ADMIN" ? true : false
     },
     {
       key: "3",
@@ -55,8 +58,9 @@ export default function HeaderTitle({ }: Props) {
     {
       key: "4",
       label: (
-        <NavLink to={AppRoutes.private.user.create_contest}>{t("create contest")}</NavLink>
-      )
+        getLocalStorage(Constants.localStorageKey.account) === "ADMIN" ? <NavLink to={AppRoutes.private.user.create_contest}>{t("create contest")}</NavLink> : <p>{t("create contest")}</p>
+      ),
+      disabled: getLocalStorage(Constants.localStorageKey.account) === "ADMIN" ? true : false
     },
     {
       key: "5",

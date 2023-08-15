@@ -19,7 +19,7 @@ export default function FooterIntro() {
   const { chatBoxShow, unReadMessage } = useSelector((state: RootState) => state.chatSlice);
 
   return (
-    <div className="footer__intro border-t-4 border-indigo-200 py-10 mt-5">
+    <div className="footer__intro border-t-4 border-indigo-200 py-10">
       <div className=" grid md:grid-cols-4 grid-cols-1 gap-4 size__component">
         <ul className="flex items-center">
           <NavLink className="text-3xl logo-font" to={"/home"}>

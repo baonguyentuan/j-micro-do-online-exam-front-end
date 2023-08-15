@@ -96,12 +96,6 @@ export default function Login() {
               >
                 {t("login.signin")}
               </button>
-              <button
-                className="w-2/3 bg-white-600 text-black px-4 py-2 mt-5 border text-sm font-medium rounded-md hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-100 focus:ring-opacity-75">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google logo"
-                     className="inline-block w-4 h-4 mr-2" />
-                {t("login.sign_in_with_google")}
-              </button>
               <a
                 href={AppRoutes.public.register}
                 className="w-2/3 flex justify-center py-2 px-4 border text-sm text-neutral-400 font-medium rounded-md mt-5 hover:bg-violet-100 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-indigo-100"

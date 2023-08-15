@@ -71,7 +71,7 @@ function CreateQuestion({ questionList, setLstQuestion, questionError, isNewQues
                 }
             })
             await formik.setFieldValue('answers', newAnswer)
-            formik.setFieldValue('correctAnswers', newCorrectAnswer)
+            await formik.setFieldValue('correctAnswers', newCorrectAnswer)
         }
     }
     const renderAnswer = (record: QuestionRowModel, status: boolean) => {
